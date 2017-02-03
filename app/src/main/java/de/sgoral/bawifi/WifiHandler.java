@@ -1,4 +1,4 @@
-package de.ba_leipzig.cs16_2.sg1.helloworld;
+package de.sgoral.bawifi;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,17 +6,26 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 
+import de.sgoral.bawifi.util.Logger;
+
 public class WifiHandler {
+
     private WifiHandler() {
     }
 
     public static void handleWifi(Context context) {
         Logger.log(WifiHandler.class, "onReceive");
+
         WifiInfo wifiInfo = getWifiInfo(context);
-        LoginData loginData = getLoginData(context);
-        if (isConnectedToCorrectNetwork(wifiInfo, loginData)) {
-            loginData.setUrl(parseUrl(loginData.getUrl(), wifiInfo));
-            new LoginTask().execute(loginData);
+        String ssid = getSSID(context);
+
+        if (isConnectedToCorrectNetwork(wifiInfo, ssid)) {
+            String url = parseUrl(getURL(context), wifiInfo);
+            String username = getUsername(context);
+            String password = getPassword(context);
+            AuthenticationPayload payload = new AuthenticationPayload(ssid, url, username, password);
+
+            new AsyncLoginTask().execute(payload);
         }
     }
 
@@ -35,31 +44,19 @@ public class WifiHandler {
         return null;
     }
 
-    public static boolean isConnectedToCorrectNetwork(WifiInfo wifiInfo, LoginData loginData) {
-        if (wifiInfo == null) {
-            return false;
-        }
-        if (wifiInfo.getSSID().equals('"' + loginData.getSsid() + '"')) {
-            return true;
-        }
-        return false;
+    public static boolean isConnectedToCorrectNetwork(WifiInfo wifiInfo, String ssid) {
+        return wifiInfo != null && wifiInfo.getSSID().equals('"' + ssid + '"');
     }
 
     private static String translateIpAddress(int ip) {
         // Bit shift magic
-        StringBuilder builder = new StringBuilder();
-        builder.append((ip & 0xFF));
-        builder.append('.');
-        builder.append((ip >> 8 & 0xFF));
-        builder.append('.');
-        builder.append((ip >> 16 & 0xFF));
-        builder.append('.');
-        builder.append((ip >> 24 & 0xFF));
-        return builder.toString();
-    }
-
-    public static LoginData getLoginData(Context context) {
-        return new LoginData(getSSID(context), getURL(context), getUsername(context), getPassword(context));
+        return String.valueOf((ip & 0xFF)) +
+                '.' +
+                (ip >> 8 & 0xFF) +
+                '.' +
+                (ip >> 16 & 0xFF) +
+                '.' +
+                (ip >> 24 & 0xFF);
     }
 
     private static SharedPreferences getPreferences(Context context) {

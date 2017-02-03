@@ -1,4 +1,4 @@
-package de.ba_leipzig.cs16_2.sg1.helloworld;
+package de.sgoral.bawifi.util;
 
 import android.app.Application;
 import android.content.Context;
@@ -7,17 +7,17 @@ import android.content.Context;
  * Created by sebastianprivat on 02.02.17.
  */
 
-public class HelloWorld extends Application {
+public class ApplicationContextProvider extends Application {
 
     private static Context context;
 
-    public void onCreate() {
-        super.onCreate();
-        HelloWorld.context = getApplicationContext();
-    }
-
     public static Context getAppContext() {
         return context;
+    }
+
+    public void onCreate() {
+        super.onCreate();
+        ApplicationContextProvider.context = super.getApplicationContext();
     }
 
 }

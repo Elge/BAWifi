@@ -1,10 +1,9 @@
-package de.ba_leipzig.cs16_2.sg1.helloworld;
+package de.sgoral.bawifi;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +17,6 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.security.KeyStore;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,11 +26,14 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 
+import de.sgoral.bawifi.util.ApplicationContextProvider;
+import de.sgoral.bawifi.util.Logger;
+
 /**
  * Created by cs16sg1 on 27.01.17.
  */
 
-public class LoginTask extends AsyncTask<LoginData, Void, Boolean> {
+public class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
 
     public static final Pattern META_REDIRECT =
             Pattern.compile("<meta http-equiv=\"refresh\" content=\"\\d+;\\s?url=([^\"]+)\">",
@@ -56,16 +57,16 @@ public class LoginTask extends AsyncTask<LoginData, Void, Boolean> {
 
 
     @Override
-    protected Boolean doInBackground(LoginData... loginDatas) {
-        if (loginDatas.length != 1) {
-            throw new IllegalArgumentException("Only one login task is allowed at once");
+    protected Boolean doInBackground(AuthenticationPayload... payloads) {
+        if (payloads.length == 0) {
+            return false;
         }
 
         Logger.log(this.getClass(), "Starting login action");
-        LoginData loginData = loginDatas[0];
+        AuthenticationPayload payload = payloads[0];
         try {
             // Step 1
-            URL url = new URL(loginData.getUrl());
+            URL url = new URL(payload.getUrl());
             HttpURLConnection connection = openUrl(url, null);
 
             String redirectUrl = parseResponse(connection, META_REDIRECT, false);
@@ -102,8 +103,8 @@ public class LoginTask extends AsyncTask<LoginData, Void, Boolean> {
 
             // Step 4
             HashMap<String, String> data = new HashMap<>();
-            data.put("UserName", loginData.getUsername());
-            data.put("Password", loginData.getPassword());
+            data.put("UserName", payload.getUsername());
+            data.put("Password", payload.getPassword());
             data.put("challenge", result.get("challenge"));
             data.put("uamip", result.get("uamip"));
             data.put("uamport", result.get("uamport"));
@@ -131,9 +132,8 @@ public class LoginTask extends AsyncTask<LoginData, Void, Boolean> {
 
     private String parseResponse(HttpURLConnection connection, Pattern pattern, boolean log) throws IOException {
         HashMap<String, Pattern> input = new HashMap<>();
-        HashMap<String, String> result = new HashMap<>();
         input.put("result", pattern);
-        result = parseResponse(connection, input, log);
+        HashMap<String, String> result = parseResponse(connection, input, log);
         return result.get("result");
     }
 
@@ -170,23 +170,24 @@ public class LoginTask extends AsyncTask<LoginData, Void, Boolean> {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         if (connection instanceof HttpsURLConnection) {
-            StringBuilder content = new StringBuilder();
-            if (data != null) {
-                for (String key : data.keySet()) {
-                    content.append(key);
-                    content.append('=');
-                    content.append(data.get(key));
-                    content.append('&');
-                }
-            }
-
             ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
+                    Logger.log(this.getClass(), hostname);
                     return true;
                 }
             });
-            ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory(HelloWorld.getAppContext()));
+            ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory(ApplicationContextProvider.getAppContext()));
+        }
+
+        if (data != null) {
+            StringBuilder content = new StringBuilder();
+            for (String key : data.keySet()) {
+                content.append(key);
+                content.append('=');
+                content.append(data.get(key));
+                content.append('&');
+            }
 
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);

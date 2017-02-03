@@ -27,7 +27,6 @@
     <SwitchPreference
         android:defaultValue="false"
         android:key="Notification"
-        android:title="Show notification on authentication" />
-
+        android:title="Show notifications on authentication" />
 
 </PreferenceScreen>

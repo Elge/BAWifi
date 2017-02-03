@@ -1,51 +1,51 @@
-package de.ba_leipzig.cs16_2.sg1.helloworld;
+package de.sgoral.bawifi;
 
 /**
  * Created by sebastianprivat on 01.02.17.
  */
 
-public class LoginData {
+class AuthenticationPayload {
     private String ssid;
     private String url;
     private String username;
     private String password;
 
-    public LoginData(String ssid, String url, String username, String password) {
+    AuthenticationPayload(String ssid, String url, String username, String password) {
         this.ssid = ssid;
         this.url = url;
         this.username = username;
         this.password = password;
     }
 
-    public String getSsid() {
+    String getSsid() {
         return ssid;
     }
 
-    public void setSsid(String ssid) {
+    void setSsid(String ssid) {
         this.ssid = ssid;
     }
 
-    public String getUrl() {
+    String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    void setUrl(String url) {
         this.url = url;
     }
 
-    public String getUsername() {
+    String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    void setUsername(String username) {
         this.username = username;
     }
 
-    public String getPassword() {
+    String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    void setPassword(String password) {
         this.password = password;
     }
 }

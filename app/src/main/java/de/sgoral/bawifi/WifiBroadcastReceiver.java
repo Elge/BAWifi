@@ -1,13 +1,15 @@
-package de.ba_leipzig.cs16_2.sg1.helloworld;
+package de.sgoral.bawifi;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import de.sgoral.bawifi.util.Logger;
+
 /**
  * Handles connectivity change events.
  */
-public class WifiReceiver extends BroadcastReceiver {
+public class WifiBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {

@@ -1,4 +1,4 @@
-package de.ba_leipzig.cs16_2.sg1.helloworld;
+package de.sgoral.bawifi.util;
 
 import android.util.Log;
 
@@ -11,7 +11,7 @@ public class Logger {
     private Logger() {}
 
     public static void log(Class c, String msg) {
-        Log.i(c.getCanonicalName(), msg);
+        Log.d(c.getCanonicalName(), msg);
     }
 
     public static void printStackTrace(Class c, Throwable t) {
