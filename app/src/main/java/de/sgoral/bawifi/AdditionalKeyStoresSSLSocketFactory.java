@@ -21,12 +21,12 @@ import javax.net.ssl.X509TrustManager;
 
 /**
  * Allows you to trust certificates from additional KeyStores in addition to
- * the default KeyStore
+ * the default KeyStore.
  */
-public class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
-    protected SSLContext sslContext = SSLContext.getInstance("TLS");
+class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
+    private SSLContext sslContext = SSLContext.getInstance("TLS");
 
-    public AdditionalKeyStoresSSLSocketFactory(KeyStore keyStore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
+    AdditionalKeyStoresSSLSocketFactory(KeyStore keyStore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
         super();
         sslContext.init(null, new TrustManager[]{new AdditionalKeyStoresTrustManager(keyStore)}, null);
     }
@@ -70,13 +70,13 @@ public class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
     /**
      * Based on http://download.oracle.com/javase/1.5.0/docs/guide/security/jsse/JSSERefGuide.html#X509TrustManager
      */
-    public static class AdditionalKeyStoresTrustManager implements X509TrustManager {
+    private static class AdditionalKeyStoresTrustManager implements X509TrustManager {
 
-        protected ArrayList<X509TrustManager> x509TrustManagers = new ArrayList<X509TrustManager>();
+        ArrayList<X509TrustManager> x509TrustManagers = new ArrayList<>();
 
 
-        protected AdditionalKeyStoresTrustManager(KeyStore... additionalkeyStores) {
-            final ArrayList<TrustManagerFactory> factories = new ArrayList<TrustManagerFactory>();
+        AdditionalKeyStoresTrustManager(KeyStore... additionalkeyStores) {
+            final ArrayList<TrustManagerFactory> factories = new ArrayList<>();
 
             try {
                 // The default Trustmanager with default keystore
@@ -135,7 +135,7 @@ public class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
         }
 
         public X509Certificate[] getAcceptedIssuers() {
-            final ArrayList<X509Certificate> list = new ArrayList<X509Certificate>();
+            final ArrayList<X509Certificate> list = new ArrayList<>();
             for( X509TrustManager tm : x509TrustManagers )
                 list.addAll(Arrays.asList(tm.getAcceptedIssuers()));
             return list.toArray(new X509Certificate[list.size()]);

@@ -1,7 +1,9 @@
 package de.sgoral.bawifi;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -26,28 +28,33 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 
-import de.sgoral.bawifi.util.ApplicationContextProvider;
 import de.sgoral.bawifi.util.Logger;
 
 /**
- * Created by cs16sg1 on 27.01.17.
+ * Performs authentication for BA Leipzig WiFi network.
  */
+class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
 
-public class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
-
-    public static final Pattern META_REDIRECT =
+    private static final Pattern META_REDIRECT =
             Pattern.compile("<meta http-equiv=\"refresh\" content=\"\\d+;\\s?url=([^\"]+)\">",
                     Pattern.CASE_INSENSITIVE);
-    public static final Pattern FORM_ACTION =
+
+    private static final Pattern FORM_ACTION =
             Pattern.compile("<form name=\"form1\" method=\"post\" action=\"([^\"]+)\">",
                     Pattern.CASE_INSENSITIVE);
-    public static final Pattern CHALLENGE_VALUE = generateInputElementPattern("hidden", "challenge");
-    public static final Pattern UAMIP_VALUE = generateInputElementPattern("hidden", "uamip");
-    public static final Pattern UAMPORT_VALUE = generateInputElementPattern("hidden", "uamport");
-    public static final Pattern USERURL_VALUE = generateInputElementPattern("hidden", "userurl");
-    public static final Pattern SUBMIT_VALUE = generateInputElementPattern("submit", "button");
-    public static final Pattern LOGOUT_URL =
+    private static final Pattern CHALLENGE_VALUE = generateInputElementPattern("hidden", "challenge");
+    private static final Pattern UAMIP_VALUE = generateInputElementPattern("hidden", "uamip");
+    private static final Pattern UAMPORT_VALUE = generateInputElementPattern("hidden", "uamport");
+    private static final Pattern SUBMIT_VALUE = generateInputElementPattern("submit", "button");
+
+    private static final Pattern LOGOUT_URL =
             Pattern.compile("<LogoutUrl>([^\"]+)</LogoutUrl>", Pattern.CASE_INSENSITIVE);
+
+    private final Context context;
+
+    AsyncLoginTask(Context context) {
+        this.context = context;
+    }
 
     private static Pattern generateInputElementPattern(String type, String name) {
         return Pattern.compile(
@@ -95,11 +102,11 @@ public class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boole
             map.put("submit", SUBMIT_VALUE);
             HashMap<String, String> result = parseResponse(connection, map, false);
 
-            Logger.log(this.getClass(), "Resultset: " + result.size());
-            if (result.size() != 5) {
-                Logger.log(this.getClass(), "Unexpected result size: " + result.size());
+            if (result == null || result.size() != 5) {
+                Logger.log(this.getClass(), "Unexpected result size: " + (result != null ? result.size() : "null"));
                 return false;
             }
+            Logger.log(this.getClass(), "Resultset: " + result.size());
 
             // Step 4
             HashMap<String, String> data = new HashMap<>();
@@ -116,12 +123,12 @@ public class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boole
             connection = openUrl(new URL(redirectUrl), null);
             String logoutUrl = parseResponse(connection, LOGOUT_URL, true);
 
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+            editor.putString("logouturl", logoutUrl);
+            editor.apply();
+
             return false;
-        } catch (MalformedURLException e) {
-            Logger.printStackTrace(this.getClass(), e);
-        } catch (UnsupportedEncodingException e) {
-            Logger.printStackTrace(this.getClass(), e);
-        } catch (ProtocolException e) {
+        } catch (MalformedURLException | UnsupportedEncodingException | ProtocolException e) {
             Logger.printStackTrace(this.getClass(), e);
         } catch (IOException e) {
             Logger.printStackTrace(this.getClass(), e);
@@ -134,7 +141,7 @@ public class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boole
         HashMap<String, Pattern> input = new HashMap<>();
         input.put("result", pattern);
         HashMap<String, String> result = parseResponse(connection, input, log);
-        return result.get("result");
+        return result == null ? null : result.get("result");
     }
 
     @Nullable
@@ -142,7 +149,7 @@ public class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boole
         Logger.log(this.getClass(), "RESPONSE:");
 
         Set<String> keys = patterns.keySet();
-        HashMap<String, String> results = new HashMap<String, String>();
+        HashMap<String, String> results = new HashMap<>();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String line;
@@ -174,10 +181,10 @@ public class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boole
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
                     Logger.log(this.getClass(), hostname);
-                    return true;
+                    return "10.10.0.1".equals(hostname);
                 }
             });
-            ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory(ApplicationContextProvider.getAppContext()));
+            ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory(this.context));
         }
 
         if (data != null) {
@@ -217,7 +224,11 @@ public class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boole
                 // don't forget to put the password used above in strings.xml/mystore_password
                 ks.load(in, context.getString(R.string.mystore_password).toCharArray());
             } finally {
-                in.close();
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    // Ignore
+                }
             }
 
             return new AdditionalKeyStoresSSLSocketFactory(ks);

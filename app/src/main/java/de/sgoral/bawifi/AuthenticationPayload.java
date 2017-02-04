@@ -1,10 +1,10 @@
 package de.sgoral.bawifi;
 
 /**
- * Created by sebastianprivat on 01.02.17.
+ *
  */
-
 class AuthenticationPayload {
+
     private String ssid;
     private String url;
     private String username;
