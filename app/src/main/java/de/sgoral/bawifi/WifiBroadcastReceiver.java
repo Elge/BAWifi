@@ -8,13 +8,13 @@ import android.net.wifi.WifiManager;
 import de.sgoral.bawifi.util.Logger;
 
 /**
- * Handles connectivity change events.
+ * Broadcast receiver for WiFi state changed action.
  */
 public class WifiBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Logger.log(this.getClass(), "onReceive");
+        Logger.log(this.getClass(), "onReceive, action is " + intent.getAction());
         if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
             WifiHandler.handleWifi(context);
         }

@@ -10,7 +10,7 @@ import android.preference.PreferenceManager;
 import de.sgoral.bawifi.util.Logger;
 
 /**
- * Checks if we are connected to the correct WiFi network and starts an {@link AsyncLoginTask} using
+ * Checks if we are connected to the correct WiFi network and starts an {@link AsyncAuthTask} using
  * the preferences data.
  */
 class WifiHandler {
@@ -21,7 +21,7 @@ class WifiHandler {
     /**
      * Performs the bulk of the work: Checks if we are connected to the correct network, checks if
      * the configuration looks good (and opens a preferences fragment otherwise), prepares data
-     * saved in preferences for execution and starts the {@link AsyncLoginTask}.
+     * saved in preferences for execution and starts the {@link AsyncAuthTask}.
      *
      * @param context The application context.
      */
@@ -39,8 +39,7 @@ class WifiHandler {
             String password = getPassword(context);
             AuthenticationPayload payload = new AuthenticationPayload(ssid, url, username, password);
 
-            AsyncLoginTask task = new AsyncLoginTask(context);
-            task.execute(payload);
+            new AsyncAuthTask(context).execute(payload);
         }
     }
 

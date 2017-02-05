@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 
 import de.sgoral.bawifi.R;
 
-
+// TODO move to fragments
 public class Preferences extends PreferenceActivity {
 
     @Override

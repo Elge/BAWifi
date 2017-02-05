@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,39 +27,26 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 
 import de.sgoral.bawifi.util.Logger;
+import de.sgoral.bawifi.util.RegexpUtil;
 
 /**
- * Performs authentication for BA Leipzig WiFi network.
+ * Performs authentication for BA Leipzig WiFi network using a custom, http based flow. Accepts the
+ * insecure BA Leipzig SSL certificate.
  */
-class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
-
-    private static final Pattern META_REDIRECT =
-            Pattern.compile("<meta http-equiv=\"refresh\" content=\"\\d+;\\s?url=([^\"]+)\">",
-                    Pattern.CASE_INSENSITIVE);
-
-    private static final Pattern FORM_ACTION =
-            Pattern.compile("<form name=\"form1\" method=\"post\" action=\"([^\"]+)\">",
-                    Pattern.CASE_INSENSITIVE);
-    private static final Pattern CHALLENGE_VALUE = generateInputElementPattern("hidden", "challenge");
-    private static final Pattern UAMIP_VALUE = generateInputElementPattern("hidden", "uamip");
-    private static final Pattern UAMPORT_VALUE = generateInputElementPattern("hidden", "uamport");
-    private static final Pattern SUBMIT_VALUE = generateInputElementPattern("submit", "button");
-
-    private static final Pattern LOGOUT_URL =
-            Pattern.compile("<LogoutUrl>([^\"]+)</LogoutUrl>", Pattern.CASE_INSENSITIVE);
+class AsyncAuthTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
 
     private final Context context;
+    private SSLSocketFactory sslSocketFactory = null;
 
-    AsyncLoginTask(Context context) {
+
+    /**
+     * Creates a new async task for authenticating the user to the BA Leipzig network.
+     *
+     * @param context The application context.
+     */
+    AsyncAuthTask(Context context) {
         this.context = context;
     }
-
-    private static Pattern generateInputElementPattern(String type, String name) {
-        return Pattern.compile(
-                "<input type=\"" + type + "\"[^>]*name=\"" + name + "\" value=\"([^\"]+)\"[^>]*>",
-                Pattern.CASE_INSENSITIVE);
-    }
-
 
     @Override
     protected Boolean doInBackground(AuthenticationPayload... payloads) {
@@ -76,7 +61,7 @@ class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
             URL url = new URL(payload.getUrl());
             HttpURLConnection connection = openUrl(url, null);
 
-            String redirectUrl = parseResponse(connection, META_REDIRECT, false);
+            String redirectUrl = parseResponse(connection, RegexpUtil.META_REDIRECT, false);
             if (redirectUrl == null) {
                 Logger.log(this.getClass(), "No redirect meta tag found");
                 return false;
@@ -95,11 +80,11 @@ class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
             connection = openUrl(url, null);
 
             HashMap<String, Pattern> map = new HashMap<>();
-            map.put("action", FORM_ACTION);
-            map.put("challenge", CHALLENGE_VALUE);
-            map.put("uamip", UAMIP_VALUE);
-            map.put("uamport", UAMPORT_VALUE);
-            map.put("submit", SUBMIT_VALUE);
+            map.put("action", RegexpUtil.FORM_ACTION);
+            map.put("challenge", RegexpUtil.CHALLENGE_VALUE);
+            map.put("uamip", RegexpUtil.UAMIP_VALUE);
+            map.put("uamport", RegexpUtil.UAMPORT_VALUE);
+            map.put("submit", RegexpUtil.SUBMIT_VALUE);
             HashMap<String, String> result = parseResponse(connection, map, false);
 
             if (result == null || result.size() != 5) {
@@ -117,11 +102,11 @@ class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
             data.put("uamport", result.get("uamport"));
             data.put("button", result.get("submit"));
             connection = openUrl(new URL(url, result.get("action")), data);
-            redirectUrl = parseResponse(connection, META_REDIRECT, false);
+            redirectUrl = parseResponse(connection, RegexpUtil.META_REDIRECT, false);
 
             // Step 5
             connection = openUrl(new URL(redirectUrl), null);
-            String logoutUrl = parseResponse(connection, LOGOUT_URL, true);
+            String logoutUrl = parseResponse(connection, RegexpUtil.LOGOUT_URL, true);
 
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
             editor.putString("logouturl", logoutUrl);
@@ -137,6 +122,14 @@ class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
         return false;
     }
 
+    /**
+     * Shortcut for using {@link #parseResponse(HttpURLConnection, HashMap, boolean)} with only one
+     * pattern.
+     *
+     * @return The result of the pattern, or null if no result is found.
+     * @throws IOException
+     * @see #parseResponse(HttpURLConnection, HashMap, boolean)
+     */
     private String parseResponse(HttpURLConnection connection, Pattern pattern, boolean log) throws IOException {
         HashMap<String, Pattern> input = new HashMap<>();
         input.put("result", pattern);
@@ -144,7 +137,16 @@ class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
         return result == null ? null : result.get("result");
     }
 
-    @Nullable
+    /**
+     * Reads the server response, applying the patterns on every line. If a match is found, the
+     * result is added to the returned {@link HashMap} using the same key as the patterns map.
+     *
+     * @param connection The {@link HttpURLConnection} to read the response from.
+     * @param patterns   A {@link HashMap} containing the regular expressions to match the response lines against. The keys are used to build the response map.
+     * @param log        Set to true to log every line in the response.
+     * @return A {@link HashMap} containing the matched groups using the same keys as the input patterns.
+     * @throws IOException
+     */
     private HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String, Pattern> patterns, boolean log) throws IOException {
         Logger.log(this.getClass(), "RESPONSE:");
 
@@ -169,14 +171,22 @@ class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
         return results;
     }
 
-
-    @NonNull
+    /**
+     * Opens a connection to the specified url.
+     *
+     * @param url  The url to connect to.
+     * @param data The data to POST to the url. If null, a GET request will be sent.
+     * @return The created {@link HttpURLConnection}.
+     * @throws IOException
+     */
     private HttpURLConnection openUrl(URL url, HashMap<String, String> data) throws IOException {
         Logger.log(this.getClass(), "Opening url '" + url.toString() + "'");
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
+        // Special handling for https connections
         if (connection instanceof HttpsURLConnection) {
+            ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory(this.context));
             ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
@@ -184,10 +194,12 @@ class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
                     return "10.10.0.1".equals(hostname);
                 }
             });
-            ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory(this.context));
         }
 
-        if (data != null) {
+        if (data == null) {
+            connection.setRequestMethod("GET");
+        } else {
+            // data is delivered as a POST request
             StringBuilder content = new StringBuilder();
             for (String key : data.keySet()) {
                 content.append(key);
@@ -205,8 +217,6 @@ class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
             writer.write(content.toString().getBytes());
             writer.flush();
             writer.close();
-        } else {
-            connection.setRequestMethod("GET");
         }
 
         Logger.log(this.getClass(), "Response: " + connection.getResponseCode());
@@ -214,28 +224,37 @@ class AsyncLoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
         return connection;
     }
 
+    /**
+     * Initialises the SSL handler required to accept the bad SSL certificate for BA Leipzig.
+     *
+     * @param context The application context.
+     * @return The {@link SSLSocketFactory} capable of accepting the SSL certificate.
+     */
     private SSLSocketFactory getSSLSocketFactory(Context context) {
-        try {
-            final KeyStore ks = KeyStore.getInstance("BKS");
-
-            // the bks file we generated above
-            final InputStream in = context.getResources().openRawResource(R.raw.mystore);
+        if (sslSocketFactory == null) {
             try {
-                // don't forget to put the password used above in strings.xml/mystore_password
-                ks.load(in, context.getString(R.string.mystore_password).toCharArray());
-            } finally {
+                final KeyStore ks = KeyStore.getInstance("BKS");
+
+                // the bks file we generated above
+                final InputStream in = context.getResources().openRawResource(R.raw.mystore);
                 try {
-                    in.close();
-                } catch (IOException e) {
-                    // Ignore
+                    // don't forget to put the password used above in strings.xml/mystore_password
+                    ks.load(in, context.getString(R.string.mystore_password).toCharArray());
+                } finally {
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        // Ignore
+                    }
                 }
+
+                sslSocketFactory = new AdditionalKeyStoresSSLSocketFactory(ks);
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-
-            return new AdditionalKeyStoresSSLSocketFactory(ks);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
+        return sslSocketFactory;
     }
 
 }

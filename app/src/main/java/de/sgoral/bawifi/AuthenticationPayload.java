@@ -1,15 +1,24 @@
 package de.sgoral.bawifi;
 
 /**
- *
+ * POJO for providing the {@link AsyncAuthTask} with all the information it needs to perform the
+ * authentication. No setters, get it right the first time.
  */
 class AuthenticationPayload {
 
-    private String ssid;
-    private String url;
-    private String username;
-    private String password;
+    private final String ssid;
+    private final String url;
+    private final String username;
+    private final String password;
 
+    /**
+     * Boring old constructor.
+     *
+     * @param ssid     The network SSID to authenticate for.
+     * @param url      The URL to start the authentication process on.
+     * @param username The username to authenticate with.
+     * @param password The password to authenticate with.
+     */
     AuthenticationPayload(String ssid, String url, String username, String password) {
         this.ssid = ssid;
         this.url = url;
@@ -21,31 +30,16 @@ class AuthenticationPayload {
         return ssid;
     }
 
-    void setSsid(String ssid) {
-        this.ssid = ssid;
-    }
-
     String getUrl() {
         return url;
-    }
-
-    void setUrl(String url) {
-        this.url = url;
     }
 
     String getUsername() {
         return username;
     }
 
-    void setUsername(String username) {
-        this.username = username;
-    }
-
     String getPassword() {
         return password;
     }
 
-    void setPassword(String password) {
-        this.password = password;
-    }
 }

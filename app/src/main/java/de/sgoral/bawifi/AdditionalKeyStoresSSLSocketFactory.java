@@ -5,9 +5,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -24,9 +22,9 @@ import javax.net.ssl.X509TrustManager;
  * the default KeyStore.
  */
 class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
-    private SSLContext sslContext = SSLContext.getInstance("TLS");
+    private final SSLContext sslContext = SSLContext.getInstance("TLS");
 
-    AdditionalKeyStoresSSLSocketFactory(KeyStore keyStore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
+    AdditionalKeyStoresSSLSocketFactory(KeyStore keyStore) throws NoSuchAlgorithmException, KeyManagementException {
         super();
         sslContext.init(null, new TrustManager[]{new AdditionalKeyStoresTrustManager(keyStore)}, null);
     }
@@ -72,7 +70,7 @@ class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
      */
     private static class AdditionalKeyStoresTrustManager implements X509TrustManager {
 
-        ArrayList<X509TrustManager> x509TrustManagers = new ArrayList<>();
+        final ArrayList<X509TrustManager> x509TrustManagers = new ArrayList<>();
 
 
         AdditionalKeyStoresTrustManager(KeyStore... additionalkeyStores) {
@@ -84,7 +82,7 @@ class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
                 original.init((KeyStore) null);
                 factories.add(original);
 
-                for( KeyStore keyStore : additionalkeyStores ) {
+                for (KeyStore keyStore : additionalkeyStores) {
                     final TrustManagerFactory additionalCerts = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
                     additionalCerts.init(keyStore);
                     factories.add(additionalCerts);
@@ -101,33 +99,29 @@ class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
              * to any that are X509TrustManagers
              */
             for (TrustManagerFactory tmf : factories)
-                for( TrustManager tm : tmf.getTrustManagers() )
+                for (TrustManager tm : tmf.getTrustManagers())
                     if (tm instanceof X509TrustManager)
-                        x509TrustManagers.add( (X509TrustManager)tm );
+                        x509TrustManagers.add((X509TrustManager) tm);
 
 
-            if( x509TrustManagers.size()==0 )
+            if (x509TrustManagers.size() == 0)
                 throw new RuntimeException("Couldn't find any X509TrustManagers");
 
         }
 
-        /*
-         * Delegate to the default trust manager.
-         */
+        // Delegate to the default trust manager.
         public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             final X509TrustManager defaultX509TrustManager = x509TrustManagers.get(0);
             defaultX509TrustManager.checkClientTrusted(chain, authType);
         }
 
-        /*
-         * Loop over the trustmanagers until we find one that accepts our server
-         */
+        // Loop over the trustmanagers until we find one that accepts our server
         public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-            for( X509TrustManager tm : x509TrustManagers ) {
+            for (X509TrustManager tm : x509TrustManagers) {
                 try {
-                    tm.checkServerTrusted(chain,authType);
+                    tm.checkServerTrusted(chain, authType);
                     return;
-                } catch( CertificateException e ) {
+                } catch (CertificateException e) {
                     // ignore
                 }
             }
@@ -136,7 +130,7 @@ class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
 
         public X509Certificate[] getAcceptedIssuers() {
             final ArrayList<X509Certificate> list = new ArrayList<>();
-            for( X509TrustManager tm : x509TrustManagers )
+            for (X509TrustManager tm : x509TrustManagers)
                 list.addAll(Arrays.asList(tm.getAcceptedIssuers()));
             return list.toArray(new X509Certificate[list.size()]);
         }

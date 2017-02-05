@@ -7,6 +7,9 @@ import android.util.Log;
  */
 public class Logger {
 
+    /**
+     * Hidden because static utility class.
+     */
     private Logger() {
     }
 

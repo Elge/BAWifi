@@ -6,27 +6,27 @@
         android:key="SSID"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Network SSID" />
+        android:title="Network SSID"/>
     <EditTextPreference
         android:defaultValue="http://stpapp.ba-leipzig.de"
         android:key="URL"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Login URL" />
+        android:title="Login URL"/>
     <EditTextPreference
         android:key="username"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Username" />
+        android:title="Username"/>
     <EditTextPreference
         android:key="password"
         android:password="true"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Password" />
+        android:title="Password"/>
     <SwitchPreference
         android:defaultValue="false"
         android:key="Notification"
-        android:title="Show notifications on authentication" />
+        android:title="Show notifications on authentication"/>
 
 </PreferenceScreen>
