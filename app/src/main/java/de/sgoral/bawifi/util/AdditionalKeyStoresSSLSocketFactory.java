@@ -1,4 +1,4 @@
-package de.sgoral.bawifi;
+package de.sgoral.bawifi.util;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -21,10 +21,10 @@ import javax.net.ssl.X509TrustManager;
  * Allows you to trust certificates from additional KeyStores in addition to
  * the default KeyStore.
  */
-class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
+public class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
     private final SSLContext sslContext = SSLContext.getInstance("TLS");
 
-    AdditionalKeyStoresSSLSocketFactory(KeyStore keyStore) throws NoSuchAlgorithmException, KeyManagementException {
+    public AdditionalKeyStoresSSLSocketFactory(KeyStore keyStore) throws NoSuchAlgorithmException, KeyManagementException {
         super();
         sslContext.init(null, new TrustManager[]{new AdditionalKeyStoresTrustManager(keyStore)}, null);
     }

@@ -1,10 +1,12 @@
 package de.sgoral.bawifi;
 
+import de.sgoral.bawifi.asynctasks.LoginTask;
+
 /**
- * POJO for providing the {@link AsyncAuthTask} with all the information it needs to perform the
+ * POJO for providing the {@link LoginTask} with all the information it needs to perform the
  * authentication. No setters, get it right the first time.
  */
-class AuthenticationPayload {
+public class AuthenticationPayload {
 
     private final String ssid;
     private final String url;
@@ -19,7 +21,7 @@ class AuthenticationPayload {
      * @param username The username to authenticate with.
      * @param password The password to authenticate with.
      */
-    AuthenticationPayload(String ssid, String url, String username, String password) {
+    public AuthenticationPayload(String ssid, String url, String username, String password) {
         this.ssid = ssid;
         this.url = url;
         this.username = username;
@@ -30,15 +32,15 @@ class AuthenticationPayload {
         return ssid;
     }
 
-    String getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    String getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    String getPassword() {
+    public String getPassword() {
         return password;
     }
 

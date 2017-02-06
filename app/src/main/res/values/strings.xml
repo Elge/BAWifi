@@ -6,6 +6,7 @@
     <string name="preference_key_url">url</string>
     <string name="preference_key_username">username</string>
     <string name="preference_key_password">password</string>
+    <string name="preference_key_logouturl">logouturl</string>
 
     <!-- Magic strings -->
     <string name="mystore_type">BKS</string>

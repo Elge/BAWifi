@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.wifi.WifiManager;
 
 import de.sgoral.bawifi.util.Logger;
+import de.sgoral.bawifi.util.WifiHandler;
 
 /**
  * Broadcast receiver for WiFi state changed action.
@@ -16,7 +17,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Logger.log(this.getClass(), "onReceive, action is " + intent.getAction());
         if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-            new WifiHandler(context).handleWifi();
+            new WifiHandler(context).performLogin();
         }
     }
 }
