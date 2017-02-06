@@ -88,7 +88,7 @@ class AsyncAuthTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
             HashMap<String, String> result = parseResponse(connection, map, false);
 
             if (result == null || result.size() != 5) {
-                Logger.log(this.getClass(), "Unexpected result size: " + (result != null ? result.size() : "null"));
+                Logger.log(this.getClass(), "Unexpected result size: " + (result == null ? "null" : result.size()));
                 return false;
             }
             Logger.log(this.getClass(), "Resultset: " + result.size());
@@ -108,7 +108,7 @@ class AsyncAuthTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
             connection = openUrl(new URL(redirectUrl), null);
             String logoutUrl = parseResponse(connection, RegexpUtil.LOGOUT_URL, true);
 
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this.context).edit();
             editor.putString("logouturl", logoutUrl);
             editor.apply();
 
@@ -186,11 +186,12 @@ class AsyncAuthTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
 
         // Special handling for https connections
         if (connection instanceof HttpsURLConnection) {
-            ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory(this.context));
+            ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory());
             ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
                     Logger.log(this.getClass(), hostname);
+                    // TODO failing hostname verification might point to wrong certificate? check again
                     return "10.10.0.1".equals(hostname);
                 }
             });
@@ -227,19 +228,18 @@ class AsyncAuthTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
     /**
      * Initialises the SSL handler required to accept the bad SSL certificate for BA Leipzig.
      *
-     * @param context The application context.
      * @return The {@link SSLSocketFactory} capable of accepting the SSL certificate.
      */
-    private SSLSocketFactory getSSLSocketFactory(Context context) {
+    private SSLSocketFactory getSSLSocketFactory() {
         if (sslSocketFactory == null) {
             try {
-                final KeyStore ks = KeyStore.getInstance("BKS");
+                final KeyStore ks = KeyStore.getInstance(this.context.getString(R.string.mystore_type));
 
                 // the bks file we generated above
-                final InputStream in = context.getResources().openRawResource(R.raw.mystore);
+                final InputStream in = this.context.getResources().openRawResource(R.raw.mystore);
                 try {
                     // don't forget to put the password used above in strings.xml/mystore_password
-                    ks.load(in, context.getString(R.string.mystore_password).toCharArray());
+                    ks.load(in, this.context.getString(R.string.mystore_password).toCharArray());
                 } finally {
                     try {
                         in.close();

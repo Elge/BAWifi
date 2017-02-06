@@ -16,7 +16,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Logger.log(this.getClass(), "onReceive, action is " + intent.getAction());
         if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-            WifiHandler.handleWifi(context);
+            new WifiHandler(context).handleWifi();
         }
     }
 }
