@@ -1,16 +1,11 @@
 <resources>
     <string name="application_name">BAWifi</string>
 
-    <!-- Preferences keys -->
-    <string name="preference_key_ssid">ssid</string>
-    <string name="preference_key_url">url</string>
-    <string name="preference_key_username">username</string>
-    <string name="preference_key_password">password</string>
-    <string name="preference_key_logouturl">logouturl</string>
+    <!-- UI strings -->
+    <string name="text_authenticated">Authenticated</string>
+    <string name="text_authenticating">Authenticating...</string>
+    <string name="text_disconnected">Disconnected</string>
 
-    <!-- Magic strings -->
-    <string name="mystore_type">BKS</string>
-    <string name="mystore_password">CUSTOM_CERT</string>
-    <string name="mac_address_token">{mac}</string>
-    <string name="ip_address_token">{ip}</string>
+    <string name="label_logout">Logout</string>
+    <string name="label_preferences">Preferences</string>
 </resources>
