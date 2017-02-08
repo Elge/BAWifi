@@ -4,16 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <fragment
+        android:id="@+id/fragment_status"
+        android:name="de.sgoral.bawifi.fragments.StatusFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Authenticated"
-        android:textAlignment="center"
-        android:textSize="@dimen/text_size_status" />
+        android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/button_logout"
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout" />
+        android:onClick="onPreferencesButtonClicked"
+        android:text="@string/button_preferences" />
 </LinearLayout>

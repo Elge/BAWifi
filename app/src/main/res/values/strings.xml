@@ -2,10 +2,13 @@
     <string name="application_name">BAWifi</string>
 
     <!-- UI strings -->
+    <string name="text_disconnected">Disconnected</string>
+    <string name="text_connected">Connected\nReady to authenticate</string>
     <string name="text_authenticated">Authenticated</string>
     <string name="text_authenticating">Authenticating...</string>
-    <string name="text_disconnected">Disconnected</string>
 
-    <string name="label_logout">Logout</string>
-    <string name="label_preferences">Preferences</string>
+    <string name="button_logout">Logout</string>
+    <string name="button_preferences">Preferences</string>
+    <string name="button_authenticate">Authenticate</string>
+    <string name="text_deauthenticating">Deauthenticating...</string>
 </resources>

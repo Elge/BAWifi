@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_logout">Ausloggen</string>
+    <string name="application_name">BAWiFi</string>
+    <string name="button_authenticate">Authentifizieren</string>
+    <string name="button_preferences">Einstellungen</string>
+    <string name="text_authenticated">Authentifiziert</string>
+    <string name="text_authenticating">Authentifiziere...</string>
+    <string name="text_connected">Verbunden\nWarte auf Authentizierung</string>
+    <string name="text_disconnected">Verbindung getrennt</string>
+</resources>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Preferences keys -->
-    <string name="preference_key_ssid">ssid</string>
-    <string name="preference_key_url">url</string>
-    <string name="preference_key_username">username</string>
-    <string name="preference_key_password">password</string>
-    <string name="preference_key_logouturl">logouturl</string>
-    <string name="preference_key_statusurl">statusurl</string>
+    <string name="preference_key_ssid" translatable="false">ssid</string>
+    <string name="preference_key_url" translatable="false">url</string>
+    <string name="preference_key_username" translatable="false">username</string>
+    <string name="preference_key_password" translatable="false">password</string>
+    <string name="preference_key_logouturl" translatable="false">logouturl</string>
+    <string name="preference_key_statusurl" translatable="false">statusurl</string>
 
     <!-- Magic strings -->
-    <string name="mystore_type">BKS</string>
-    <string name="mystore_password">CUSTOM_CERT</string>
-    <string name="mac_address_token">{mac}</string>
-    <string name="ip_address_token">{ip}</string>
+    <string name="mystore_type" translatable="false">BKS</string>
+    <string name="mystore_password" translatable="false">CUSTOM_CERT</string>
+    <string name="mac_address_token" translatable="false">{mac}</string>
+    <string name="ip_address_token" translatable="false">{ip}</string>
 </resources>

@@ -4,9 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <fragment
-        android:id="@+id/fragment"
-        android:name="de.sgoral.bawifi.fragments.LogoutFragment"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/text_disconnected"
+        android:textAlignment="center"
+        android:textSize="@dimen/text_size_status" />
 </LinearLayout>

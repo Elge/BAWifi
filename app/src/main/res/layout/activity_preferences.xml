@@ -4,11 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/bLogout"
+    <fragment
+        android:id="@+id/fragment_preferences"
+        android:name="de.sgoral.bawifi.fragments.PreferencesFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="Deauthenticate from BA WiFi"
-        android:onClick="onLogoutClicked"
-        android:text="Logout" />
+        android:layout_height="wrap_content" />
 </LinearLayout>
