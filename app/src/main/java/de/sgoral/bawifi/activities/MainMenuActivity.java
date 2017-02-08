@@ -23,4 +23,9 @@ public class MainMenuActivity extends Activity {
         Intent intent = new Intent(this, PreferencesActivity.class);
         startActivity(intent);
     }
+
+    public void onLogButtonClicked(View view) {
+        Intent intent = new Intent(this, LogActivity.class);
+        startActivity(intent);
+    }
 }

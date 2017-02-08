@@ -4,12 +4,25 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import de.sgoral.bawifi.R;
 
 /**
  * Allows easy access to the local application preferences.
  */
 public class PreferencesUtil {
+
+    /**
+     * The maximum size before the log gets shrunk.
+     */
+    private static final int MAX_LOG_ENTRIES = 250;
+    /**
+     * The number of entries that will be removed from the log when shrinking.
+     */
+    private static final int NUMBER_OF_DROPPED_LOG_ENTRIES = 100;
 
     private final Context context;
 
@@ -124,6 +137,55 @@ public class PreferencesUtil {
         editor.putString(
                 this.context.getString(R.string.preference_key_statusurl), url);
         editor.apply();
+    }
+
+    /**
+     * Retrieves the set of log entries from the application preferences.
+     *
+     * @return The set of log messages.
+     */
+    public Set<String> getLogEntries() {
+        Set<String> log = getSharesPreferences().getStringSet(context.getString(R.string.log_file), null);
+        if (log == null) {
+            return new HashSet<>();
+        }
+        return new HashSet<>(log);
+    }
+
+    /**
+     * Updates the set of log messages in the application preferences.
+     *
+     * @param log The new log to save.
+     */
+    public void setLogEntries(Set<String> log) {
+        SharedPreferences.Editor editor = getSharesPreferences().edit();
+        editor.putStringSet(context.getString(R.string.log_file), log);
+        editor.apply();
+    }
+
+    /**
+     * Adds a new message to the bottom of the log. Truncates the log if it has grown beyond specifications.
+     *
+     * @param message The message to add to the log.
+     */
+    public void addLogEntry(String message) {
+        Set<String> log = getLogEntries();
+        Iterator<String> iterator = log.iterator();
+        if (log.size() > MAX_LOG_ENTRIES) {
+            for (int i = 0; i < NUMBER_OF_DROPPED_LOG_ENTRIES && iterator.hasNext(); i++) {
+                iterator.next();
+            }
+
+            Set<String> newLog = new HashSet<>();
+            while (iterator.hasNext()) {
+                newLog.add(iterator.next());
+            }
+            newLog.add(message);
+            setLogEntries(newLog);
+        } else {
+            log.add(message);
+            setLogEntries(log);
+        }
     }
 
 }

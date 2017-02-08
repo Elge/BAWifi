@@ -79,8 +79,14 @@ public class ApplicationStatusManager {
                     }
                     break;
                 case STATUS_AUTHENTICATED:
-                    for (ApplicationStatusListener listener : listeners) {
-                        listener.onAuthenticationSuccessful();
+                    if (prevStatus == ApplicationStatus.STATUS_DEAUTHENTICATING) {
+                        for (ApplicationStatusListener listener : listeners) {
+                            listener.onDeAuthenticationFailed();
+                        }
+                    } else {
+                        for (ApplicationStatusListener listener : listeners) {
+                            listener.onAuthenticationSuccessful();
+                        }
                     }
                     break;
                 case STATUS_DEAUTHENTICATING:

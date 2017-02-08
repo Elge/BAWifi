@@ -13,4 +13,5 @@
     <string name="mystore_password" translatable="false">CUSTOM_CERT</string>
     <string name="mac_address_token" translatable="false">{mac}</string>
     <string name="ip_address_token" translatable="false">{ip}</string>
+    <string name="log_file" translatable="false">log.txt</string>
 </resources>

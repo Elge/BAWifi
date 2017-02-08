@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import de.sgoral.bawifi.appstatus.ApplicationStatus;
+import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
 import de.sgoral.bawifi.util.HttpUtil;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.RegexpUtil;
@@ -28,16 +30,22 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
             return false;
         }
 
+        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_DEAUTHENTICATING);
+
         try {
             URL url = new URL(urls[0]);
             HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
-            HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false);
+            HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false, context);
 
-            return connection.getResponseCode() == HttpURLConnection.HTTP_OK;
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
+                return true;
+            }
         } catch (IOException e) {
             Logger.printStackTrace(this.getClass(), e);
         }
 
+        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATED);
         return false;
     }
 }

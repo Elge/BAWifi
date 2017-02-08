@@ -16,4 +16,11 @@
         android:layout_height="wrap_content"
         android:onClick="onPreferencesButtonClicked"
         android:text="@string/button_preferences" />
+
+    <Button
+        android:text="@string/button_log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onLogButtonClicked"
+        android:id="@+id/button2"/>
 </LinearLayout>

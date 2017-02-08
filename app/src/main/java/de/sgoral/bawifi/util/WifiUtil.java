@@ -13,7 +13,7 @@ import de.sgoral.bawifi.asynctasks.LogoutTask;
  * Checks if we are connected to the correct WiFi network and starts an {@link LoginTask} using
  * the preferences data.
  */
-public class WifiHandler {
+public class WifiUtil {
 
     private final Context context;
 
@@ -22,39 +22,35 @@ public class WifiHandler {
      *
      * @param context The application environment.
      */
-    public WifiHandler(Context context) {
+    public WifiUtil(Context context) {
         this.context = context;
     }
 
     /**
-     * Checks if we are connected to the correct network, checks if
-     * the configuration looks good (and opens a preferences fragment otherwise), prepares data
-     * saved in preferences for execution and starts the {@link LoginTask}.
+     * Starts the {@link LoginTask} to authenticate the user in the BA WiFi network.
      */
     public void performLogin() {
-        Logger.log(this.getClass(), "performLogin");
+        Logger.log(this.getClass(), "performLogin", context);
 
         WifiInfo wifiInfo = getWifiInfo();
         PreferencesUtil prefUtil = PreferencesUtil.getInstance(this.context);
         String ssid = prefUtil.getSSID();
 
-        if (isConnectedToCorrectNetwork(wifiInfo, ssid)) {
-            @SuppressLint("HardwareIds")
-            String url = parseUrl(prefUtil.getURL(), translateMacAddress(wifiInfo.getMacAddress()),
-                    translateIpAddress(wifiInfo.getIpAddress()));
-            String username = prefUtil.getUsername();
-            String password = prefUtil.getPassword();
-            AuthenticationPayload payload = new AuthenticationPayload(ssid, url, username, password);
+        @SuppressLint("HardwareIds")
+        String url = parseUrl(prefUtil.getURL(), translateMacAddress(wifiInfo.getMacAddress()),
+                translateIpAddress(wifiInfo.getIpAddress()));
+        String username = prefUtil.getUsername();
+        String password = prefUtil.getPassword();
+        AuthenticationPayload payload = new AuthenticationPayload(ssid, url, username, password);
 
-            new LoginTask(context).execute(payload);
-        }
+        new LoginTask(context).execute(payload);
     }
 
     /**
      * Starts the {@link LogoutTask} to de-authenticate the user from the BA WiFi network.
      */
     public void performLogout() {
-        Logger.log(this.getClass(), "performLogout");
+        Logger.log(this.getClass(), "performLogout", context);
 
         String url = PreferencesUtil.getInstance(this.context).getLogoutUrl();
         new LogoutTask(context).execute(url);
@@ -79,7 +75,7 @@ public class WifiHandler {
      *
      * @return The {@link WifiInfo} for the current network, or null if not connected.
      */
-    private WifiInfo getWifiInfo() {
+    public WifiInfo getWifiInfo() {
         WifiManager wifiManager = (WifiManager) this.context.getSystemService(Context.WIFI_SERVICE);
         if (wifiManager != null) {
             return wifiManager.getConnectionInfo();
@@ -91,11 +87,12 @@ public class WifiHandler {
     /**
      * Checks the {@link WifiInfo} object's non-nullness and SSID.
      *
-     * @param wifiInfo The {@link WifiInfo} to check.
-     * @param ssid     The expected network SSID.
      * @return true if we are connected to the correct network, false otherwise.
      */
-    private boolean isConnectedToCorrectNetwork(WifiInfo wifiInfo, String ssid) {
+    public boolean isConnectedToCorrectNetwork() {
+        WifiInfo wifiInfo = getWifiInfo();
+        String ssid = PreferencesUtil.getInstance(context).getSSID();
+
         return wifiInfo != null && (wifiInfo.getSSID().equals(ssid) || wifiInfo.getSSID().equals('"' + ssid + '"'));
     }
 

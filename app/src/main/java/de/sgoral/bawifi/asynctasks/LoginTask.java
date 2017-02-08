@@ -1,9 +1,7 @@
 package de.sgoral.bawifi.asynctasks;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -16,7 +14,8 @@ import java.util.regex.Pattern;
 
 import javax.net.ssl.SSLSocketFactory;
 
-import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.appstatus.ApplicationStatus;
+import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
 import de.sgoral.bawifi.util.AuthenticationPayload;
 import de.sgoral.bawifi.util.HttpUtil;
 import de.sgoral.bawifi.util.Logger;
@@ -48,16 +47,17 @@ public class LoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
             return false;
         }
 
-        Logger.log(this.getClass(), "Starting login action");
+        Logger.log(this.getClass(), "Starting login action", context);
+        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATING);
         AuthenticationPayload payload = payloads[0];
         try {
             // Step 1
             URL url = new URL(payload.getUrl());
             HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
 
-            String redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false);
+            String redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false, context);
             if (redirectUrl == null) {
-                Logger.log(this.getClass(), "No redirect meta tag found");
+                Logger.log(this.getClass(), "No redirect meta tag found", context);
                 return false;
             }
 
@@ -65,7 +65,7 @@ public class LoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
             connection = HttpUtil.openUrl(this.context, new URL(url, redirectUrl), null);
             String location = connection.getHeaderField("Location");
             if (location == null) {
-                Logger.log(this.getClass(), "No location header found");
+                Logger.log(this.getClass(), "No location header found", context);
                 return false;
             }
 
@@ -79,13 +79,13 @@ public class LoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
             map.put("uamip", RegexpUtil.UAMIP_VALUE);
             map.put("uamport", RegexpUtil.UAMPORT_VALUE);
             map.put("submit", RegexpUtil.SUBMIT_VALUE);
-            HashMap<String, String> result = HttpUtil.parseResponse(connection, map, false);
+            HashMap<String, String> result = HttpUtil.parseResponse(connection, map, false, context);
 
             if (result == null || result.size() != 5) {
-                Logger.log(this.getClass(), "Unexpected result size: " + (result == null ? "null" : result.size()));
+                Logger.log(this.getClass(), "Unexpected result size: " + (result == null ? "null" : result.size()), context);
                 return false;
             }
-            Logger.log(this.getClass(), "Resultset: " + result.size());
+            Logger.log(this.getClass(), "Resultset: " + result.size(), context);
 
             // Step 4
             HashMap<String, String> data = new HashMap<>();
@@ -96,14 +96,14 @@ public class LoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
             data.put("uamport", result.get("uamport"));
             data.put("button", result.get("submit"));
             connection = HttpUtil.openUrl(this.context, new URL(url, result.get("action")), data);
-            redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false);
+            redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false, context);
 
             // Step 5
             connection = HttpUtil.openUrl(this.context, new URL(redirectUrl), null);
             map.clear();
             map.put("logouturl", RegexpUtil.LOGOUT_URL);
             map.put("statusurl", RegexpUtil.STATUS_URL);
-            result = HttpUtil.parseResponse(connection, map, false);
+            result = HttpUtil.parseResponse(connection, map, false, context);
 
             String logoutUrl = result.get("logouturl");
             String statusUrl = result.get("statusurl");
@@ -112,13 +112,17 @@ public class LoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
             prefUtil.setLogoutUrl(logoutUrl);
             prefUtil.setStatusUrl(statusUrl);
 
-            return statusUrl != null && logoutUrl != null;
+            if (statusUrl != null && logoutUrl != null) {
+                ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATED);
+                return true;
+            }
         } catch (MalformedURLException | UnsupportedEncodingException | ProtocolException e) {
             Logger.printStackTrace(this.getClass(), e);
         } catch (IOException e) {
             Logger.printStackTrace(this.getClass(), e);
         }
 
+        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
         return false;
     }
 

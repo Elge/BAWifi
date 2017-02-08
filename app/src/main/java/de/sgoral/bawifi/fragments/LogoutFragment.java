@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.PreferencesUtil;
-import de.sgoral.bawifi.util.WifiHandler;
+import de.sgoral.bawifi.util.WifiUtil;
 
 /**
  * Created by sebastianprivat on 06.02.17.
@@ -31,7 +31,7 @@ public class LogoutFragment extends Fragment {
         if (prefUtil.getLogoutUrl() == null) {
             prefUtil.setLogoutUrl("http://10.10.0.1:3990/logoff");
         }
-        new WifiHandler(this.getActivity()).performLogout();
+        new WifiUtil(this.getActivity()).performLogout();
     }
 
 }

@@ -45,6 +45,11 @@ public abstract class ApplicationStatusListener {
     }
 
     /**
+     * The de-authentication process failed.
+     */
+    public void onDeAuthenticationFailed() {}
+
+    /**
      * The connection to the BA WiFi network was established.
      */
     public void onNetworkConnected() {
@@ -55,5 +60,4 @@ public abstract class ApplicationStatusListener {
      */
     public void onNetworkDisconnected() {
     }
-
 }
