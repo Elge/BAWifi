@@ -31,7 +31,7 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
         try {
             URL url = new URL(urls[0]);
             HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
-            HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, true);
+            HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false);
 
             return connection.getResponseCode() == HttpURLConnection.HTTP_OK;
         } catch (IOException e) {

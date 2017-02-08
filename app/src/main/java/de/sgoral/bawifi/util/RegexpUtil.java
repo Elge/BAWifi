@@ -12,7 +12,10 @@ public class RegexpUtil {
      * Regexp for extracting the logout url from xml code.
      */
     public static final Pattern LOGOUT_URL =
-            Pattern.compile("<LogoutUrl>([^\"]+)</LogoutUrl>", Pattern.CASE_INSENSITIVE);
+            Pattern.compile("<LogoffURL>([^<]+)</LogoffURL>", Pattern.CASE_INSENSITIVE);
+
+    public static final Pattern STATUS_URL =
+            Pattern.compile("<StatusURL>([^<]+)</StatusURL>", Pattern.CASE_INSENSITIVE);
     /**
      * Shortcut for [^>]*, i.e. match any number of characters except the closing angle bracket.
      */

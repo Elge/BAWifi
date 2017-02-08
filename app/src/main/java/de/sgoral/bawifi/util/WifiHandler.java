@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
-import de.sgoral.bawifi.AuthenticationPayload;
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.asynctasks.LoginTask;
 import de.sgoral.bawifi.asynctasks.LogoutTask;

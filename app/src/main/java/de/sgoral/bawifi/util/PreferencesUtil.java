@@ -105,4 +105,25 @@ public class PreferencesUtil {
         editor.apply();
     }
 
+    /**
+     * The url that shows the current connection status.
+     *
+     * @return The URL.
+     */
+    public String getStatusUrl() {
+        return getPreference(R.string.preference_key_statusurl);
+    }
+
+    /**
+     * Saves the status url in the application preferences.
+     *
+     * @param url The URL to store.
+     */
+    public void setStatusUrl(String url) {
+        SharedPreferences.Editor editor = getSharesPreferences().edit();
+        editor.putString(
+                this.context.getString(R.string.preference_key_statusurl), url);
+        editor.apply();
+    }
+
 }

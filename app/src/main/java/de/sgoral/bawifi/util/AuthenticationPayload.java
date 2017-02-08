@@ -1,4 +1,4 @@
-package de.sgoral.bawifi;
+package de.sgoral.bawifi.util;
 
 import de.sgoral.bawifi.asynctasks.LoginTask;
 

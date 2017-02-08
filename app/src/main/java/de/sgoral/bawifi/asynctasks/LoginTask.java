@@ -16,9 +16,11 @@ import java.util.regex.Pattern;
 
 import javax.net.ssl.SSLSocketFactory;
 
-import de.sgoral.bawifi.AuthenticationPayload;
+import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.util.AuthenticationPayload;
 import de.sgoral.bawifi.util.HttpUtil;
 import de.sgoral.bawifi.util.Logger;
+import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.RegexpUtil;
 
 /**
@@ -98,13 +100,19 @@ public class LoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
 
             // Step 5
             connection = HttpUtil.openUrl(this.context, new URL(redirectUrl), null);
-            String logoutUrl = HttpUtil.parseResponse(connection, RegexpUtil.LOGOUT_URL, true);
+            map.clear();
+            map.put("logouturl", RegexpUtil.LOGOUT_URL);
+            map.put("statusurl", RegexpUtil.STATUS_URL);
+            result = HttpUtil.parseResponse(connection, map, false);
 
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this.context).edit();
-            editor.putString("logouturl", logoutUrl);
-            editor.apply();
+            String logoutUrl = result.get("logouturl");
+            String statusUrl = result.get("statusurl");
 
-            return false;
+            PreferencesUtil prefUtil = PreferencesUtil.getInstance(context);
+            prefUtil.setLogoutUrl(logoutUrl);
+            prefUtil.setStatusUrl(statusUrl);
+
+            return statusUrl != null && logoutUrl != null;
         } catch (MalformedURLException | UnsupportedEncodingException | ProtocolException e) {
             Logger.printStackTrace(this.getClass(), e);
         } catch (IOException e) {
