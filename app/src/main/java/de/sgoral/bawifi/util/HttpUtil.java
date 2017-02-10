@@ -94,14 +94,14 @@ public class HttpUtil {
         // Special handling for https connections
         if (connection instanceof HttpsURLConnection) {
             ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory(context));
-            ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
+            HostnameVerifier verifier = ((HttpsURLConnection) connection).getHostnameVerifier();
+            /*setHostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
-                    Logger.log(this.getClass(), hostname, context);
-                    // TODO failing hostname verification might point to wrong certificate? check again
-                    return "10.10.0.1".equals(hostname);
+                    Logger.log(this.getClass(), "Hostname is " + hostname + " but I expect " + session.getPeerHost());
+                    return true;
                 }
-            });
+            });*/
         }
 
         if (data == null) {

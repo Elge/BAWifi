@@ -27,7 +27,7 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected Boolean doInBackground(String... urls) {
         if (urls.length != 1) {
-            return false;
+            throw new IllegalArgumentException("Unexpected number of parameters: " + urls.length + ", expected 1");
         }
 
         ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_DEAUTHENTICATING);
@@ -37,7 +37,8 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
             HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
             HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false, context);
 
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK
+                    || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP) {
                 ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
                 return true;
             }

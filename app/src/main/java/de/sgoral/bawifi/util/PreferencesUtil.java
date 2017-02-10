@@ -15,6 +15,7 @@ import de.sgoral.bawifi.R;
  */
 public class PreferencesUtil {
 
+    public static final String SUFFIX_DEFAULT = "_default";
     /**
      * The maximum size before the log gets shrunk.
      */
@@ -23,7 +24,6 @@ public class PreferencesUtil {
      * The number of entries that will be removed from the log when shrinking.
      */
     private static final int NUMBER_OF_DROPPED_LOG_ENTRIES = 100;
-
     private final Context context;
 
     private PreferencesUtil(Context context) {
@@ -53,11 +53,38 @@ public class PreferencesUtil {
      * Loads a preference value from the default shared preferences file.
      *
      * @param resourceId The resource ID to retrieve a preference for.
-     * @return The default {@link SharedPreferences} object.
+     * @return The preference value, or null if unset.
      */
     public String getPreference(int resourceId) {
         SharedPreferences preferences = getSharesPreferences();
         return preferences.getString(this.context.getString(resourceId), null);
+    }
+
+
+    /**
+     * Loads a preference value from the default shared preferences file.
+     *
+     * @param resource The resource to retrieve a preference for.
+     * @return The preference value, or null if unset.
+     */
+    public String getPreference(String resource) {
+        SharedPreferences preferences = getSharesPreferences();
+        return preferences.getString(resource, null);
+    }
+
+    /**
+     * Loads the preference value if it is set, or a default value if not.
+     *
+     * @param resourceId        The resource ID to retrieve a preference for.
+     * @param defaultResourceId The resource ID of the default value.
+     * @return The preference value, the default value or null if none are set.
+     */
+    public String getPreferenceOrDefault(int resourceId, int defaultResourceId) {
+        String value = getPreference(resourceId);
+        if (value == null) {
+            value = context.getString(defaultResourceId);
+        }
+        return value;
     }
 
     /**
@@ -74,8 +101,8 @@ public class PreferencesUtil {
      *
      * @return The URL to open.
      */
-    public String getURL() {
-        return getPreference(R.string.preference_key_url);
+    public String getLoginUrl() {
+        return getPreferenceOrDefault(R.string.preference_key_loginurl, R.string.loginurl_default);
     }
 
     /**
@@ -103,7 +130,7 @@ public class PreferencesUtil {
      * @return The URL.
      */
     public String getLogoutUrl() {
-        return getPreference(R.string.preference_key_logouturl);
+        return getPreferenceOrDefault(R.string.preference_key_logouturl, R.string.logouturl_default);
     }
 
     /**
@@ -124,7 +151,7 @@ public class PreferencesUtil {
      * @return The URL.
      */
     public String getStatusUrl() {
-        return getPreference(R.string.preference_key_statusurl);
+        return getPreferenceOrDefault(R.string.preference_key_statusurl, R.string.statusurl_default);
     }
 
     /**
@@ -188,4 +215,7 @@ public class PreferencesUtil {
         }
     }
 
+    public void initialisePreferences() {
+        PreferenceManager.setDefaultValues(context, R.xml.preferences, true);
+    }
 }

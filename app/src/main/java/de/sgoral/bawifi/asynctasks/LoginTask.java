@@ -2,6 +2,7 @@ package de.sgoral.bawifi.asynctasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -16,7 +17,6 @@ import javax.net.ssl.SSLSocketFactory;
 
 import de.sgoral.bawifi.appstatus.ApplicationStatus;
 import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
-import de.sgoral.bawifi.util.AuthenticationPayload;
 import de.sgoral.bawifi.util.HttpUtil;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
@@ -26,7 +26,7 @@ import de.sgoral.bawifi.util.RegexpUtil;
  * Performs authentication for BA Leipzig WiFi network using a custom, http based flow. Accepts the
  * insecure BA Leipzig SSL certificate.
  */
-public class LoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
+public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
 
     private final Context context;
     private SSLSocketFactory sslSocketFactory = null;
@@ -42,14 +42,14 @@ public class LoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(AuthenticationPayload... payloads) {
-        if (payloads.length == 0) {
-            return false;
+    protected Boolean doInBackground(LoginPayload... payloads) {
+        if (payloads.length != 1) {
+            throw new IllegalArgumentException("Unexpected number of parameters: " + payloads.length + ", expected 1");
         }
 
         Logger.log(this.getClass(), "Starting login action", context);
         ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATING);
-        AuthenticationPayload payload = payloads[0];
+        LoginPayload payload = payloads[0];
         try {
             // Step 1
             URL url = new URL(payload.getUrl());
@@ -107,6 +107,9 @@ public class LoginTask extends AsyncTask<AuthenticationPayload, Void, Boolean> {
 
             String logoutUrl = result.get("logouturl");
             String statusUrl = result.get("statusurl");
+
+            Logger.log(this.getClass(), "StatusUrl: " + statusUrl);
+            Logger.log(this.getClass(), "LogoutUrl: " + logoutUrl);
 
             PreferencesUtil prefUtil = PreferencesUtil.getInstance(context);
             prefUtil.setLogoutUrl(logoutUrl);

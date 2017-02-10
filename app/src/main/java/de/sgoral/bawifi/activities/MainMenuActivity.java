@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.util.WifiUtil;
 
 /**
- * Created by sebastianprivat on 06.02.17.
+ * Activity for the main menu.
  */
-
 public class MainMenuActivity extends Activity {
 
     @Override
@@ -27,5 +27,13 @@ public class MainMenuActivity extends Activity {
     public void onLogButtonClicked(View view) {
         Intent intent = new Intent(this, LogActivity.class);
         startActivity(intent);
+    }
+
+    public void onAuthenticateButtonClicked(View view) {
+        new WifiUtil(this).performLogin();
+    }
+
+    public void onLogoutButtonClicked(View view) {
+        new WifiUtil(this).performLogout();
     }
 }

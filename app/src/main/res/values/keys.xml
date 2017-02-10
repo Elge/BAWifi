@@ -2,9 +2,9 @@
 <resources>
     <!-- Preferences keys -->
     <string name="preference_key_ssid" translatable="false">ssid</string>
-    <string name="preference_key_url" translatable="false">url</string>
     <string name="preference_key_username" translatable="false">username</string>
     <string name="preference_key_password" translatable="false">password</string>
+    <string name="preference_key_loginurl" translatable="false">loginurl</string>
     <string name="preference_key_logouturl" translatable="false">logouturl</string>
     <string name="preference_key_statusurl" translatable="false">statusurl</string>
 
@@ -14,4 +14,10 @@
     <string name="mac_address_token" translatable="false">{mac}</string>
     <string name="ip_address_token" translatable="false">{ip}</string>
     <string name="log_file" translatable="false">log.txt</string>
+
+    <!-- URLs -->
+    <string name="loginurl_default" translatable="false">http://stpapp.ba-leipzig.de</string>
+    <string name="logouturl_default" translatable="false">http://10.10.0.1:3990/logoff</string>
+    <string name="statusurl_default" translatable="false">http://10.10.0.1:3990/status</string>
+    <string name="status_message_authenticated">Already logged on</string>
 </resources>

@@ -5,7 +5,12 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+import java.util.concurrent.ExecutionException;
+
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.asynctasks.CheckAuthenticatedPayload;
+import de.sgoral.bawifi.asynctasks.CheckAuthenticatedTask;
+import de.sgoral.bawifi.asynctasks.LoginPayload;
 import de.sgoral.bawifi.asynctasks.LoginTask;
 import de.sgoral.bawifi.asynctasks.LogoutTask;
 
@@ -37,11 +42,11 @@ public class WifiUtil {
         String ssid = prefUtil.getSSID();
 
         @SuppressLint("HardwareIds")
-        String url = parseUrl(prefUtil.getURL(), translateMacAddress(wifiInfo.getMacAddress()),
+        String url = parseUrl(prefUtil.getLoginUrl(), translateMacAddress(wifiInfo.getMacAddress()),
                 translateIpAddress(wifiInfo.getIpAddress()));
         String username = prefUtil.getUsername();
         String password = prefUtil.getPassword();
-        AuthenticationPayload payload = new AuthenticationPayload(ssid, url, username, password);
+        LoginPayload payload = new LoginPayload(ssid, url, username, password);
 
         new LoginTask(context).execute(payload);
     }
@@ -85,15 +90,33 @@ public class WifiUtil {
     }
 
     /**
-     * Checks the {@link WifiInfo} object's non-nullness and SSID.
+     * Checks if the device are connected to the configured WiFi network.
      *
-     * @return true if we are connected to the correct network, false otherwise.
+     * @return true if the device is connected to the correct network.
      */
-    public boolean isConnectedToCorrectNetwork() {
+    public boolean isConnected() {
         WifiInfo wifiInfo = getWifiInfo();
         String ssid = PreferencesUtil.getInstance(context).getSSID();
 
         return wifiInfo != null && (wifiInfo.getSSID().equals(ssid) || wifiInfo.getSSID().equals('"' + ssid + '"'));
+    }
+
+    /**
+     * Checks if the user is authenticated in the BA WiFi.
+     *
+     * @return true if the user is authenticated.
+     */
+    public boolean isAuthenticated() {
+        CheckAuthenticatedPayload payload = new CheckAuthenticatedPayload(
+                PreferencesUtil.getInstance(context).getStatusUrl(), RegexpUtil.STATUS_MESSAGE);
+        CheckAuthenticatedTask task = new CheckAuthenticatedTask(this.context);
+        task.execute(payload);
+        try {
+            return task.get();
+        } catch (Exception e) {
+            Logger.printStackTrace(this.getClass(), e, this.context);
+        }
+        return false;
     }
 
     /**

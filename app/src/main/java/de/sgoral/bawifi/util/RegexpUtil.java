@@ -9,17 +9,18 @@ import java.util.regex.Pattern;
 public class RegexpUtil {
 
     /**
-     * Regexp for extracting the logout url from xml code.
-     */
-    public static final Pattern LOGOUT_URL =
-            Pattern.compile("<LogoffURL>([^<]+)</LogoffURL>", Pattern.CASE_INSENSITIVE);
-
-    public static final Pattern STATUS_URL =
-            Pattern.compile("<StatusURL>([^<]+)</StatusURL>", Pattern.CASE_INSENSITIVE);
-    /**
      * Shortcut for [^>]*, i.e. match any number of characters except the closing angle bracket.
      */
     private static final String REGEXP_NOGT = "[^>]*";
+    /**
+     * Regexp for extracting the logout url from xml code.
+     */
+    public static final Pattern LOGOUT_URL =
+            Pattern.compile("<LogoffURL>(" + REGEXP_NOGT + ")</LogoffURL>", Pattern.CASE_INSENSITIVE);
+    public static final Pattern STATUS_URL =
+            Pattern.compile("<StatusURL>(" + REGEXP_NOGT + ")</StatusURL>", Pattern.CASE_INSENSITIVE);
+    public static final Pattern STATUS_MESSAGE =
+            Pattern.compile("<ReplyMessage>(" + REGEXP_NOGT + ")</ReplyMessage>", Pattern.CASE_INSENSITIVE);
     /**
      * Shortcut for [^"]*, i.e. match any number of characters except for quotation marks.
      */

@@ -5,11 +5,9 @@
     android:orientation="vertical"
     tools:context="de.sgoral.bawifi.fragments.StatusConnectedFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:height="@dimen/text_size_status"
         android:text="@string/text_connected"
         android:textAlignment="center"
         android:textSize="@dimen/text_size_status" />
@@ -17,5 +15,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="onAuthenticateButtonClicked"
         android:text="@string/button_authenticate" />
 </LinearLayout>

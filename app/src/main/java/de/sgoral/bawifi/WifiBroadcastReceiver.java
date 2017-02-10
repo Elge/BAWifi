@@ -31,7 +31,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                 WifiUtil handler = new WifiUtil(context);
                 WifiInfo wifiInfo = handler.getWifiInfo();
                 String ssid = PreferencesUtil.getInstance(context).getSSID();
-                if (handler.isConnectedToCorrectNetwork()) {
+                if (handler.isConnected()) {
                     ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
                     handler.performLogin();
                 } else {

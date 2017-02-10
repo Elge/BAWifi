@@ -1,11 +1,15 @@
 package de.sgoral.bawifi.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 
 import de.sgoral.bawifi.R;
 
-public class PreferencesActivity extends AppCompatActivity {
+/**
+ * Activity for the preferences.
+ */
+public class PreferencesActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

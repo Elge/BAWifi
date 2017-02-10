@@ -28,9 +28,6 @@ public class LogoutFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void onLogoutClicked(View view) {
         PreferencesUtil prefUtil = PreferencesUtil.getInstance(this.getActivity());
-        if (prefUtil.getLogoutUrl() == null) {
-            prefUtil.setLogoutUrl("http://10.10.0.1:3990/logoff");
-        }
         new WifiUtil(this.getActivity()).performLogout();
     }
 

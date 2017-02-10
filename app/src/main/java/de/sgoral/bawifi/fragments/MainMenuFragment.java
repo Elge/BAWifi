@@ -18,12 +18,10 @@ import de.sgoral.bawifi.R;
 
 public class MainMenuFragment extends Fragment {
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO fix api v.23 dependency
-        PreferenceManager.getDefaultSharedPreferences(getContext());
+        PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 
         return inflater.inflate(R.layout.fragment_main_menu, container, false);
     }
