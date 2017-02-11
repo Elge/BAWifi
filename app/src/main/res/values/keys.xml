@@ -19,5 +19,5 @@
     <string name="loginurl_default" translatable="false">http://stpapp.ba-leipzig.de</string>
     <string name="logouturl_default" translatable="false">http://10.10.0.1:3990/logoff</string>
     <string name="statusurl_default" translatable="false">http://10.10.0.1:3990/status</string>
-    <string name="status_message_authenticated">Already logged on</string>
+    <string name="status_message_authenticated" translatable="false">Already logged on</string>
 </resources>
