@@ -15,12 +15,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.util.ssl.AdditionalKeyStoresSSLSocketFactory;
+import de.sgoral.bawifi.util.ssl.IpHostnameVerifier;
 
 /**
  * Utility classes for HTTP and HTTPS connections.
@@ -91,17 +91,10 @@ public class HttpUtil {
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-        // Special handling for https connections
         if (connection instanceof HttpsURLConnection) {
+            // Special handling for https connections because of the self-signed certificate
             ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory(context));
-            HostnameVerifier verifier = ((HttpsURLConnection) connection).getHostnameVerifier();
-            /*setHostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    Logger.log(this.getClass(), "Hostname is " + hostname + " but I expect " + session.getPeerHost());
-                    return true;
-                }
-            });*/
+            ((HttpsURLConnection) connection).setHostnameVerifier(new IpHostnameVerifier());
         }
 
         if (data == null) {

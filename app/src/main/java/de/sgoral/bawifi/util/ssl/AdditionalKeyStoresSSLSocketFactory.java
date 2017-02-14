@@ -1,4 +1,4 @@
-package de.sgoral.bawifi.util;
+package de.sgoral.bawifi.util.ssl;
 
 import java.io.IOException;
 import java.net.InetAddress;
