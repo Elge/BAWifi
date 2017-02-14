@@ -9,6 +9,5 @@
     <string name="text_connected">Verbunden\nWarte auf Authentizierung</string>
     <string name="text_disconnected">Nicht verbunden</string>
     <string name="button_log">Log</string>
-    <string name="status_message_authenticated"></string>
     <string name="text_deauthenticating">Deauthentifiziere...</string>
 </resources>
