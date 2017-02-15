@@ -30,23 +30,35 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
             throw new IllegalArgumentException("Unexpected number of parameters: " + urls.length + ", expected 1");
         }
 
-        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_DEAUTHENTICATING);
-
         try {
             URL url = new URL(urls[0]);
             HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
             HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false, context);
 
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK
-                    || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP) {
-                ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
-                return true;
-            }
+            return (connection.getResponseCode() == HttpURLConnection.HTTP_OK
+                    || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP);
         } catch (IOException e) {
             Logger.printStackTrace(this.getClass(), e);
         }
 
-        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATED);
         return false;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_DEAUTHENTICATING);
+    }
+
+    @Override
+    protected void onPostExecute(Boolean aBoolean) {
+        super.onPostExecute(aBoolean);
+
+        if (aBoolean == true) {
+            ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
+        } else {
+            ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATED);
+        }
     }
 }

@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.regex.Pattern;
@@ -48,7 +49,6 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
         }
 
         Logger.log(this.getClass(), "Starting login action", context);
-        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATING);
         LoginPayload payload = payloads[0];
         try {
             // Step 1
@@ -116,17 +116,35 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             prefUtil.setStatusUrl(statusUrl);
 
             if (statusUrl != null && logoutUrl != null) {
-                ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATED);
                 return true;
             }
+        } catch (SocketException e) {
+            // Socket exception probably means we timed out, retry.
+            Logger.printStackTrace(this.getClass(), e);
+            return doInBackground(payloads);
         } catch (MalformedURLException | UnsupportedEncodingException | ProtocolException e) {
             Logger.printStackTrace(this.getClass(), e);
         } catch (IOException e) {
             Logger.printStackTrace(this.getClass(), e);
         }
 
-        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
         return false;
     }
 
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATING);
+    }
+
+    @Override
+    protected void onPostExecute(Boolean aBoolean) {
+        super.onPostExecute(aBoolean);
+
+        if (aBoolean == true) {
+            ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATED);
+        } else {
+            ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
+        }
+    }
 }

@@ -39,7 +39,7 @@ public class Logger {
     public static void log(Class c, String message, Context context) {
         Log.d(c.getCanonicalName(), message);
         if (context != null) {
-            PreferencesUtil.getInstance(context).addLogEntry(c.getName() + ": " + message);
+            PreferencesUtil.getInstance(context).addLogEntry(c.getSimpleName() + ": " + message);
         }
     }
 
