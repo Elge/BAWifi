@@ -9,4 +9,10 @@
         android:name="de.sgoral.bawifi.fragments.PreferencesFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <fragment
+        android:id="@+id/fragment_clear_log"
+        android:name="de.sgoral.bawifi.fragments.ClearLogFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

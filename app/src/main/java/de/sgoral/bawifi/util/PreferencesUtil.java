@@ -187,7 +187,7 @@ public class PreferencesUtil {
     public void setLogEntries(Set<String> log) {
         SharedPreferences.Editor editor = getSharesPreferences().edit();
         editor.putStringSet(context.getString(R.string.log_file), log);
-        editor.apply();
+        editor.commit();
     }
 
     /**
@@ -213,6 +213,10 @@ public class PreferencesUtil {
             log.add(message);
             setLogEntries(log);
         }
+    }
+
+    public void clearLogEntries() {
+        setLogEntries(new HashSet<String>());
     }
 
     public void initialisePreferences() {

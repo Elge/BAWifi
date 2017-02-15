@@ -12,5 +12,6 @@
     <string name="button_preferences">Preferences</string>
     <string name="button_authenticate">Authenticate</string>
     <string name="button_log">Log</string>
+    <string name="button_clear_log">Clear log</string>
 
 </resources>
