@@ -21,16 +21,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activities.PreferencesActivity"></activity>
+        <activity android:name=".activities.LogActivity"></activity>
+
         <receiver android:name=".WifiBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
                 <action android:name="android.net.wifi.STATE_CHANGE"/>
             </intent-filter>
         </receiver>
-
-        <activity android:name=".activities.PreferencesActivity"/>
-        <activity android:name=".activities.LogActivity">
-        </activity>
     </application>
-
 </manifest>

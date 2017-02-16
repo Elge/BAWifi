@@ -222,4 +222,13 @@ public class PreferencesUtil {
     public void initialisePreferences() {
         PreferenceManager.setDefaultValues(context, R.xml.preferences, true);
     }
+
+    /**
+     * Checks if a username and a password have been set.
+     *
+     * @return true if the data is entered
+     */
+    public boolean isValidConfiguration() {
+        return getUsername() != null && getPassword() != null;
+    }
 }

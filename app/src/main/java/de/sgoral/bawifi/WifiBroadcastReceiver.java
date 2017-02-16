@@ -9,6 +9,7 @@ import android.net.wifi.WifiManager;
 
 import de.sgoral.bawifi.appstatus.ApplicationStatus;
 import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
+import de.sgoral.bawifi.notifications.NotificationUtil;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.WifiUtil;
@@ -36,7 +37,11 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                         ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATED);
                     } else {
                         ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
-                        handler.performLogin();
+                        if (PreferencesUtil.getInstance(context).isValidConfiguration()) {
+                            handler.performLogin();
+                        } else {
+                            NotificationUtil.addMissingPreferencesNotification(context);
+                        }
                     }
                 } else {
                     ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_DISCONNECTED);

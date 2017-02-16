@@ -32,13 +32,11 @@ public class StatusFragment extends Fragment {
                 swapFragmentUsingAppStatus();
             }
         };
-
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ApplicationStatusManager.addListener(listener);
 
         return inflater.inflate(R.layout.fragment_status, container, false);
     }
@@ -48,11 +46,12 @@ public class StatusFragment extends Fragment {
         super.onStart();
 
         swapFragmentUsingAppStatus();
+        ApplicationStatusManager.addListener(listener);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onStop() {
+        super.onStop();
 
         ApplicationStatusManager.removeListener(listener);
     }
@@ -66,7 +65,7 @@ public class StatusFragment extends Fragment {
     private void swapFragment(Fragment fragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.status_fragment_container, fragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     private Fragment getStatusFragment(ApplicationStatus applicationStatus) {

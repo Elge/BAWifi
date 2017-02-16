@@ -5,6 +5,7 @@ import android.widget.TabHost;
 
 import de.sgoral.bawifi.appstatus.ApplicationStatus;
 import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
+import de.sgoral.bawifi.notifications.ApplicationStatusNotifier;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.WifiUtil;
@@ -13,6 +14,8 @@ import de.sgoral.bawifi.util.WifiUtil;
  * Initialises the application.
  */
 public class BAWifi extends Application {
+
+    private ApplicationStatusNotifier notifier;
 
     @Override
     public void onCreate() {
@@ -30,5 +33,13 @@ public class BAWifi extends Application {
         } else {
             ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_DISCONNECTED);
         }
+
+        notifier = new ApplicationStatusNotifier(this);
+        notifier.initialise();
+    }
+
+    @Override
+    public void onTerminate() {
+        notifier.destroy();
     }
 }

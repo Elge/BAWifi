@@ -11,4 +11,12 @@
     <string name="button_log">Log</string>
     <string name="text_deauthenticating">Deauthentifiziere...</string>
     <string name="button_clear_log">Log leeren</string>
+    <string name="notification_missingpreferences_text">Bitte setzen Sie einen Benutzernamen und ein Passwort</string>
+    <string name="notification_missingpreferences_title">Fehlende Einstellungen</string>
+    <string name="notification_authenticationfailed_title">Authentifizierung fehlgeschlagen</string>
+    <string name="notification_authenticationsuccessful_title">Authentifizierung erfolgreich</string>
+    <string name="notification_connected_title">Verbindung hergestellt</string>
+    <string name="notification_deauthenticationfailed_title">Deauthentifizierung fehlgeschlagen</string>
+    <string name="notification_deauthenticationsuccessful_title">Deauthentifizierung erfolgreich</string>
+    <string name="notification_disconnected_title">Verbindung getrennt</string>
 </resources>

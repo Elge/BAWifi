@@ -13,5 +13,19 @@
     <string name="button_authenticate">Authenticate</string>
     <string name="button_log">Log</string>
     <string name="button_clear_log">Clear log</string>
+    <string name="notification_missingpreferences_title">Missing settings</string>
+    <string name="notification_missingpreferences_text">Please set a username and password</string>
+    <string name="notification_authenticationsuccessful_title">Authentication successful</string>
+    <string name="notification_authenticationsuccessful_text"></string>
+    <string name="notification_authenticationfailed_title">Authentication failed</string>
+    <string name="notification_authenticationfailed_text"></string>
+    <string name="notification_deauthenticationsuccessful_title">Deauthentication successful</string>
+    <string name="notification_deauthenticationsuccessful_text"></string>
+    <string name="notification_deauthenticationfailed_title">Deauthentication failed</string>
+    <string name="notification_deauthenticationfailed_text"></string>
+    <string name="notification_connected_title">Connection established</string>
+    <string name="notification_connected_text"></string>
+    <string name="notification_disconnected_title">Connection separated</string>
+    <string name="notification_disconnected_text"></string>
 
 </resources>

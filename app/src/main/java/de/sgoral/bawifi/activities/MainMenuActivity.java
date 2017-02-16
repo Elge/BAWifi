@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.WifiUtil;
 
 /**
@@ -30,7 +31,11 @@ public class MainMenuActivity extends Activity {
     }
 
     public void onAuthenticateButtonClicked(View view) {
-        new WifiUtil(this).performLogin();
+        if (PreferencesUtil.getInstance(this).isValidConfiguration()) {
+            new WifiUtil(this).performLogin();
+        } else {
+            startActivity(new Intent(this, PreferencesActivity.class));
+        }
     }
 
     public void onLogoutButtonClicked(View view) {

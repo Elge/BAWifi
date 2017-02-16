@@ -68,7 +68,7 @@ public class ApplicationStatusManager {
                         }
                     } else if (prevStatus == ApplicationStatus.STATUS_DEAUTHENTICATING) {
                         for (ApplicationStatusListener listener : listeners) {
-                            listener.onDeAuthenticationSuccessful();
+                            listener.onDeauthenticationSuccessful();
                         }
                     } else {
                         for (ApplicationStatusListener listener : listeners) {
@@ -84,7 +84,7 @@ public class ApplicationStatusManager {
                 case STATUS_AUTHENTICATED:
                     if (prevStatus == ApplicationStatus.STATUS_DEAUTHENTICATING) {
                         for (ApplicationStatusListener listener : listeners) {
-                            listener.onDeAuthenticationFailed();
+                            listener.onDeauthenticationFailed();
                         }
                     } else {
                         for (ApplicationStatusListener listener : listeners) {
@@ -94,7 +94,7 @@ public class ApplicationStatusManager {
                     break;
                 case STATUS_DEAUTHENTICATING:
                     for (ApplicationStatusListener listener : listeners) {
-                        listener.onDeAuthenticationStarted();
+                        listener.onDeauthenticationStarted();
                     }
                     break;
                 default:
