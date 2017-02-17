@@ -1,7 +1,5 @@
 package de.sgoral.bawifi.asynctasks;
 
-import de.sgoral.bawifi.asynctasks.LoginTask;
-
 /**
  * Payload for the {@link LoginTask}.
  */

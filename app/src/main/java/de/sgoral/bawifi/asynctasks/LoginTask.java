@@ -2,13 +2,9 @@ package de.sgoral.bawifi.asynctasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.SocketException;
 import java.net.URL;
 import java.util.HashMap;
@@ -19,7 +15,6 @@ import javax.net.ssl.SSLSocketFactory;
 import de.sgoral.bawifi.appstatus.ApplicationStatus;
 import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
 import de.sgoral.bawifi.util.HttpUtil;
-import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.RegexpUtil;
 
@@ -48,7 +43,6 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             throw new IllegalArgumentException("Unexpected number of parameters: " + payloads.length + ", expected 1");
         }
 
-        Logger.log(this.getClass(), "Starting login action", context);
         LoginPayload payload = payloads[0];
         try {
             // Step 1
@@ -57,7 +51,6 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
 
             String redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false, context);
             if (redirectUrl == null) {
-                Logger.log(this.getClass(), "No redirect meta tag found", context);
                 return false;
             }
 
@@ -65,7 +58,6 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             connection = HttpUtil.openUrl(this.context, new URL(url, redirectUrl), null);
             String location = connection.getHeaderField("Location");
             if (location == null) {
-                Logger.log(this.getClass(), "No location header found", context);
                 return false;
             }
 
@@ -79,13 +71,11 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             map.put("uamip", RegexpUtil.UAMIP_VALUE);
             map.put("uamport", RegexpUtil.UAMPORT_VALUE);
             map.put("submit", RegexpUtil.SUBMIT_VALUE);
-            HashMap<String, String> result = HttpUtil.parseResponse(connection, map, false, context);
+            HashMap<String, String> result = HttpUtil.parseResponse(connection, map);
 
             if (result == null || result.size() != 5) {
-                Logger.log(this.getClass(), "Unexpected result size: " + (result == null ? "null" : result.size()), context);
                 return false;
             }
-            Logger.log(this.getClass(), "Resultset: " + result.size(), context);
 
             // Step 4
             HashMap<String, String> data = new HashMap<>();
@@ -103,13 +93,10 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             map.clear();
             map.put("logouturl", RegexpUtil.LOGOUT_URL);
             map.put("statusurl", RegexpUtil.STATUS_URL);
-            result = HttpUtil.parseResponse(connection, map, false, context);
+            result = HttpUtil.parseResponse(connection, map);
 
             String logoutUrl = result.get("logouturl");
             String statusUrl = result.get("statusurl");
-
-            Logger.log(this.getClass(), "StatusUrl: " + statusUrl);
-            Logger.log(this.getClass(), "LogoutUrl: " + logoutUrl);
 
             PreferencesUtil prefUtil = PreferencesUtil.getInstance(context);
             prefUtil.setLogoutUrl(logoutUrl);
@@ -120,12 +107,9 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             }
         } catch (SocketException e) {
             // Socket exception probably means we timed out, retry.
-            Logger.printStackTrace(this.getClass(), e);
             return doInBackground(payloads);
-        } catch (MalformedURLException | UnsupportedEncodingException | ProtocolException e) {
-            Logger.printStackTrace(this.getClass(), e);
         } catch (IOException e) {
-            Logger.printStackTrace(this.getClass(), e);
+            // Ignore
         }
 
         return false;

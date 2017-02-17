@@ -35,8 +35,6 @@ public class WifiUtil {
      * Starts the {@link LoginTask} to authenticate the user in the BA WiFi network.
      */
     public void performLogin() {
-        Logger.log(this.getClass(), "performLogin", context);
-
         WifiInfo wifiInfo = getWifiInfo();
         PreferencesUtil prefUtil = PreferencesUtil.getInstance(this.context);
         String ssid = prefUtil.getSSID();
@@ -55,8 +53,6 @@ public class WifiUtil {
      * Starts the {@link LogoutTask} to de-authenticate the user from the BA WiFi network.
      */
     public void performLogout() {
-        Logger.log(this.getClass(), "performLogout", context);
-
         String url = PreferencesUtil.getInstance(this.context).getLogoutUrl();
         new LogoutTask(context).execute(url);
     }
@@ -113,8 +109,8 @@ public class WifiUtil {
         task.execute(payload);
         try {
             return task.get();
-        } catch (Exception e) {
-            Logger.printStackTrace(this.getClass(), e, this.context);
+        } catch (InterruptedException | ExecutionException e) {
+            // Ignore;
         }
         return false;
     }

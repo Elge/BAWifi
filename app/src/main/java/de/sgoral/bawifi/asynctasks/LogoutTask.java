@@ -10,7 +10,6 @@ import java.net.URL;
 import de.sgoral.bawifi.appstatus.ApplicationStatus;
 import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
 import de.sgoral.bawifi.util.HttpUtil;
-import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.RegexpUtil;
 
 /**
@@ -38,7 +37,7 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
             return (connection.getResponseCode() == HttpURLConnection.HTTP_OK
                     || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP);
         } catch (IOException e) {
-            Logger.printStackTrace(this.getClass(), e);
+            // Ignore
         }
 
         return false;

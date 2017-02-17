@@ -1,12 +1,10 @@
 package de.sgoral.bawifi;
 
 import android.app.Application;
-import android.widget.TabHost;
 
 import de.sgoral.bawifi.appstatus.ApplicationStatus;
 import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
 import de.sgoral.bawifi.notifications.ApplicationStatusNotifier;
-import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.WifiUtil;
 
@@ -19,8 +17,6 @@ public class BAWifi extends Application {
 
     @Override
     public void onCreate() {
-        Logger.log(this.getClass(), "onCreate", this);
-
         PreferencesUtil.getInstance(this).initialisePreferences();
 
         WifiUtil wifiUtil = new WifiUtil(this);

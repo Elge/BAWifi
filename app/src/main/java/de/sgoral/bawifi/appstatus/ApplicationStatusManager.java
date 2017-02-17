@@ -3,8 +3,6 @@ package de.sgoral.bawifi.appstatus;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.sgoral.bawifi.util.Logger;
-
 /**
  * Allows accessing information about the current status of the application.
  */
@@ -49,7 +47,6 @@ public class ApplicationStatusManager {
         status = newStatus;
 
         if (status != prevStatus) {
-            Logger.log(ApplicationStatusManager.class, "AppStatus changed to " + newStatus.toString());
             // Trigger listeners
             for (ApplicationStatusListener listener : listeners) {
                 listener.onApplicationStatusChanged(status, prevStatus);

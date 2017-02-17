@@ -28,17 +28,17 @@ import de.sgoral.bawifi.util.ssl.IpHostnameVerifier;
 public class HttpUtil {
 
     /**
-     * Shortcut for using {@link #parseResponse(HttpURLConnection, HashMap, boolean, Context)} with only one
+     * Shortcut for using {@link #parseResponse(HttpURLConnection, HashMap)} with only one
      * pattern.
      *
      * @return The result of the pattern, or null if no result is found.
      * @throws IOException
-     * @see #parseResponse(HttpURLConnection, HashMap, boolean, Context)
+     * @see #parseResponse(HttpURLConnection, HashMap)
      */
     public static String parseResponse(HttpURLConnection connection, Pattern pattern, boolean log, Context context) throws IOException {
         HashMap<String, Pattern> input = new HashMap<>();
         input.put("result", pattern);
-        HashMap<String, String> result = parseResponse(connection, input, log, context);
+        HashMap<String, String> result = parseResponse(connection, input);
         return result == null ? null : result.get("result");
     }
 
@@ -48,14 +48,10 @@ public class HttpUtil {
      *
      * @param connection The {@link HttpURLConnection} to read the response from.
      * @param patterns   A {@link HashMap} containing the regular expressions to match the response lines against. The keys are used to build the response map.
-     * @param log        Set to true to log every line in the response.
-     * @param context    The application context to use while logging.
      * @return A {@link HashMap} containing the matched groups using the same keys as the input patterns.
      * @throws IOException
      */
-    public static HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String, Pattern> patterns, boolean log, Context context) throws IOException {
-        Logger.log(HttpUtil.class, "RESPONSE:", context);
-
+    public static HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String, Pattern> patterns) throws IOException {
         Set<String> keys = patterns.keySet();
         HashMap<String, String> results = new HashMap<>();
 
@@ -67,9 +63,6 @@ public class HttpUtil {
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find()) {
                     results.put(key, matcher.group(1));
-                }
-                if (log) {
-                    Logger.log(HttpUtil.class, line, context);
                 }
             }
         }
@@ -87,8 +80,6 @@ public class HttpUtil {
      * @throws IOException
      */
     public static HttpURLConnection openUrl(final Context context, URL url, HashMap<String, String> data) throws IOException {
-        Logger.log(HttpUtil.class, "Opening url '" + url.toString() + "'", context);
-
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         if (connection instanceof HttpsURLConnection) {
@@ -119,8 +110,6 @@ public class HttpUtil {
             writer.flush();
             writer.close();
         }
-
-        Logger.log(HttpUtil.class, "Response: " + connection.getResponseCode(), context);
 
         return connection;
     }

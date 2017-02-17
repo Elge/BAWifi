@@ -10,7 +10,6 @@ import java.net.URL;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.HttpUtil;
-import de.sgoral.bawifi.util.Logger;
 
 /**
  * Created by sebastianprivat on 10.02.17.
@@ -30,20 +29,17 @@ public class CheckAuthenticatedTask extends AsyncTask<CheckAuthenticatedPayload,
             throw new IllegalArgumentException("Unexpected number of parameters: " + payloads.length + ", expected 1");
         }
 
-        Logger.log(this.getClass(), "Checking authenticated status", context);
         CheckAuthenticatedPayload payload = payloads[0];
 
         try {
             HttpURLConnection connection = HttpUtil.openUrl(context, new URL(payload.getUrl()), null);
             String response = HttpUtil.parseResponse(connection, payload.getPattern(), false, context);
-            Logger.log(this.getClass(), "Auth status: " + response, context);
             return context.getString(R.string.status_message_authenticated).equals(response);
         } catch (SocketException e) {
             // Probably timed out, retry
-            Logger.printStackTrace(this.getClass(), e);
             return doInBackground(payloads);
         } catch (IOException e) {
-            Logger.printStackTrace(this.getClass(), e, context);
+            // Ignore
         }
 
         return false;
