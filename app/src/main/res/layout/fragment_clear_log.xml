@@ -9,6 +9,5 @@
         android:id="@+id/button_clear_log"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClearLogButtonClicked"
         android:text="@string/button_clear_log" />
 </LinearLayout>

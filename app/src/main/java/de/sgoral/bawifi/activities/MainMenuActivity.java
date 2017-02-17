@@ -20,25 +20,4 @@ public class MainMenuActivity extends Activity {
         setContentView(R.layout.activity_main_menu);
     }
 
-    public void onPreferencesButtonClicked(View view) {
-        Intent intent = new Intent(this, PreferencesActivity.class);
-        startActivity(intent);
-    }
-
-    public void onLogButtonClicked(View view) {
-        Intent intent = new Intent(this, LogActivity.class);
-        startActivity(intent);
-    }
-
-    public void onAuthenticateButtonClicked(View view) {
-        if (PreferencesUtil.getInstance(this).isValidConfiguration()) {
-            new WifiUtil(this).performLogin();
-        } else {
-            startActivity(new Intent(this, PreferencesActivity.class));
-        }
-    }
-
-    public void onLogoutButtonClicked(View view) {
-        new WifiUtil(this).performLogout();
-    }
 }

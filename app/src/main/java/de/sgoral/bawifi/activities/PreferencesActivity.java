@@ -23,14 +23,4 @@ public class PreferencesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
     }
-
-    public void onClearLogButtonClicked(View view) {
-        PreferencesUtil.getInstance(this).clearLogEntries();
-        ((ClearLogFragment) this.getFragmentManager().findFragmentById(R.id.fragment_clear_log))
-                .updateButtonVisibility();
-    }
-
-    public void onResetPreferencesClicked(View view) {
-        PreferencesUtil.getInstance(this).resetPreferences();
-    }
 }

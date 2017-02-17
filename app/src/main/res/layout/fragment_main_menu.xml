@@ -11,16 +11,14 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_preferences"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onPreferencesButtonClicked"
         android:text="@string/button_preferences" />
 
     <Button
-        android:text="@string/button_log"
+        android:id="@+id/button_log"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onLogButtonClicked"
-        android:id="@+id/button2"/>
+        android:text="@string/button_log" />
 </LinearLayout>

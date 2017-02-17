@@ -13,8 +13,8 @@
         android:textSize="@dimen/text_size_status" />
 
     <Button
+        android:id="@+id/button_authenticate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onAuthenticateButtonClicked"
         android:text="@string/button_authenticate" />
 </LinearLayout>
