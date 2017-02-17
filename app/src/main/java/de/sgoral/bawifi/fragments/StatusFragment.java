@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.appstatus.ApplicationStatus;
-import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
 import de.sgoral.bawifi.appstatus.ApplicationStatusListener;
+import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
 
 /**
  * Created by sebastianprivat on 06.02.17.

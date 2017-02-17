@@ -1,13 +1,9 @@
 package de.sgoral.bawifi.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.notifications.NotificationUtil;
