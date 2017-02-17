@@ -15,4 +15,10 @@
         android:name="de.sgoral.bawifi.fragments.ClearLogFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <fragment
+        android:id="@+id/fragment_reset_preferences"
+        android:name="de.sgoral.bawifi.fragments.ResetPreferencesFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

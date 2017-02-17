@@ -11,6 +11,7 @@ import android.support.v4.app.TaskStackBuilder;
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.activities.MainMenuActivity;
 import de.sgoral.bawifi.activities.PreferencesActivity;
+import de.sgoral.bawifi.util.PreferencesUtil;
 
 /**
  * Allows creation of notifications.
@@ -113,9 +114,11 @@ public class NotificationUtil {
      * @param context The current application context.
      */
     public static void addMissingPreferencesNotification(Context context) {
-        sendGenericNotification(context, PreferencesActivity.class,
-                NOTIFICATION_ID_MISSINGPREFERENCES,
-                R.string.notification_missingpreferences_title, R.string.notification_missingpreferences_text, false);
+        if (PreferencesUtil.getInstance(context).isMissingSettingsNotificationsEnabled()) {
+            sendGenericNotification(context, PreferencesActivity.class,
+                    NOTIFICATION_ID_MISSINGPREFERENCES,
+                    R.string.notification_missingpreferences_title, R.string.notification_missingpreferences_text, false);
+        }
     }
 
     /**
@@ -134,9 +137,11 @@ public class NotificationUtil {
      * @param context The current application context.
      */
     public static void addAuthenticationSuccessfulNotification(Context context) {
-        sendGenericNotification(context, MainMenuActivity.class,
-                NOTIFICATION_ID_APPLICATIONSTATUS,
-                R.string.notification_authenticationsuccessful_title, R.string.notification_authenticationsuccessful_text);
+        if (PreferencesUtil.getInstance(context).isAuthenticatedNotificationsEnabled()) {
+            sendGenericNotification(context, MainMenuActivity.class,
+                    NOTIFICATION_ID_APPLICATIONSTATUS,
+                    R.string.notification_authenticationsuccessful_title, R.string.notification_authenticationsuccessful_text);
+        }
     }
 
     /**
@@ -145,9 +150,11 @@ public class NotificationUtil {
      * @param context The current application context.
      */
     public static void addAuthenticationFailedNotification(Context context) {
-        sendGenericNotification(context, MainMenuActivity.class,
-                NOTIFICATION_ID_APPLICATIONSTATUS,
-                R.string.notification_authenticationfailed_title, R.string.notification_authenticationfailed_text);
+        if (PreferencesUtil.getInstance(context).isAuthenticationFailedNotificationsEnabled()) {
+            sendGenericNotification(context, MainMenuActivity.class,
+                    NOTIFICATION_ID_APPLICATIONSTATUS,
+                    R.string.notification_authenticationfailed_title, R.string.notification_authenticationfailed_text);
+        }
     }
 
     /**
@@ -156,9 +163,11 @@ public class NotificationUtil {
      * @param context The current application context.
      */
     public static void addDeauthenticationSuccessfulNotification(Context context) {
-        sendGenericNotification(context, MainMenuActivity.class,
-                NOTIFICATION_ID_APPLICATIONSTATUS,
-                R.string.notification_deauthenticationsuccessful_title, R.string.notification_deauthenticationsuccessful_text);
+        if (PreferencesUtil.getInstance(context).isDeauthenticationNotificationsEnabled()) {
+            sendGenericNotification(context, MainMenuActivity.class,
+                    NOTIFICATION_ID_APPLICATIONSTATUS,
+                    R.string.notification_deauthenticationsuccessful_title, R.string.notification_deauthenticationsuccessful_text);
+        }
     }
 
     /**
@@ -167,9 +176,11 @@ public class NotificationUtil {
      * @param context The current application context.
      */
     public static void addDeauthenticationFailedNotification(Context context) {
-        sendGenericNotification(context, MainMenuActivity.class,
-                NOTIFICATION_ID_APPLICATIONSTATUS,
-                R.string.notification_deauthenticationfailed_title, R.string.notification_deauthenticationfailed_text);
+        if (PreferencesUtil.getInstance(context).isDeauthenticationFailedNotificationsEnabled()) {
+            sendGenericNotification(context, MainMenuActivity.class,
+                    NOTIFICATION_ID_APPLICATIONSTATUS,
+                    R.string.notification_deauthenticationfailed_title, R.string.notification_deauthenticationfailed_text);
+        }
     }
 
     /**
@@ -178,9 +189,11 @@ public class NotificationUtil {
      * @param context The current application context.
      */
     public static void addConnectedNotification(Context context) {
-        sendGenericNotification(context, MainMenuActivity.class,
-                NOTIFICATION_ID_APPLICATIONSTATUS,
-                R.string.notification_connected_title, R.string.notification_connected_text);
+        if (PreferencesUtil.getInstance(context).isConnectedNotificationsEnabled()) {
+            sendGenericNotification(context, MainMenuActivity.class,
+                    NOTIFICATION_ID_APPLICATIONSTATUS,
+                    R.string.notification_connected_title, R.string.notification_connected_text);
+        }
     }
 
     /**
@@ -189,9 +202,11 @@ public class NotificationUtil {
      * @param context The current application context.
      */
     public static void addDisconnectedNotification(Context context) {
-        sendGenericNotification(context, MainMenuActivity.class,
-                NOTIFICATION_ID_APPLICATIONSTATUS,
-                R.string.notification_disconnected_title, R.string.notification_disconnected_text);
+        if (PreferencesUtil.getInstance(context).isDisconnectedNotificationsEnabled()) {
+            sendGenericNotification(context, MainMenuActivity.class,
+                    NOTIFICATION_ID_APPLICATIONSTATUS,
+                    R.string.notification_disconnected_title, R.string.notification_disconnected_text);
+        }
     }
 
 }

@@ -2,6 +2,18 @@
     <string name="application_name">BAWifi</string>
 
     <!-- UI strings -->
+    <string name="label_username">Username</string>
+    <string name="label_password">Password</string>
+    <string name="label_notifications">Notifications</string>
+    <string name="label_all_notifications">All notifications</string>
+    <string name="label_missing_settings_notification">Missing settings</string>
+    <string name="label_connected_notifications">Connected</string>
+    <string name="label_disconnected_notifications">Disconnected</string>
+    <string name="label_authenticated_notifications">Authenticated</string>
+    <string name="label_authentication_failed_notifications">Authentication failed</string>
+    <string name="label_deauthenticated_notifications">Deauthenticated</string>
+    <string name="label_deauthentication_failed_notifications">Deauthentication failed</string>
+
     <string name="text_disconnected">Not connected</string>
     <string name="text_connected">Connected\nReady to authenticate</string>
     <string name="text_authenticated">Authenticated</string>
@@ -13,6 +25,8 @@
     <string name="button_authenticate">Authenticate</string>
     <string name="button_log">Log</string>
     <string name="button_clear_log">Clear log</string>
+    <string name="button_reset_preferences">Reset preferences</string>
+
     <string name="notification_missingpreferences_title">Missing settings</string>
     <string name="notification_missingpreferences_text">Please set a username and password</string>
     <string name="notification_authenticationsuccessful_title">Authentication successful</string>

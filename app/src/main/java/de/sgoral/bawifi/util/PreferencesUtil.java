@@ -50,26 +50,46 @@ public class PreferencesUtil {
     }
 
     /**
-     * Loads a preference value from the default shared preferences file.
+     * Loads a string preference value from the default shared preferences file.
      *
      * @param resourceId The resource ID to retrieve a preference for.
      * @return The preference value, or null if unset.
      */
-    public String getPreference(int resourceId) {
-        SharedPreferences preferences = getSharesPreferences();
-        return preferences.getString(this.context.getString(resourceId), null);
+    public String getStringPreference(int resourceId) {
+        return getStringPreference(context.getString(resourceId));
+    }
+
+    /**
+     * Loads a boolean preference value from the default shared preferences file.
+     *
+     * @param resourceId The resource ID to retrieve a preference for.
+     * @return The preference value, or false if unset.
+     */
+    public boolean getBooleanPreference(int resourceId) {
+        return getBooleanPreference(context.getString(resourceId));
     }
 
 
     /**
-     * Loads a preference value from the default shared preferences file.
+     * Loads a string preference value from the default shared preferences file.
+     *
+     * @param resource The resource to retrieve a preference for.
+     * @return The preference value, or false if unset.
+     */
+    public String getStringPreference(String resource) {
+        SharedPreferences preferences = getSharesPreferences();
+        return preferences.getString(resource, null);
+    }
+
+    /**
+     * Loads a boolean preference value from the default shared preferences file.
      *
      * @param resource The resource to retrieve a preference for.
      * @return The preference value, or null if unset.
      */
-    public String getPreference(String resource) {
+    public boolean getBooleanPreference(String resource) {
         SharedPreferences preferences = getSharesPreferences();
-        return preferences.getString(resource, null);
+        return preferences.getBoolean(resource, false);
     }
 
     /**
@@ -80,7 +100,7 @@ public class PreferencesUtil {
      * @return The preference value, the default value or null if none are set.
      */
     public String getPreferenceOrDefault(int resourceId, int defaultResourceId) {
-        String value = getPreference(resourceId);
+        String value = getStringPreference(resourceId);
         if (value == null) {
             value = context.getString(defaultResourceId);
         }
@@ -93,7 +113,7 @@ public class PreferencesUtil {
      * @return The network SSID to automatically authenticate the user for.
      */
     public String getSSID() {
-        return getPreference(R.string.preference_key_ssid);
+        return context.getString(R.string.network_ssid);
     }
 
     /**
@@ -111,7 +131,7 @@ public class PreferencesUtil {
      * @return The username.
      */
     public String getUsername() {
-        return getPreference(R.string.preference_key_username);
+        return getStringPreference(R.string.preference_key_username);
     }
 
     /**
@@ -121,7 +141,7 @@ public class PreferencesUtil {
      */
     public String getPassword() {
         // TODO encrypt password. How? POST request requires plaintext password.
-        return getPreference(R.string.preference_key_password);
+        return getStringPreference(R.string.preference_key_password);
     }
 
     /**
@@ -215,10 +235,88 @@ public class PreferencesUtil {
         }
     }
 
+    /**
+     * Removes all log entries.
+     */
     public void clearLogEntries() {
         setLogEntries(new HashSet<String>());
     }
 
+    /**
+     * Checks if notifications are enabled.
+     *
+     * @return true if notifications are enabled.
+     */
+    public boolean isNotificationsEnabled() {
+        return getBooleanPreference(R.string.preference_key_notifications_all);
+    }
+
+    /**
+     * Checks if connected notifications are enabled.
+     *
+     * @return true if connected notifications are enabled.
+     */
+    public boolean isConnectedNotificationsEnabled() {
+        return isNotificationsEnabled() && getBooleanPreference(R.string.preference_key_notification_connected);
+    }
+
+    /**
+     * Checks if disconnected notifications are enabled.
+     *
+     * @return true if disconnected notifications are enabled.
+     */
+    public boolean isDisconnectedNotificationsEnabled() {
+        return isNotificationsEnabled() && getBooleanPreference(R.string.preference_key_notification_disconnected);
+    }
+
+    /**
+     * Checks if authenticated notifications are enabled.
+     *
+     * @return true if authenticated notifications are enabled.
+     */
+    public boolean isAuthenticatedNotificationsEnabled() {
+        return isNotificationsEnabled() && getBooleanPreference(R.string.preference_key_notification_authenticated);
+    }
+
+    /**
+     * Checks if authentication failed notifications are enabled.
+     *
+     * @return true if connected notifications are enabled.
+     */
+    public boolean isAuthenticationFailedNotificationsEnabled() {
+        return isNotificationsEnabled() && getBooleanPreference(R.string.preference_key_notification_authentication_failed);
+    }
+
+    /**
+     * Checks if deauthentication notifications are enabled.
+     *
+     * @return true if deauthentication notifications are enabled.
+     */
+    public boolean isDeauthenticationNotificationsEnabled() {
+        return isNotificationsEnabled() && getBooleanPreference(R.string.preference_key_notification_deauthenticated);
+    }
+
+    /**
+     * Checks if deauthentication failed notifications are enabled.
+     *
+     * @return true if deauthentication failed notifications are enabled.
+     */
+    public boolean isDeauthenticationFailedNotificationsEnabled() {
+        return isNotificationsEnabled() && getBooleanPreference(R.string.preference_key_notification_deauthentication_failed);
+    }
+
+    /**
+     * Checks if missing settings notifications are enabled.
+     *
+     * @return true if missing settings notifications are enabled.
+     */
+    public boolean isMissingSettingsNotificationsEnabled() {
+        return isNotificationsEnabled() && getBooleanPreference(R.string.preference_key_notification_missing_settings);
+    }
+
+    /**
+     * Loads default values for all preferences.
+     */
     public void initialisePreferences() {
         PreferenceManager.setDefaultValues(context, R.xml.preferences, true);
     }
@@ -230,5 +328,16 @@ public class PreferencesUtil {
      */
     public boolean isValidConfiguration() {
         return getUsername() != null && getPassword() != null;
+    }
+
+    /**
+     * Resets all preferences to default values.
+     */
+    public void resetPreferences() {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.clear();
+        editor.commit();
+
+        initialisePreferences();
     }
 }
