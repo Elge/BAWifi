@@ -31,4 +31,15 @@
     <string name="label_notifications">Benachrichtigungen</string>
     <string name="label_password">Passwort</string>
     <string name="label_username">Benutzername</string>
+    <string name="notification_already_authenticated_title">Bereits authentifiziert</string>
+    <string name="label_already_authenticated_notifications">Bereits authentifiziert</string>
+    <string name="log_already_authenticated">Bereits authentifiziert</string>
+    <string name="log_authenticated">Authentifizierung erfolgreich</string>
+    <string name="log_authenticating">Authentifizierung gestartet</string>
+    <string name="log_authentication_failed">Authentifizierung fehlgeschlagen</string>
+    <string name="log_connected">Verbindung hergestellt</string>
+    <string name="log_disconnected">Verbindung getrennt</string>
+    <string name="log_deauthenticated">Deauthentifizierung erfolgreich</string>
+    <string name="log_deauthenticating">Deauthentifizierung gestartet</string>
+    <string name="log_deauthentication_failed">Deauthentifizierung fehlgeschlagen</string>
 </resources>

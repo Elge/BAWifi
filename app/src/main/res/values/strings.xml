@@ -13,6 +13,7 @@
     <string name="label_authentication_failed_notifications">Authentication failed</string>
     <string name="label_deauthenticated_notifications">Deauthenticated</string>
     <string name="label_deauthentication_failed_notifications">Deauthentication failed</string>
+    <string name="label_already_authenticated_notifications">Already authenticated</string>
 
     <string name="text_disconnected">Not connected</string>
     <string name="text_connected">Connected\nReady to authenticate</string>
@@ -27,19 +28,26 @@
     <string name="button_clear_log">Clear log</string>
     <string name="button_reset_preferences">Reset preferences</string>
 
+    <!-- Notification strings -->
     <string name="notification_missingpreferences_title">Missing settings</string>
     <string name="notification_missingpreferences_text">Please set a username and password</string>
     <string name="notification_authenticationsuccessful_title">Authentication successful</string>
-    <string name="notification_authenticationsuccessful_text"></string>
     <string name="notification_authenticationfailed_title">Authentication failed</string>
-    <string name="notification_authenticationfailed_text"></string>
     <string name="notification_deauthenticationsuccessful_title">Deauthentication successful</string>
-    <string name="notification_deauthenticationsuccessful_text"></string>
     <string name="notification_deauthenticationfailed_title">Deauthentication failed</string>
-    <string name="notification_deauthenticationfailed_text"></string>
     <string name="notification_connected_title">Connection established</string>
-    <string name="notification_connected_text"></string>
     <string name="notification_disconnected_title">Connection separated</string>
-    <string name="notification_disconnected_text"></string>
+    <string name="notification_already_authenticated_title">Already authenticated</string>
+
+    <!-- Log message strings -->
+    <string name="log_authenticating">Authentication started</string>
+    <string name="log_authenticated">Authentication successful</string>
+    <string name="log_authentication_failed">Authentication failed</string>
+    <string name="log_deauthenticating">Deauthentication started</string>
+    <string name="log_deauthenticated">Deauthentication successful</string>
+    <string name="log_deauthentication_failed">Deauthentication failed</string>
+    <string name="log_connected">Connected</string>
+    <string name="log_disconnected">Disconnected</string>
+    <string name="log_already_authenticated">Already authenticated</string>
 
 </resources>

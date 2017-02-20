@@ -10,13 +10,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
+import de.sgoral.bawifi.util.UserlogChangeListener;
+import de.sgoral.bawifi.util.UserlogEntry;
 
 /**
  * Created by sebastianprivat on 15.02.17.
  */
 
 public class ClearLogFragment extends Fragment {
+
 
     @Nullable
     @Override
@@ -27,26 +31,25 @@ public class ClearLogFragment extends Fragment {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferencesUtil.getInstance(getActivity()).clearLogEntries();
+                Logger.clearLogEntries(getActivity());
             }
         });
 
-        PreferencesUtil.getInstance(getActivity()).getSharesPreferences().
-                registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-                    @Override
-                    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                        if (key.equals(getActivity().getString(R.string.log_file))) {
-                            updateButtonVisibility();
-                        }
-                    }
-                });
+        Logger.addListener(new UserlogChangeListener() {
+            @Override
+            public void onEntryAdded(UserlogEntry entry) {
+                updateButtonVisibility();
+                Logger.removeListener(this);
+            }
+        });
+        updateButtonVisibility();
 
         return view;
     }
 
     public void updateButtonVisibility() {
         View button = this.getView().findViewById(R.id.button_clear_log);
-        if (PreferencesUtil.getInstance(this.getActivity()).getLogEntries().size() == 0) {
+        if (Logger.getUserlog().size() == 0) {
             button.setVisibility(View.GONE);
         } else {
             button.setVisibility(View.VISIBLE);

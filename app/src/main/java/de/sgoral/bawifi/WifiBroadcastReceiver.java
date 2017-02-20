@@ -7,9 +7,9 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
-import de.sgoral.bawifi.appstatus.ApplicationStatus;
-import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
-import de.sgoral.bawifi.notifications.NotificationUtil;
+import de.sgoral.bawifi.appstate.ApplicationState;
+import de.sgoral.bawifi.appstate.ApplicationStateManager;
+import de.sgoral.bawifi.util.NotificationUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.WifiUtil;
 
@@ -27,10 +27,10 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                 WifiInfo wifiInfo = handler.getWifiInfo();
                 String ssid = PreferencesUtil.getInstance(context).getSSID();
                 if (handler.isConnected()) {
+                    ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_CONNECTED);
                     if (handler.isAuthenticated()) {
-                        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATED);
+                        ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_AUTHENTICATED);
                     } else {
-                        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
                         if (PreferencesUtil.getInstance(context).isValidConfiguration()) {
                             handler.performLogin();
                         } else {
@@ -38,10 +38,10 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                         }
                     }
                 } else {
-                    ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_DISCONNECTED);
+                    ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_DISCONNECTED);
                 }
             } else {
-                ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_DISCONNECTED);
+                ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_DISCONNECTED);
             }
         }
     }

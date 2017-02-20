@@ -1,25 +1,32 @@
-package de.sgoral.bawifi.notifications;
+package de.sgoral.bawifi.appstate;
 
 import android.content.Context;
 
-import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
+import de.sgoral.bawifi.util.NotificationUtil;
 
 /**
- * Created by sebastianprivat on 16.02.17.
+ * Creates notifications when the application state changes.
  */
-
-public class ApplicationStatusNotifier {
+public class AppStateNotifications {
 
     private final Context context;
-    private de.sgoral.bawifi.appstatus.ApplicationStatusListener listener;
+    private ApplicationStateListener listener;
 
-    public ApplicationStatusNotifier(Context context) {
+    /**
+     * Initialises the notifier.
+     *
+     * @param context The application context.
+     */
+    public AppStateNotifications(Context context) {
         this.context = context;
         initialise();
     }
 
-    public void initialise() {
-        listener = new de.sgoral.bawifi.appstatus.ApplicationStatusListener() {
+    /**
+     * Initialise the listener.
+     */
+    private void initialise() {
+        listener = new ApplicationStateListener() {
             @Override
             public void onAuthenticationSuccessful() {
                 NotificationUtil.addAuthenticationSuccessfulNotification(context);
@@ -49,21 +56,35 @@ public class ApplicationStatusNotifier {
             public void onNetworkDisconnected() {
                 NotificationUtil.addDisconnectedNotification(context);
             }
+
+            @Override
+            public void onAlreadyAuthenticated() {
+                NotificationUtil.addAlreadyAuthenticatedNotification(context);
+            }
         };
 
-        ApplicationStatusManager.addListener(listener);
+        ApplicationStateManager.addListener(listener);
     }
 
+    /**
+     * Pauses the listener.
+     */
     public void pause() {
-        ApplicationStatusManager.removeListener(listener);
+        ApplicationStateManager.removeListener(listener);
     }
 
+    /**
+     * Resumes the listener.
+     */
     public void resume() {
-        ApplicationStatusManager.addListener(listener);
+        ApplicationStateManager.addListener(listener);
     }
 
+    /**
+     * Destroys the listener.
+     */
     public void destroy() {
-        ApplicationStatusManager.removeListener(listener);
+        ApplicationStateManager.removeListener(listener);
         listener = null;
     }
 }

@@ -1,10 +1,9 @@
-package de.sgoral.bawifi.appstatus;
+package de.sgoral.bawifi.appstate;
 
 /**
- * Created by sebastianprivat on 08.02.17.
+ * Enum of app states.
  */
-
-public enum ApplicationStatus {
+public enum ApplicationState {
 
     STATUS_DISCONNECTED,
     STATUS_CONNECTED,

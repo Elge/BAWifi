@@ -4,10 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 import de.sgoral.bawifi.R;
 
 /**
@@ -187,62 +183,6 @@ public class PreferencesUtil {
     }
 
     /**
-     * Retrieves the set of log entries from the application preferences.
-     *
-     * @return The set of log messages.
-     */
-    public Set<String> getLogEntries() {
-        Set<String> log = getSharesPreferences().getStringSet(context.getString(R.string.log_file), null);
-        if (log == null) {
-            return new HashSet<>();
-        }
-        return new HashSet<>(log);
-    }
-
-    /**
-     * Updates the set of log messages in the application preferences.
-     *
-     * @param log The new log to save.
-     */
-    public void setLogEntries(Set<String> log) {
-        SharedPreferences.Editor editor = getSharesPreferences().edit();
-        editor.putStringSet(context.getString(R.string.log_file), log);
-        editor.commit();
-    }
-
-    /**
-     * Adds a new message to the bottom of the log. Truncates the log if it has grown beyond specifications.
-     *
-     * @param message The message to add to the log.
-     */
-    public void addLogEntry(String message) {
-        Set<String> log = getLogEntries();
-        Iterator<String> iterator = log.iterator();
-        if (log.size() > MAX_LOG_ENTRIES) {
-            for (int i = 0; i < NUMBER_OF_DROPPED_LOG_ENTRIES && iterator.hasNext(); i++) {
-                iterator.next();
-            }
-
-            Set<String> newLog = new HashSet<>();
-            while (iterator.hasNext()) {
-                newLog.add(iterator.next());
-            }
-            newLog.add(message);
-            setLogEntries(newLog);
-        } else {
-            log.add(message);
-            setLogEntries(log);
-        }
-    }
-
-    /**
-     * Removes all log entries.
-     */
-    public void clearLogEntries() {
-        setLogEntries(new HashSet<String>());
-    }
-
-    /**
      * Checks if notifications are enabled.
      *
      * @return true if notifications are enabled.
@@ -315,6 +255,15 @@ public class PreferencesUtil {
     }
 
     /**
+     * Checks if already authenticated notifications are enabled.
+     *
+     * @return true if already authenticated notifications are enabled.
+     */
+    public boolean isAlreadyAuthenticatedNotificationsEnabled() {
+        return isNotificationsEnabled() && getBooleanPreference(R.string.preference_key_notification_already_authenticated);
+    }
+
+    /**
      * Loads default values for all preferences.
      */
     public void initialisePreferences() {
@@ -340,4 +289,5 @@ public class PreferencesUtil {
 
         initialisePreferences();
     }
+
 }

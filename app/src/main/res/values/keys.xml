@@ -14,6 +14,7 @@
     <string name="preference_key_notification_authentication_failed" translatable="false">notification_authentication_failed</string>
     <string name="preference_key_notification_deauthenticated" translatable="false">notification_deauthenticated</string>
     <string name="preference_key_notification_deauthentication_failed" translatable="false">notification_deauthentication_failed</string>
+    <string name="preference_key_notification_already_authenticated" translatable="false">notification_already_authenticated</string>
 
     <!-- Magic strings -->
     <string name="mystore_type" translatable="false">BKS</string>

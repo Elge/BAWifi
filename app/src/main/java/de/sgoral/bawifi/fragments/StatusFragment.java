@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import de.sgoral.bawifi.R;
-import de.sgoral.bawifi.appstatus.ApplicationStatus;
-import de.sgoral.bawifi.appstatus.ApplicationStatusListener;
-import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
+import de.sgoral.bawifi.appstate.ApplicationState;
+import de.sgoral.bawifi.appstate.ApplicationStateListener;
+import de.sgoral.bawifi.appstate.ApplicationStateManager;
 
 /**
  * Created by sebastianprivat on 06.02.17.
@@ -19,16 +19,16 @@ import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
 
 public class StatusFragment extends Fragment {
 
-    private ApplicationStatusListener listener;
+    private ApplicationStateListener listener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        listener = new ApplicationStatusListener() {
+        listener = new ApplicationStateListener() {
 
             @Override
-            public void onApplicationStatusChanged(ApplicationStatus newStatus, ApplicationStatus prevStatus) {
+            public void onApplicationStatusChanged(ApplicationState newStatus, ApplicationState prevStatus) {
                 swapFragmentUsingAppStatus();
             }
         };
@@ -46,18 +46,18 @@ public class StatusFragment extends Fragment {
         super.onStart();
 
         swapFragmentUsingAppStatus();
-        ApplicationStatusManager.addListener(listener);
+        ApplicationStateManager.addListener(listener);
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        ApplicationStatusManager.removeListener(listener);
+        ApplicationStateManager.removeListener(listener);
     }
 
     private void swapFragmentUsingAppStatus() {
-        ApplicationStatus appStatus = ApplicationStatusManager.getApplicationStatus();
+        ApplicationState appStatus = ApplicationStateManager.getApplicationStatus();
         Fragment fragment = getStatusFragment(appStatus);
         swapFragment(fragment);
     }
@@ -68,7 +68,7 @@ public class StatusFragment extends Fragment {
         transaction.commitAllowingStateLoss();
     }
 
-    private Fragment getStatusFragment(ApplicationStatus applicationStatus) {
+    private Fragment getStatusFragment(ApplicationState applicationStatus) {
         switch (applicationStatus) {
             case STATUS_DISCONNECTED:
                 return new StatusDisconnectedFragment();

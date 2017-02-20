@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 
 import javax.net.ssl.SSLSocketFactory;
 
-import de.sgoral.bawifi.appstatus.ApplicationStatus;
-import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
+import de.sgoral.bawifi.appstate.ApplicationState;
+import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.HttpUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.RegexpUtil;
@@ -118,7 +118,7 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATING);
+        ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_AUTHENTICATING);
     }
 
     @Override
@@ -126,9 +126,9 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
         super.onPostExecute(aBoolean);
 
         if (aBoolean == true) {
-            ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATED);
+            ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_AUTHENTICATED);
         } else {
-            ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
+            ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_CONNECTED);
         }
     }
 }

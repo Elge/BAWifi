@@ -1,17 +1,17 @@
-package de.sgoral.bawifi.appstatus;
+package de.sgoral.bawifi.appstate;
 
 /**
- * Allows the component to listen for changes to the application status.
+ * Allows the component to listen for changes to the application state.
  */
-public abstract class ApplicationStatusListener {
+public abstract class ApplicationStateListener {
 
     /**
-     * General change in application status.
+     * General change in application state.
      *
-     * @param newStatus  The new application status.
-     * @param prevStatus The old application status.
+     * @param newStatus  The new application state.
+     * @param prevStatus The old application state.
      */
-    public void onApplicationStatusChanged(ApplicationStatus newStatus, ApplicationStatus prevStatus) {
+    public void onApplicationStatusChanged(ApplicationState newStatus, ApplicationState prevStatus) {
     }
 
     /**
@@ -60,5 +60,11 @@ public abstract class ApplicationStatusListener {
      * The network connection to the BA WiFi was lost.
      */
     public void onNetworkDisconnected() {
+    }
+
+    /**
+     * The user was still authenticated after connecting.
+     */
+    public void onAlreadyAuthenticated() {
     }
 }

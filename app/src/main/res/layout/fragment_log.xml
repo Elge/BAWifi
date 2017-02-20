@@ -4,14 +4,9 @@
     android:layout_height="match_parent"
     tools:context="de.sgoral.bawifi.fragments.LogFragment">
 
-    <ScrollView
+    <ListView
+        android:id="@+id/log_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/textview_log"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </ScrollView>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

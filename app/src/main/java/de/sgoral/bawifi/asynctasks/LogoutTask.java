@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import de.sgoral.bawifi.appstatus.ApplicationStatus;
-import de.sgoral.bawifi.appstatus.ApplicationStatusManager;
+import de.sgoral.bawifi.appstate.ApplicationState;
+import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.HttpUtil;
 import de.sgoral.bawifi.util.RegexpUtil;
 
@@ -47,7 +47,7 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
     protected void onPreExecute() {
         super.onPreExecute();
 
-        ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_DEAUTHENTICATING);
+        ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_DEAUTHENTICATING);
     }
 
     @Override
@@ -55,9 +55,9 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
         super.onPostExecute(aBoolean);
 
         if (aBoolean == true) {
-            ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_CONNECTED);
+            ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_CONNECTED);
         } else {
-            ApplicationStatusManager.changeApplicationStatus(ApplicationStatus.STATUS_AUTHENTICATED);
+            ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_AUTHENTICATED);
         }
     }
 }

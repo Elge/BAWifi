@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 import de.sgoral.bawifi.R;
-import de.sgoral.bawifi.notifications.NotificationUtil;
+import de.sgoral.bawifi.util.NotificationUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
 
 /**
