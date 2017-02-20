@@ -22,6 +22,8 @@ import de.sgoral.bawifi.util.UserlogEntry;
 public class ClearLogFragment extends Fragment {
 
 
+    private UserlogChangeListener listener;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,16 +37,35 @@ public class ClearLogFragment extends Fragment {
             }
         });
 
-        Logger.addListener(new UserlogChangeListener() {
+        updateButtonVisibility();
+
+        listener = new UserlogChangeListener() {
             @Override
             public void onEntryAdded(UserlogEntry entry) {
                 updateButtonVisibility();
-                Logger.removeListener(this);
             }
-        });
-        updateButtonVisibility();
+
+            @Override
+            public void onUserlogCleared() {
+                updateButtonVisibility();
+            }
+        };
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Logger.addListener(listener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        Logger.removeListener(listener);
     }
 
     public void updateButtonVisibility() {
