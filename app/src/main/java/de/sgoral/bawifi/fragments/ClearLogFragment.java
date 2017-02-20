@@ -1,7 +1,6 @@
 package de.sgoral.bawifi.fragments;
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.widget.Button;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.Logger;
-import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.UserlogChangeListener;
 import de.sgoral.bawifi.util.UserlogEntry;
 
@@ -54,6 +52,19 @@ public class ClearLogFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Updates the clear log button visibility. If there are userlog entries, the button is visible.
+     * Otherwise it is gone.
+     */
+    public void updateButtonVisibility() {
+        View button = this.getView().findViewById(R.id.button_clear_log);
+        if (Logger.getUserlog().size() == 0) {
+            button.setVisibility(View.GONE);
+        } else {
+            button.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -68,12 +79,11 @@ public class ClearLogFragment extends Fragment {
         Logger.removeListener(listener);
     }
 
-    public void updateButtonVisibility() {
-        View button = this.getView().findViewById(R.id.button_clear_log);
-        if (Logger.getUserlog().size() == 0) {
-            button.setVisibility(View.GONE);
-        } else {
-            button.setVisibility(View.VISIBLE);
-        }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        listener = null;
     }
+
 }
