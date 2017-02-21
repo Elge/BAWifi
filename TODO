@@ -1,5 +1,4 @@
-Stop hiding clear log button
-Add toast when redirecting to preferences for missing username/password
+Reverse log order
 Implement logging
 Add icons for app and notifications
 Add back buttons to UI
