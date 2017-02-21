@@ -5,7 +5,7 @@
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
     <string name="label_notifications">Notifications</string>
-    <string name="label_all_notifications">All notifications</string>
+    <string name="label_all_notifications">Enable notifications</string>
     <string name="label_missing_settings_notification">Missing settings</string>
     <string name="label_connected_notifications">Connected</string>
     <string name="label_disconnected_notifications">Disconnected</string>
