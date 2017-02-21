@@ -1,4 +1,5 @@
 Log (de)authentication failed message
+Add toast when redirecting to preferences for missing username/password
 Implement logging
 Add icons for app and notifications
 Add back buttons to UI
