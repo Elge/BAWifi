@@ -33,8 +33,7 @@ public class NotificationUtil {
      * @return The prepared builder.
      */
     private static NotificationCompat.Builder prepareNotificationBuilder(Context context) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        return builder;
+        return new NotificationCompat.Builder(context);
     }
 
     /**
@@ -55,39 +54,33 @@ public class NotificationUtil {
     /**
      * Send the notification.
      *
-     * @param context           The context to send with.
-     * @param notificationId    The ID to identify the notification by.
-     * @param builder           The prepared builder.
-     * @param notificationIcon  The icon to display the notification with.
-     * @param notificationTitle The title to display the notification with.
-     * @param notificationText  The text to display the notification with.
+     * @param context        The context to send with.
+     * @param notificationId The ID to identify the notification by.
+     * @param builder        The prepared builder.
+     * @param icon           The icon to display the notification with.
+     * @param title          The title to display the notification with.
+     * @param text           The text to display the notification with.
      */
     private static void sendNotification(Context context, int notificationId,
-                                         NotificationCompat.Builder builder, int notificationIcon, int notificationTitle,
-                                         int notificationText) {
+                                         NotificationCompat.Builder builder, int icon, String title,
+                                         String text) {
 
-        if (notificationTitle != -1) {
-            String title = context.getString(notificationTitle);
-            if (!title.equals("")) {
-                builder.setContentTitle(title);
-            }
+        if (title != null && !title.equals("")) {
+            builder.setContentTitle(title);
         }
 
-        if (notificationText != -1) {
-            String text = context.getString(notificationText);
-            if (!text.equals("")) {
-                builder.setContentText(text);
-            }
+        if (text != null && !text.equals("")) {
+            builder.setContentText(text);
         }
 
-        builder.setSmallIcon(notificationIcon);
+        builder.setSmallIcon(icon);
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(notificationId, builder.build());
     }
 
     /**
-     * @see NotificationUtil#sendGenericNotification(Context, Class, int, int, int, boolean)
+     * @see NotificationUtil#sendGenericNotification(Context, Class, int, String, String, boolean)
      */
     private static void sendGenericNotification(Context context, Class<? extends Activity> activityClass,
                                                 int notificationId, int title) {
@@ -95,11 +88,36 @@ public class NotificationUtil {
     }
 
     /**
-     * @see NotificationUtil#sendGenericNotification(Context, Class, int, int, int, boolean)
+     * @see NotificationUtil#sendGenericNotification(Context, Class, int, String, String, boolean)
      */
     private static void sendGenericNotification(Context context, Class<? extends Activity> activityClass,
                                                 int notificationId, int title, int text) {
         sendGenericNotification(context, activityClass, notificationId, title, text, true);
+    }
+
+    /**
+     * @see NotificationUtil#sendGenericNotification(Context, Class, int, String, String, boolean)
+     */
+    private static void sendGenericNotification(Context context, Class<? extends Activity> activityClass,
+                                                int notificationId, int title, String text) {
+        String titleString = null;
+        if (title != -1) {
+            titleString = context.getString(title);
+        }
+        sendGenericNotification(context, activityClass, notificationId, titleString, text, true);
+    }
+
+    private static void sendGenericNotification(Context context, Class<? extends Activity> activityClass,
+                                                int notificationId, int title, int text, boolean autoCancel) {
+        String titleString = null;
+        if (title != -1) {
+            titleString = context.getString(title);
+        }
+        String textString = null;
+        if (text != -1) {
+            textString = context.getString(text);
+        }
+        sendGenericNotification(context, activityClass, notificationId, titleString, textString, autoCancel);
     }
 
     /**
@@ -113,7 +131,7 @@ public class NotificationUtil {
      * @param autoCancel     true to automatically delete the notification when clicking on it.
      */
     private static void sendGenericNotification(Context context, Class<? extends Activity> activityClass,
-                                                int notificationId, int title, int text, boolean autoCancel) {
+                                                int notificationId, String title, String text, boolean autoCancel) {
         NotificationCompat.Builder builder = prepareNotificationBuilder(context);
         builder.setContentIntent(prepareIntent(context, activityClass));
         builder.setAutoCancel(autoCancel);
@@ -166,7 +184,8 @@ public class NotificationUtil {
         if (PreferencesUtil.getInstance(context).isAuthenticationFailedNotificationsEnabled()) {
             sendGenericNotification(context, MainMenuActivity.class,
                     NOTIFICATION_ID_APPLICATIONSTATUS,
-                    R.string.notification_authenticationfailed_title);
+                    R.string.notification_authenticationfailed_title,
+                    PreferencesUtil.getInstance(context).getStatusMessage());
         }
     }
 
@@ -192,7 +211,8 @@ public class NotificationUtil {
         if (PreferencesUtil.getInstance(context).isDeauthenticationFailedNotificationsEnabled()) {
             sendGenericNotification(context, MainMenuActivity.class,
                     NOTIFICATION_ID_APPLICATIONSTATUS,
-                    R.string.notification_deauthenticationfailed_title);
+                    R.string.notification_deauthenticationfailed_title,
+                    PreferencesUtil.getInstance(context).getStatusMessage());
         }
     }
 

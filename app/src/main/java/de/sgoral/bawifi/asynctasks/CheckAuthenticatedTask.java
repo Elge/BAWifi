@@ -33,7 +33,7 @@ public class CheckAuthenticatedTask extends AsyncTask<CheckAuthenticatedPayload,
 
         try {
             HttpURLConnection connection = HttpUtil.openUrl(context, new URL(payload.getUrl()), null);
-            String response = HttpUtil.parseResponse(connection, payload.getPattern(), false, context);
+            String response = HttpUtil.parseResponse(connection, payload.getPattern());
             return context.getString(R.string.status_message_authenticated).equals(response);
         } catch (SocketException e) {
             // Probably timed out, retry

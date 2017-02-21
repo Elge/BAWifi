@@ -183,6 +183,26 @@ public class PreferencesUtil {
     }
 
     /**
+     * The status message shows errors in the authentication or deauthentication process.
+     *
+     * @return The status message.
+     */
+    public String getStatusMessage() {
+        return getStringPreference(R.string.preference_key_statusmessage);
+    }
+
+    /**
+     * Saves the status message in the application preferences.
+     *
+     * @param message The message to store.
+     */
+    public void setStatusMessage(String message) {
+        SharedPreferences.Editor editor = getSharesPreferences().edit();
+        editor.putString(context.getString(R.string.preference_key_statusmessage), message);
+        editor.apply();
+    }
+
+    /**
      * Checks if notifications are enabled.
      *
      * @return true if notifications are enabled.
@@ -285,7 +305,7 @@ public class PreferencesUtil {
     public void resetPreferences() {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
 
         initialisePreferences();
     }

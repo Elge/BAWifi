@@ -4,6 +4,7 @@ import android.content.Context;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.Logger;
+import de.sgoral.bawifi.util.PreferencesUtil;
 
 /**
  * Creates userlog messages when the application state changes.
@@ -41,6 +42,7 @@ public class AppStateUserlog {
             @Override
             public void onAuthenticationFailed() {
                 Logger.userLog(context, context.getString(R.string.log_authentication_failed));
+                Logger.userLog(context, PreferencesUtil.getInstance(context).getStatusMessage());
             }
 
             @Override
@@ -56,6 +58,7 @@ public class AppStateUserlog {
             @Override
             public void onDeauthenticationFailed() {
                 Logger.userLog(context, context.getString(R.string.log_deauthentication_failed));
+                Logger.userLog(context, PreferencesUtil.getInstance(context).getStatusMessage());
             }
 
             @Override

@@ -10,6 +10,7 @@ import java.net.URL;
 import de.sgoral.bawifi.appstate.ApplicationState;
 import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.HttpUtil;
+import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.RegexpUtil;
 
 /**
@@ -32,10 +33,14 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
         try {
             URL url = new URL(urls[0]);
             HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
-            HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false, context);
+            String statusMessage = HttpUtil.parseResponse(connection, RegexpUtil.STATUS_MESSAGE);
 
-            return (connection.getResponseCode() == HttpURLConnection.HTTP_OK
-                    || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP);
+            PreferencesUtil.getInstance(context).setStatusMessage(statusMessage);
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK
+                    || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP) {
+                return true;
+            }
         } catch (IOException e) {
             // Ignore
         }

@@ -35,11 +35,15 @@ public class HttpUtil {
      * @throws IOException
      * @see #parseResponse(HttpURLConnection, HashMap)
      */
-    public static String parseResponse(HttpURLConnection connection, Pattern pattern, boolean log, Context context) throws IOException {
+    public static String parseResponse(HttpURLConnection connection, Pattern pattern, boolean log) throws IOException {
         HashMap<String, Pattern> input = new HashMap<>();
         input.put("result", pattern);
-        HashMap<String, String> result = parseResponse(connection, input);
+        HashMap<String, String> result = parseResponse(connection, input, log);
         return result == null ? null : result.get("result");
+    }
+
+    public static String parseResponse(HttpURLConnection connection, Pattern pattern) throws IOException {
+        return parseResponse(connection, pattern, false);
     }
 
     /**
@@ -51,13 +55,16 @@ public class HttpUtil {
      * @return A {@link HashMap} containing the matched groups using the same keys as the input patterns.
      * @throws IOException
      */
-    public static HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String, Pattern> patterns) throws IOException {
+    public static HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String, Pattern> patterns, boolean dumpOutput) throws IOException {
         Set<String> keys = patterns.keySet();
         HashMap<String, String> results = new HashMap<>();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String line;
         while ((line = reader.readLine()) != null) {
+            if (dumpOutput) {
+                Logger.log(HttpUtil.class, line);
+            }
             for (String key : keys) {
                 Pattern pattern = patterns.get(key);
                 Matcher matcher = pattern.matcher(line);
@@ -69,6 +76,11 @@ public class HttpUtil {
         reader.close();
         return results;
     }
+
+    public static HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String, Pattern> patterns) throws IOException {
+        return parseResponse(connection, patterns, false);
+    }
+
 
     /**
      * Opens a connection to the specified url.

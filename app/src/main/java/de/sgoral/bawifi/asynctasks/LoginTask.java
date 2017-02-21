@@ -49,7 +49,7 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             URL url = new URL(payload.getUrl());
             HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
 
-            String redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false, context);
+            String redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false);
             if (redirectUrl == null) {
                 return false;
             }
@@ -86,21 +86,24 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             data.put("uamport", result.get("uamport"));
             data.put("button", result.get("submit"));
             connection = HttpUtil.openUrl(this.context, new URL(url, result.get("action")), data);
-            redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false, context);
+            redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT);
 
             // Step 5
             connection = HttpUtil.openUrl(this.context, new URL(redirectUrl), null);
             map.clear();
             map.put("logouturl", RegexpUtil.LOGOUT_URL);
             map.put("statusurl", RegexpUtil.STATUS_URL);
+            map.put("statusmessage", RegexpUtil.STATUS_MESSAGE);
             result = HttpUtil.parseResponse(connection, map);
 
             String logoutUrl = result.get("logouturl");
             String statusUrl = result.get("statusurl");
+            String statusMessage = result.get("statusmessage");
 
             PreferencesUtil prefUtil = PreferencesUtil.getInstance(context);
             prefUtil.setLogoutUrl(logoutUrl);
             prefUtil.setStatusUrl(statusUrl);
+            prefUtil.setStatusMessage(statusMessage);
 
             if (statusUrl != null && logoutUrl != null) {
                 return true;
