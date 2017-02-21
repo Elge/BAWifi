@@ -46,4 +46,5 @@
     <string name="button_yes">Ja</string>
     <string name="message_confirm_reset_preferences">Sind Sie sicher?</string>
     <string name="toast_preferences_reset">Einstellungen zurückgesetzt</string>
+    <string name="toast_log_cleared">Log gelöscht</string>
 </resources>

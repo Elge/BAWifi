@@ -53,6 +53,8 @@
     <string name="log_connected">Connected</string>
     <string name="log_disconnected">Disconnected</string>
     <string name="log_already_authenticated">Already authenticated</string>
+
     <string name="toast_preferences_reset">Preferences reset</string>
+    <string name="toast_log_cleared">Log cleared</string>
 
 </resources>

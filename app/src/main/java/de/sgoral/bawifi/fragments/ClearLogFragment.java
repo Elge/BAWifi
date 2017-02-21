@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.Logger;
@@ -32,6 +33,7 @@ public class ClearLogFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Logger.clearLogEntries(getActivity());
+                Toast.makeText(getActivity(), R.string.toast_log_cleared, Toast.LENGTH_SHORT).show();
             }
         });
 
