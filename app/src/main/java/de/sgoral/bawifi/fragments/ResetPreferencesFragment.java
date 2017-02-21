@@ -26,7 +26,8 @@ public class ResetPreferencesFragment extends Fragment {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferencesUtil.getInstance(getActivity()).resetPreferences();
+                new ConfirmResetPreferencesFragment().show(
+                        getFragmentManager(), "ConfirmResetPreferencesDialog");
             }
         });
 

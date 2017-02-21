@@ -42,4 +42,8 @@
     <string name="log_deauthenticated">Deauthentifizierung erfolgreich</string>
     <string name="log_deauthenticating">Deauthentifizierung gestartet</string>
     <string name="log_deauthentication_failed">Deauthentifizierung fehlgeschlagen</string>
+    <string name="button_cancel">Abbrechen</string>
+    <string name="button_yes">Ja</string>
+    <string name="message_confirm_reset_preferences">Sind Sie sicher?</string>
+    <string name="toast_preferences_reset">Einstellungen zurückgesetzt</string>
 </resources>

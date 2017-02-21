@@ -27,6 +27,10 @@
     <string name="button_log">Log</string>
     <string name="button_clear_log">Clear log</string>
     <string name="button_reset_preferences">Reset preferences</string>
+    <string name="button_yes">Yes</string>
+    <string name="button_cancel">Cancel</string>
+
+    <string name="message_confirm_reset_preferences">Are you sure?</string>
 
     <!-- Notification strings -->
     <string name="notification_missingpreferences_title">Missing settings</string>
@@ -49,5 +53,6 @@
     <string name="log_connected">Connected</string>
     <string name="log_disconnected">Disconnected</string>
     <string name="log_already_authenticated">Already authenticated</string>
+    <string name="toast_preferences_reset">Preferences reset</string>
 
 </resources>
