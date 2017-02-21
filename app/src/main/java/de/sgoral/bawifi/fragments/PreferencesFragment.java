@@ -38,4 +38,9 @@ public class PreferencesFragment extends PreferenceFragment {
                     }
                 });
     }
+
+    public void redrawScreen() {
+        setPreferenceScreen(null);
+        addPreferencesFromResource(R.xml.preferences);
+    }
 }

@@ -24,6 +24,10 @@ public class ConfirmResetPreferencesFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 PreferencesUtil.getInstance(getActivity()).resetPreferences();
                 confirmReset();
+                PreferencesFragment fragment = (PreferencesFragment) getFragmentManager().findFragmentById(R.id.fragment_preferences);
+                if (fragment != null) {
+                    fragment.redrawScreen();
+                }
             }
         });
 
