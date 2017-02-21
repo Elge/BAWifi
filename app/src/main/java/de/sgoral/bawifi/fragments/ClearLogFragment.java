@@ -11,17 +11,12 @@ import android.widget.Toast;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.Logger;
-import de.sgoral.bawifi.util.UserlogChangeListener;
-import de.sgoral.bawifi.util.UserlogEntry;
 
 /**
  * Created by sebastianprivat on 15.02.17.
  */
 
 public class ClearLogFragment extends Fragment {
-
-
-    private UserlogChangeListener listener;
 
     @Nullable
     @Override
@@ -37,54 +32,7 @@ public class ClearLogFragment extends Fragment {
             }
         });
 
-        listener = new UserlogChangeListener() {
-            @Override
-            public void onEntryAdded(UserlogEntry entry) {
-                updateButtonVisibility();
-            }
-
-            @Override
-            public void onUserlogCleared() {
-                updateButtonVisibility();
-            }
-        };
-
         return view;
-    }
-
-    /**
-     * Updates the clear log button visibility. If there are userlog entries, the button is visible.
-     * Otherwise it is gone.
-     */
-    public void updateButtonVisibility() {
-        View button = this.getView().findViewById(R.id.button_clear_log);
-        if (Logger.getUserlog().size() == 0) {
-            button.setVisibility(View.GONE);
-        } else {
-            button.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        updateButtonVisibility();
-        Logger.addListener(listener);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        Logger.removeListener(listener);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        listener = null;
     }
 
 }
