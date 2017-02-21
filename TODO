@@ -1,4 +1,5 @@
-Log (de)authentication failed message
+Username/Password text fields still have values after clearing?
+Stop hiding clear log button
 Add toast when redirecting to preferences for missing username/password
 Implement logging
 Add icons for app and notifications
