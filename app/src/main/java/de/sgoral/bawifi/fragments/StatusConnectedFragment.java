@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.activities.PreferencesActivity;
@@ -28,6 +29,7 @@ public class StatusConnectedFragment extends Fragment {
                     new WifiUtil(getActivity()).performLogin();
                 } else {
                     startActivity(new Intent(getActivity(), PreferencesActivity.class));
+                    Toast.makeText(getActivity(), R.string.toast_username_password_required, Toast.LENGTH_LONG).show();
                 }
             }
         });

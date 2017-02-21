@@ -56,5 +56,6 @@
 
     <string name="toast_preferences_reset">Preferences reset</string>
     <string name="toast_log_cleared">Log cleared</string>
+    <string name="toast_username_password_required">Please enter a username and password</string>
 
 </resources>
