@@ -35,8 +35,6 @@ public class ClearLogFragment extends Fragment {
             }
         });
 
-        updateButtonVisibility();
-
         listener = new UserlogChangeListener() {
             @Override
             public void onEntryAdded(UserlogEntry entry) {
@@ -69,6 +67,7 @@ public class ClearLogFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        updateButtonVisibility();
         Logger.addListener(listener);
     }
 
