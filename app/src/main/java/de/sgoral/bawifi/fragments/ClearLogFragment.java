@@ -32,6 +32,7 @@ public class ClearLogFragment extends Fragment {
             }
         });
 
+        Logger.log(this, "View created");
         return view;
     }
 

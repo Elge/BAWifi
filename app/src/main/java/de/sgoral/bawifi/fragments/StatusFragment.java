@@ -12,6 +12,7 @@ import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.appstate.ApplicationState;
 import de.sgoral.bawifi.appstate.ApplicationStateListener;
 import de.sgoral.bawifi.appstate.ApplicationStateManager;
+import de.sgoral.bawifi.util.Logger;
 
 /**
  * Created by sebastianprivat on 06.02.17.
@@ -32,28 +33,33 @@ public class StatusFragment extends Fragment {
                 swapFragmentUsingAppStatus();
             }
         };
+
+        Logger.log(this, "Fragment created");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        Logger.log(this, "View created");
         return inflater.inflate(R.layout.fragment_status, container, false);
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
 
         swapFragmentUsingAppStatus();
         ApplicationStateManager.addListener(listener);
+        Logger.log(this, "Fragment resumed");
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
 
         ApplicationStateManager.removeListener(listener);
+        Logger.log(this, "Fragment paused");
     }
 
     private void swapFragmentUsingAppStatus() {
@@ -65,7 +71,7 @@ public class StatusFragment extends Fragment {
     private void swapFragment(Fragment fragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.status_fragment_container, fragment);
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
     }
 
     private Fragment getStatusFragment(ApplicationState applicationStatus) {

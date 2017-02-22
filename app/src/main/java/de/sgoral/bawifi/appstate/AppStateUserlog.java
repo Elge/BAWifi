@@ -22,6 +22,7 @@ public class AppStateUserlog {
     public AppStateUserlog(Context context) {
         this.context = context;
         initialise();
+        Logger.log(this, "Initialised");
     }
 
     /**
@@ -85,6 +86,7 @@ public class AppStateUserlog {
      */
     public void pause() {
         ApplicationStateManager.removeListener(listener);
+        Logger.log(this, "Listener paused");
     }
 
     /**
@@ -92,6 +94,7 @@ public class AppStateUserlog {
      */
     public void resume() {
         ApplicationStateManager.addListener(listener);
+        Logger.log(this, "Listener resumed");
     }
 
     /**
@@ -100,6 +103,7 @@ public class AppStateUserlog {
     public void destroy() {
         ApplicationStateManager.removeListener(listener);
         listener = null;
+        Logger.log(this, "Listener destroyed");
     }
 
 }

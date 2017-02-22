@@ -1,6 +1,7 @@
 package de.sgoral.bawifi.util;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -76,7 +77,9 @@ public class NotificationUtil {
         builder.setSmallIcon(icon);
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(notificationId, builder.build());
+        Notification notification = builder.build();
+        Logger.log(NotificationUtil.class, "Showing notification#", notificationId, ':', notification);
+        manager.notify(notificationId, notification);
     }
 
     /**
@@ -159,6 +162,7 @@ public class NotificationUtil {
      */
     public static void removeMissingPreferencesNotification(Context context) {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Logger.log(NotificationUtil.class, "Removing missing preferences notification");
         manager.cancel(NOTIFICATION_ID_MISSINGPREFERENCES);
     }
 

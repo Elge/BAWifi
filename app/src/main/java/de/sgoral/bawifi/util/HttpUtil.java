@@ -42,6 +42,14 @@ public class HttpUtil {
         return result == null ? null : result.get("result");
     }
 
+    /**
+     * Shortcut for using {@link #parseResponse(HttpURLConnection, HashMap, boolean)} with only one
+     * pattern.
+     *
+     * @return The result of the pattern, or null if no result is found.
+     * @throws IOException
+     * @see #parseResponse(HttpURLConnection, HashMap, boolean)
+     */
     public static String parseResponse(HttpURLConnection connection, Pattern pattern) throws IOException {
         return parseResponse(connection, pattern, false);
     }
@@ -51,11 +59,29 @@ public class HttpUtil {
      * result is added to the returned {@link HashMap} using the same key as the patterns map.
      *
      * @param connection The {@link HttpURLConnection} to read the response from.
-     * @param patterns   A {@link HashMap} containing the regular expressions to match the response lines against. The keys are used to build the response map.
+     * @param patterns   A {@link HashMap} containing the regular expressions to match the response
+     *                   lines against. The keys are used to build the response map.
      * @return A {@link HashMap} containing the matched groups using the same keys as the input patterns.
      * @throws IOException
      */
-    public static HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String, Pattern> patterns, boolean dumpOutput) throws IOException {
+    public static HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String,
+            Pattern> patterns) throws IOException {
+        return parseResponse(connection, patterns, false);
+    }
+
+    /**
+     * Reads the server response, applying the patterns on every line. If a match is found, the
+     * result is added to the returned {@link HashMap} using the same key as the patterns map.
+     *
+     * @param connection The {@link HttpURLConnection} to read the response from.
+     * @param patterns   A {@link HashMap} containing the regular expressions to match the response
+     *                   lines against. The keys are used to build the response map.
+     * @param dumpOutput true to log the output stream content
+     * @return A {@link HashMap} containing the matched groups using the same keys as the input patterns.
+     * @throws IOException
+     */
+    public static HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String,
+            Pattern> patterns, boolean dumpOutput) throws IOException {
         Set<String> keys = patterns.keySet();
         HashMap<String, String> results = new HashMap<>();
 
@@ -77,10 +103,6 @@ public class HttpUtil {
         return results;
     }
 
-    public static HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String, Pattern> patterns) throws IOException {
-        return parseResponse(connection, patterns, false);
-    }
-
 
     /**
      * Opens a connection to the specified url.
@@ -91,18 +113,23 @@ public class HttpUtil {
      * @return The created {@link HttpURLConnection}.
      * @throws IOException
      */
-    public static HttpURLConnection openUrl(final Context context, URL url, HashMap<String, String> data) throws IOException {
+    public static HttpURLConnection openUrl(final Context context, URL url, HashMap<String,
+            String> data) throws IOException {
+        Logger.log(HttpUtil.class, "Connecting to ", url);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         if (connection instanceof HttpsURLConnection) {
-            // Special handling for https connections because of the self-signed certificate
+            Logger.log(HttpUtil.class, "HTTPS connection, using custom ssl socket factory and hostname verifier");
+            // Special handling for https connections is needed because of the self-signed certificate
             ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory(context));
             ((HttpsURLConnection) connection).setHostnameVerifier(new IpHostnameVerifier());
         }
 
         if (data == null) {
+            Logger.log(HttpUtil.class, "Using GET request");
             connection.setRequestMethod("GET");
         } else {
+            Logger.log(HttpUtil.class, "Using POST request");
             // data is delivered as a POST request
             StringBuilder content = new StringBuilder();
             for (String key : data.keySet()) {
@@ -111,18 +138,21 @@ public class HttpUtil {
                 content.append(data.get(key));
                 content.append('&');
             }
+            String postData = content.toString();
+            Logger.log(HttpUtil.class, "POST data: ", postData);
 
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            connection.setRequestProperty("Content-Length", String.valueOf(content.length()));
+            connection.setRequestProperty("Content-Length", String.valueOf(postData.length()));
 
             OutputStream writer = connection.getOutputStream();
-            writer.write(content.toString().getBytes());
+            writer.write(postData.getBytes());
             writer.flush();
             writer.close();
         }
 
+        Logger.log(HttpUtil.class, "Response: ", connection.getResponseCode(), connection.getResponseMessage());
         return connection;
     }
 
@@ -140,6 +170,7 @@ public class HttpUtil {
             final InputStream in = context.getResources().openRawResource(R.raw.mystore);
             try {
                 // don't forget to put the password used above in strings.xml/mystore_password
+                Logger.log(HttpUtil.class, "Loading custom certificate");
                 ks.load(in, context.getString(R.string.mystore_password).toCharArray());
             } finally {
                 try {

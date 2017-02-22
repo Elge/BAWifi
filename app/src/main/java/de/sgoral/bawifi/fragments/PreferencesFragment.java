@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.NotificationUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
 
@@ -37,9 +38,12 @@ public class PreferencesFragment extends PreferenceFragment {
                         }
                     }
                 });
+
+        Logger.log(this, "PreferenceFragment created");
     }
 
     public void redrawScreen() {
+        Logger.log(this, "Redraw requested");
         setPreferenceScreen(null);
         addPreferencesFromResource(R.xml.preferences);
     }

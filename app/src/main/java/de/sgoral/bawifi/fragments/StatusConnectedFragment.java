@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.activities.PreferencesActivity;
+import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.WifiUtil;
 
@@ -34,6 +35,7 @@ public class StatusConnectedFragment extends Fragment {
             }
         });
 
+        Logger.log(this, "View created");
         return view;
     }
 

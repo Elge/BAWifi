@@ -17,6 +17,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import de.sgoral.bawifi.util.Logger;
+
 /**
  * Allows you to trust certificates from additional KeyStores in addition to
  * the default KeyStore.
@@ -27,6 +29,7 @@ public class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
     public AdditionalKeyStoresSSLSocketFactory(KeyStore keyStore) throws NoSuchAlgorithmException, KeyManagementException {
         super();
         sslContext.init(null, new TrustManager[]{new AdditionalKeyStoresTrustManager(keyStore)}, null);
+        Logger.log(this, "Created");
     }
 
     @Override

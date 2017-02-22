@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 
 /**
@@ -33,10 +34,12 @@ public class ConfirmResetPreferencesFragment extends DialogFragment {
 
         builder.setNegativeButton(R.string.button_cancel, null);
 
+        Logger.log(this, "Dialog created");
         return builder.create();
     }
 
     private void confirmReset() {
         Toast.makeText(getActivity(), R.string.toast_preferences_reset, Toast.LENGTH_SHORT).show();
+        Logger.log(this, "Reset confirmed");
     }
 }

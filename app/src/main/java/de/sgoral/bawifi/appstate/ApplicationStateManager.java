@@ -3,6 +3,8 @@ package de.sgoral.bawifi.appstate;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.sgoral.bawifi.util.Logger;
+
 /**
  * Allows accessing information about the current state of the application.
  */
@@ -24,6 +26,7 @@ public class ApplicationStateManager {
      */
     public static void addListener(ApplicationStateListener listener) {
         ApplicationStateManager.listeners.add(listener);
+        Logger.log(ApplicationStateManager.class, "Listener added");
     }
 
     /**
@@ -33,6 +36,7 @@ public class ApplicationStateManager {
      * @return true if the listener was present previously.
      */
     public static boolean removeListener(ApplicationStateListener listener) {
+        Logger.log(ApplicationStateManager.class, "Listener removed");
         return ApplicationStateManager.listeners.remove(listener);
     }
 
@@ -46,7 +50,10 @@ public class ApplicationStateManager {
         ApplicationState prevStatus = state;
         state = newStatus;
 
-        if (state != prevStatus) {
+        if (state == prevStatus) {
+            Logger.log(ApplicationStateManager.class, "Application state unchanged: ", newStatus);
+        } else {
+            Logger.log(ApplicationStateManager.class, "Application state changed from ", prevStatus, " to ", newStatus);
             // Trigger listeners
             for (ApplicationStateListener listener : listeners) {
                 listener.onApplicationStatusChanged(state, prevStatus);

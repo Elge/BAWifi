@@ -43,6 +43,7 @@ public class LogFragment extends Fragment {
             }
         };
 
+        Logger.log(this, "View created");
         return view;
     }
 
@@ -51,6 +52,7 @@ public class LogFragment extends Fragment {
         super.onResume();
 
         Logger.addListener(listener);
+        Logger.log(this, "Fragment resumed");
     }
 
     @Override
@@ -58,5 +60,6 @@ public class LogFragment extends Fragment {
         super.onPause();
 
         Logger.removeListener(listener);
+        Logger.log(this, "Fragment paused");
     }
 }

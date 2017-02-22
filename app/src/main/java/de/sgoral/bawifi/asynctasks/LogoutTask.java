@@ -10,6 +10,7 @@ import java.net.URL;
 import de.sgoral.bawifi.appstate.ApplicationState;
 import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.HttpUtil;
+import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.RegexpUtil;
 
@@ -22,18 +23,23 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
 
     public LogoutTask(Context context) {
         this.context = context;
+        Logger.log(this, "Task created");
     }
 
     @Override
     protected Boolean doInBackground(String... urls) {
+        Logger.log(this, "Task running with ", urls.length, " url(s)");
         if (urls.length != 1) {
             throw new IllegalArgumentException("Unexpected number of parameters: " + urls.length + ", expected 1");
         }
 
+        Logger.log(this, "Url: ", urls[0]);
         try {
             URL url = new URL(urls[0]);
             HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
             String statusMessage = HttpUtil.parseResponse(connection, RegexpUtil.STATUS_MESSAGE);
+
+            Logger.log(this, "StatusMessage: ", statusMessage);
 
             PreferencesUtil.getInstance(context).setStatusMessage(statusMessage);
 
@@ -43,6 +49,8 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
             }
         } catch (IOException e) {
             // Ignore
+            Logger.log(this, e);
+            Logger.log(this, "Ignoring IOException");
         }
 
         return false;
@@ -51,8 +59,8 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
         ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_DEAUTHENTICATING);
+        Logger.log(this, "Task starting");
     }
 
     @Override
@@ -64,5 +72,6 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
         } else {
             ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_AUTHENTICATED);
         }
+        Logger.log(this, "Task finished, result: ", aBoolean);
     }
 }

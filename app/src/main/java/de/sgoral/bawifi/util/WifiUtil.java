@@ -110,7 +110,7 @@ public class WifiUtil {
         try {
             return task.get();
         } catch (InterruptedException | ExecutionException e) {
-            // Ignore;
+            Logger.log(this, e);
         }
         return false;
     }

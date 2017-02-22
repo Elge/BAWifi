@@ -3,6 +3,7 @@ package de.sgoral.bawifi.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import de.sgoral.bawifi.R;
 
@@ -287,6 +288,7 @@ public class PreferencesUtil {
      * Loads default values for all preferences.
      */
     public void initialisePreferences() {
+        Logger.log(this, "Loading preferences");
         PreferenceManager.setDefaultValues(context, R.xml.preferences, true);
     }
 
@@ -303,6 +305,7 @@ public class PreferencesUtil {
      * Resets all preferences to default values.
      */
     public void resetPreferences() {
+        Logger.log(this, "Clearing preferences");
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.clear();
         editor.apply();

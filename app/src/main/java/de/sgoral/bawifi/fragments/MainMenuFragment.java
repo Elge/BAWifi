@@ -13,6 +13,7 @@ import android.widget.Button;
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.activities.LogActivity;
 import de.sgoral.bawifi.activities.PreferencesActivity;
+import de.sgoral.bawifi.util.Logger;
 
 /**
  * Created by sebastianprivat on 06.02.17.
@@ -45,6 +46,7 @@ public class MainMenuFragment extends Fragment {
             }
         });
 
+        Logger.log(this, "View created");
         return view;
     }
 }

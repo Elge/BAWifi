@@ -1,7 +1,9 @@
 package de.sgoral.bawifi.appstate;
 
 import android.content.Context;
+import android.util.Log;
 
+import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.NotificationUtil;
 
 /**
@@ -20,6 +22,7 @@ public class AppStateNotifications {
     public AppStateNotifications(Context context) {
         this.context = context;
         initialise();
+        Logger.log(this, "Initialised");
     }
 
     /**
@@ -71,6 +74,7 @@ public class AppStateNotifications {
      */
     public void pause() {
         ApplicationStateManager.removeListener(listener);
+        Logger.log(this, "Listener paused");
     }
 
     /**
@@ -78,6 +82,7 @@ public class AppStateNotifications {
      */
     public void resume() {
         ApplicationStateManager.addListener(listener);
+        Logger.log(this, "Listener resumed");
     }
 
     /**
@@ -86,5 +91,6 @@ public class AppStateNotifications {
     public void destroy() {
         ApplicationStateManager.removeListener(listener);
         listener = null;
+        Logger.log(this, "Listener destroyed");
     }
 }

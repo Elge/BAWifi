@@ -20,6 +20,8 @@ public class BAWifi extends Application {
 
     @Override
     public void onCreate() {
+        Logger.log(this, "Application created");
+
         PreferencesUtil.getInstance(this).initialisePreferences();
 
         WifiUtil wifiUtil = new WifiUtil(this);
@@ -42,5 +44,6 @@ public class BAWifi extends Application {
     public void onTerminate() {
         notifier.destroy();
         userlogger.destroy();
+        Logger.log(this, "Application terminated");
     }
 }

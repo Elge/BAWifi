@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 
 /**
@@ -31,6 +32,7 @@ public class ResetPreferencesFragment extends Fragment {
             }
         });
 
+        Logger.log(this, "View created");
         return view;
     }
 }

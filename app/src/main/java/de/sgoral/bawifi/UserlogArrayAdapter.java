@@ -3,6 +3,7 @@ package de.sgoral.bawifi;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Locale;
 
+import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.UserlogEntry;
 
 /**
@@ -31,8 +33,9 @@ public class UserlogArrayAdapter extends ArrayAdapter<UserlogEntry> {
      */
     public UserlogArrayAdapter(Context context, List<UserlogEntry> entries) {
         super(context, 0, entries);
-
         pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), DATEFORMAT_SKELETON);
+        Logger.log(this, "Created");
+        Logger.log(this, "DateFormat pattern: ", pattern);
     }
 
     @NonNull

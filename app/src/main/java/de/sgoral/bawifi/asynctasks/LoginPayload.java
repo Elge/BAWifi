@@ -33,4 +33,13 @@ public class LoginPayload {
         return password;
     }
 
+    @Override
+    public String toString() {
+        return "LoginPayload{" +
+                "ssid='" + ssid + '\'' +
+                ", url='" + url + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

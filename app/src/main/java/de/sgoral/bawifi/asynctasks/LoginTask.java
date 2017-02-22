@@ -2,6 +2,7 @@ package de.sgoral.bawifi.asynctasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -15,6 +16,7 @@ import javax.net.ssl.SSLSocketFactory;
 import de.sgoral.bawifi.appstate.ApplicationState;
 import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.HttpUtil;
+import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.RegexpUtil;
 
@@ -35,15 +37,18 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
      */
     public LoginTask(Context context) {
         this.context = context;
+        Logger.log(this, "Task created");
     }
 
     @Override
     protected Boolean doInBackground(LoginPayload... payloads) {
+        Logger.log(this, "Task running with ", payloads.length, " payload(s)");
         if (payloads.length != 1) {
             throw new IllegalArgumentException("Unexpected number of parameters: " + payloads.length + ", expected 1");
         }
 
         LoginPayload payload = payloads[0];
+        Logger.log(this, "Payload data: ", payload);
         try {
             // Step 1
             URL url = new URL(payload.getUrl());
@@ -51,6 +56,7 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
 
             String redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false);
             if (redirectUrl == null) {
+                Logger.log(this, "No redirect url found, aborting");
                 return false;
             }
 
@@ -58,6 +64,7 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             connection = HttpUtil.openUrl(this.context, new URL(url, redirectUrl), null);
             String location = connection.getHeaderField("Location");
             if (location == null) {
+                Logger.log(this, "No location header found, aborting");
                 return false;
             }
 
@@ -73,7 +80,14 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             map.put("submit", RegexpUtil.SUBMIT_VALUE);
             HashMap<String, String> result = HttpUtil.parseResponse(connection, map);
 
-            if (result == null || result.size() != 5) {
+            if (result == null) {
+                Logger.log(this, "Result is null, aborting");
+                return false;
+            } else if (result.size() != 5) {
+                Logger.log(this, "Unexpected result size: ", result.size());
+                for (String key : result.keySet()) {
+                    Logger.log(this, '\t', key, '=', result.get(key));
+                }
                 return false;
             }
 
@@ -88,6 +102,11 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             connection = HttpUtil.openUrl(this.context, new URL(url, result.get("action")), data);
             redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT);
 
+            if (redirectUrl == null) {
+                Logger.log(this, "No redirect url found, aborting");
+                return false;
+            }
+
             // Step 5
             connection = HttpUtil.openUrl(this.context, new URL(redirectUrl), null);
             map.clear();
@@ -100,6 +119,10 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             String statusUrl = result.get("statusurl");
             String statusMessage = result.get("statusmessage");
 
+            Logger.log(this, "LogoutUrl: ", logoutUrl);
+            Logger.log(this, "StatusUrl: ", statusUrl);
+            Logger.log(this, "StatusMessage: ", statusMessage);
+
             PreferencesUtil prefUtil = PreferencesUtil.getInstance(context);
             prefUtil.setLogoutUrl(logoutUrl);
             prefUtil.setStatusUrl(statusUrl);
@@ -110,9 +133,13 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
             }
         } catch (SocketException e) {
             // Socket exception probably means we timed out, retry.
+            Logger.log(this, e);
+            Logger.log(this, "Ignoring SocketException and retrying");
             return doInBackground(payloads);
         } catch (IOException e) {
             // Ignore
+            Logger.log(this, e);
+            Logger.log(this, "Ignoring IOException");
         }
 
         return false;
@@ -122,6 +149,7 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
     protected void onPreExecute() {
         super.onPreExecute();
         ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_AUTHENTICATING);
+        Logger.log(this, "Task starting");
     }
 
     @Override
@@ -133,5 +161,6 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
         } else {
             ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_CONNECTED);
         }
+        Logger.log(this, "Task finished, result: ", aBoolean);
     }
 }

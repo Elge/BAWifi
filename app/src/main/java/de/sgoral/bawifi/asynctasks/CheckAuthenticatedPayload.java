@@ -22,4 +22,12 @@ public class CheckAuthenticatedPayload {
     public Pattern getPattern() {
         return pattern;
     }
+
+    @Override
+    public String toString() {
+        return "CheckAuthenticatedPayload{" +
+                "url='" + url + '\'' +
+                ", pattern=" + pattern +
+                '}';
+    }
 }
