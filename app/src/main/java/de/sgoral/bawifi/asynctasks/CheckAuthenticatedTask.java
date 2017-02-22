@@ -9,11 +9,12 @@ import java.net.URL;
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.HttpUtil;
 import de.sgoral.bawifi.util.Logger;
+import de.sgoral.bawifi.util.RegexpUtil;
 
 /**
  * Checks if the user is authenticated on the BA Leipzig WiFi network.
  */
-public class CheckAuthenticatedTask extends RetryEnabledAsyncTask<CheckAuthenticatedPayload, Void, Boolean> {
+public class CheckAuthenticatedTask extends RetryEnabledAsyncTask<String, Void, Boolean> {
 
     private final Context context;
 
@@ -28,17 +29,17 @@ public class CheckAuthenticatedTask extends RetryEnabledAsyncTask<CheckAuthentic
         Logger.log(this, "Task created");
     }
 
-    protected Boolean doTask(CheckAuthenticatedPayload... payloads) throws IOException {
-        Logger.log(this, "Task running with ", payloads.length, " payload(s)");
-        if (payloads.length != 1) {
-            throw new IllegalArgumentException("Unexpected number of parameters: " + payloads.length + ", expected 1");
+    protected Boolean doTask(String... urls) throws IOException {
+        Logger.log(this, "Task running with ", urls.length, " url(s)");
+        if (urls.length != 1) {
+            throw new IllegalArgumentException("Unexpected number of parameters: " + urls.length + ", expected 1");
         }
 
-        CheckAuthenticatedPayload payload = payloads[0];
-        Logger.log(this, "Payload data: ", payload);
+        String url = urls[0];
+        Logger.log(this, "Url: ", url);
 
-        HttpURLConnection connection = HttpUtil.openUrl(context, new URL(payload.getUrl()), null);
-        String status = HttpUtil.parseResponse(connection, payload.getPattern());
+        HttpURLConnection connection = HttpUtil.openUrl(context, new URL(url), null);
+        String status = HttpUtil.parseResponse(connection, RegexpUtil.STATUS_MESSAGE);
         Logger.log(this, "Response message: ", status);
         return context.getString(R.string.status_message_authenticated).equals(status);
     }

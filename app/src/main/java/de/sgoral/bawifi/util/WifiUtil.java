@@ -8,7 +8,6 @@ import android.net.wifi.WifiManager;
 import java.util.concurrent.ExecutionException;
 
 import de.sgoral.bawifi.R;
-import de.sgoral.bawifi.asynctasks.CheckAuthenticatedPayload;
 import de.sgoral.bawifi.asynctasks.CheckAuthenticatedTask;
 import de.sgoral.bawifi.asynctasks.LoginPayload;
 import de.sgoral.bawifi.asynctasks.LoginTask;
@@ -103,10 +102,8 @@ public class WifiUtil {
      * @return true if the user is authenticated.
      */
     public boolean isAuthenticated() {
-        CheckAuthenticatedPayload payload = new CheckAuthenticatedPayload(
-                PreferencesUtil.getInstance(context).getStatusUrl(), RegexpUtil.STATUS_MESSAGE);
         CheckAuthenticatedTask task = new CheckAuthenticatedTask(this.context);
-        task.execute(payload);
+        task.execute(PreferencesUtil.getInstance(context).getStatusUrl());
         try {
             return task.get();
         } catch (InterruptedException | ExecutionException e) {
