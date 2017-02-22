@@ -18,7 +18,7 @@ import de.sgoral.bawifi.util.Logger;
  * Created by sebastianprivat on 06.02.17.
  */
 
-public class StatusFragment extends Fragment {
+public class ApplicationStateFragment extends Fragment {
 
     private ApplicationStateListener listener;
 
@@ -29,8 +29,8 @@ public class StatusFragment extends Fragment {
         listener = new ApplicationStateListener() {
 
             @Override
-            public void onApplicationStatusChanged(ApplicationState newStatus, ApplicationState prevStatus) {
-                swapFragmentUsingAppStatus();
+            public void onApplicationStateChanged(ApplicationState newState, ApplicationState prevState) {
+                swapFragmentUsingApplicationState();
             }
         };
 
@@ -42,14 +42,14 @@ public class StatusFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Logger.log(this, "View created");
-        return inflater.inflate(R.layout.fragment_status, container, false);
+        return inflater.inflate(R.layout.fragment_application_state, container, false);
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        swapFragmentUsingAppStatus();
+        swapFragmentUsingApplicationState();
         ApplicationStateManager.addListener(listener);
         Logger.log(this, "Fragment resumed");
     }
@@ -62,32 +62,32 @@ public class StatusFragment extends Fragment {
         Logger.log(this, "Fragment paused");
     }
 
-    private void swapFragmentUsingAppStatus() {
-        ApplicationState appStatus = ApplicationStateManager.getApplicationStatus();
-        Fragment fragment = getStatusFragment(appStatus);
+    private void swapFragmentUsingApplicationState() {
+        ApplicationState appState = ApplicationStateManager.getApplicationState();
+        Fragment fragment = getFragmentByApplicationState(appState);
         swapFragment(fragment);
     }
 
     private void swapFragment(Fragment fragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.status_fragment_container, fragment);
+        transaction.replace(R.id.application_state_fragment_container, fragment);
         transaction.commit();
     }
 
-    private Fragment getStatusFragment(ApplicationState applicationStatus) {
-        switch (applicationStatus) {
-            case STATUS_DISCONNECTED:
-                return new StatusDisconnectedFragment();
-            case STATUS_CONNECTED:
-                return new StatusConnectedFragment();
-            case STATUS_AUTHENTICATING:
-                return new StatusAuthenticatingFragment();
-            case STATUS_AUTHENTICATED:
-                return new StatusAuthenticatedFragment();
-            case STATUS_DEAUTHENTICATING:
-                return new StatusDeAuthenticatingFragment();
+    private Fragment getFragmentByApplicationState(ApplicationState applicationState) {
+        switch (applicationState) {
+            case STATE_DISCONNECTED:
+                return new ApplicationStateDisconnectedFragment();
+            case STATE_CONNECTED:
+                return new ApplicationStateConnectedFragment();
+            case STATE_AUTHENTICATING:
+                return new ApplicationStateAuthenticatingFragment();
+            case STATE_AUTHENTICATED:
+                return new ApplicationStateAuthenticatedFragment();
+            case STATE_DEAUTHENTICATING:
+                return new ApplicationStateDeAuthenticatingFragment();
             default:
-                throw new RuntimeException("Unexpected application status: " + applicationStatus);
+                throw new RuntimeException("Unexpected application state: " + applicationState);
         }
     }
 }

@@ -14,12 +14,12 @@ import de.sgoral.bawifi.util.Logger;
  * Created by sebastianprivat on 08.02.17.
  */
 
-public class StatusDisconnectedFragment extends Fragment {
+public class ApplicationStateDeAuthenticatingFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Logger.log(this, "View created");
-        return inflater.inflate(R.layout.fragment_status_disconnected, container, false);
+        return inflater.inflate(R.layout.fragment_application_state_deauthenticating, container, false);
     }
 }

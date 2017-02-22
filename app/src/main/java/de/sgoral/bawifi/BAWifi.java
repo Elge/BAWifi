@@ -27,12 +27,12 @@ public class BAWifi extends Application {
         WifiUtil wifiUtil = new WifiUtil(this);
         if (wifiUtil.isConnected()) {
             if (wifiUtil.isAuthenticated()) {
-                ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_AUTHENTICATED);
+                ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);
             } else {
-                ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_CONNECTED);
+                ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);
             }
         } else {
-            ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_DISCONNECTED);
+            ApplicationStateManager.changeApplicationState(ApplicationState.STATE_DISCONNECTED);
         }
 
         Logger.loadUserlog(this);

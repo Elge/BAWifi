@@ -8,10 +8,10 @@ public abstract class ApplicationStateListener {
     /**
      * General change in application state.
      *
-     * @param newStatus  The new application state.
-     * @param prevStatus The old application state.
+     * @param newState  The new application state.
+     * @param prevState The old application state.
      */
-    public void onApplicationStatusChanged(ApplicationState newStatus, ApplicationState prevStatus) {
+    public void onApplicationStateChanged(ApplicationState newState, ApplicationState prevState) {
     }
 
     /**

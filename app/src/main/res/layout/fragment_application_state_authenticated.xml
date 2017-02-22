@@ -7,15 +7,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/text_deauthenticating"
+        android:text="@string/text_authenticated"
         android:textAlignment="center"
-        android:textSize="@dimen/text_size_status" />
+        android:textSize="@dimen/text_size_application_state" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
+    <Button
+        android:id="@+id/button_deauthenticate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:indeterminate="true" />
-
+        android:text="@string/button_logout" />
 </LinearLayout>

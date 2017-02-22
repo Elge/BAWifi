@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 
 import de.sgoral.bawifi.appstate.ApplicationState;
 import de.sgoral.bawifi.appstate.ApplicationStateManager;
@@ -31,9 +30,9 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                 WifiInfo wifiInfo = handler.getWifiInfo();
                 String ssid = PreferencesUtil.getInstance(context).getSSID();
                 if (handler.isConnected()) {
-                    ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_CONNECTED);
+                    ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);
                     if (handler.isAuthenticated()) {
-                        ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_AUTHENTICATED);
+                        ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);
                     } else {
                         if (PreferencesUtil.getInstance(context).isValidConfiguration()) {
                             handler.performLogin();
@@ -42,10 +41,10 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                         }
                     }
                 } else {
-                    ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_DISCONNECTED);
+                    ApplicationStateManager.changeApplicationState(ApplicationState.STATE_DISCONNECTED);
                 }
             } else {
-                ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_DISCONNECTED);
+                ApplicationStateManager.changeApplicationState(ApplicationState.STATE_DISCONNECTED);
             }
         }
     }

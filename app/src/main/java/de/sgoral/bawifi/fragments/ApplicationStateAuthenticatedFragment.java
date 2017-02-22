@@ -16,12 +16,12 @@ import de.sgoral.bawifi.util.WifiUtil;
  * Created by sebastianprivat on 08.02.17.
  */
 
-public class StatusAuthenticatedFragment extends Fragment {
+public class ApplicationStateAuthenticatedFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_status_authenticated, container, false);
+        View view = inflater.inflate(R.layout.fragment_application_state_authenticated, container, false);
 
         Button b = (Button) view.findViewById(R.id.button_deauthenticate);
         b.setOnClickListener(new View.OnClickListener() {

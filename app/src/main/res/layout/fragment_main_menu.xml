@@ -5,8 +5,8 @@
     android:orientation="vertical">
 
     <fragment
-        android:id="@+id/fragment_status"
-        android:name="de.sgoral.bawifi.fragments.StatusFragment"
+        android:id="@+id/fragment_application_state"
+        android:name="de.sgoral.bawifi.fragments.ApplicationStateFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

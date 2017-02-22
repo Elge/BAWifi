@@ -2,7 +2,6 @@ package de.sgoral.bawifi.asynctasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -148,7 +147,7 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_AUTHENTICATING);
+        ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATING);
         Logger.log(this, "Task starting");
     }
 
@@ -157,9 +156,9 @@ public class LoginTask extends AsyncTask<LoginPayload, Void, Boolean> {
         super.onPostExecute(aBoolean);
 
         if (aBoolean == true) {
-            ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_AUTHENTICATED);
+            ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);
         } else {
-            ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_CONNECTED);
+            ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);
         }
         Logger.log(this, "Task finished, result: ", aBoolean);
     }

@@ -11,7 +11,7 @@ import de.sgoral.bawifi.util.Logger;
 public class ApplicationStateManager {
 
     private static List<ApplicationStateListener> listeners = new ArrayList<>();
-    private static ApplicationState state = ApplicationState.STATUS_DISCONNECTED;
+    private static ApplicationState state = ApplicationState.STATE_DISCONNECTED;
 
     /**
      * Hidden constructor because we are fully static
@@ -43,34 +43,34 @@ public class ApplicationStateManager {
     /**
      * Changes the application state to a new value.
      *
-     * @param newStatus The state to change to.
+     * @param newState The state to change to.
      * @return The previous application state.
      */
-    public static ApplicationState changeApplicationStatus(ApplicationState newStatus) {
-        ApplicationState prevStatus = state;
-        state = newStatus;
+    public static ApplicationState changeApplicationState(ApplicationState newState) {
+        ApplicationState prevState = state;
+        state = newState;
 
-        if (state == prevStatus) {
-            Logger.log(ApplicationStateManager.class, "Application state unchanged: ", newStatus);
+        if (state == prevState) {
+            Logger.log(ApplicationStateManager.class, "Application state unchanged: ", newState);
         } else {
-            Logger.log(ApplicationStateManager.class, "Application state changed from ", prevStatus, " to ", newStatus);
+            Logger.log(ApplicationStateManager.class, "Application state changed from ", prevState, " to ", newState);
             // Trigger listeners
             for (ApplicationStateListener listener : listeners) {
-                listener.onApplicationStatusChanged(state, prevStatus);
+                listener.onApplicationStateChanged(state, prevState);
             }
 
             switch (state) {
-                case STATUS_DISCONNECTED:
+                case STATE_DISCONNECTED:
                     for (ApplicationStateListener listener : listeners) {
                         listener.onNetworkDisconnected();
                     }
                     break;
-                case STATUS_CONNECTED:
-                    if (prevStatus == ApplicationState.STATUS_AUTHENTICATING) {
+                case STATE_CONNECTED:
+                    if (prevState == ApplicationState.STATE_AUTHENTICATING) {
                         for (ApplicationStateListener listener : listeners) {
                             listener.onAuthenticationFailed();
                         }
-                    } else if (prevStatus == ApplicationState.STATUS_DEAUTHENTICATING) {
+                    } else if (prevState == ApplicationState.STATE_DEAUTHENTICATING) {
                         for (ApplicationStateListener listener : listeners) {
                             listener.onDeauthenticationSuccessful();
                         }
@@ -80,17 +80,17 @@ public class ApplicationStateManager {
                         }
                     }
                     break;
-                case STATUS_AUTHENTICATING:
+                case STATE_AUTHENTICATING:
                     for (ApplicationStateListener listener : listeners) {
                         listener.onAuthenticationStarted();
                     }
                     break;
-                case STATUS_AUTHENTICATED:
-                    if (prevStatus == ApplicationState.STATUS_CONNECTED) {
+                case STATE_AUTHENTICATED:
+                    if (prevState == ApplicationState.STATE_CONNECTED) {
                         for (ApplicationStateListener listener : listeners) {
                             listener.onAlreadyAuthenticated();
                         }
-                    } else if (prevStatus == ApplicationState.STATUS_DEAUTHENTICATING) {
+                    } else if (prevState == ApplicationState.STATE_DEAUTHENTICATING) {
                         for (ApplicationStateListener listener : listeners) {
                             listener.onDeauthenticationFailed();
                         }
@@ -100,7 +100,7 @@ public class ApplicationStateManager {
                         }
                     }
                     break;
-                case STATUS_DEAUTHENTICATING:
+                case STATE_DEAUTHENTICATING:
                     for (ApplicationStateListener listener : listeners) {
                         listener.onDeauthenticationStarted();
                     }
@@ -110,7 +110,7 @@ public class ApplicationStateManager {
             }
         }
 
-        return prevStatus;
+        return prevState;
     }
 
     /**
@@ -118,7 +118,7 @@ public class ApplicationStateManager {
      *
      * @return The application state.
      */
-    public static ApplicationState getApplicationStatus() {
+    public static ApplicationState getApplicationState() {
         return state;
     }
 

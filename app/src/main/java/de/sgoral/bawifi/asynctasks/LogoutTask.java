@@ -59,7 +59,7 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_DEAUTHENTICATING);
+        ApplicationStateManager.changeApplicationState(ApplicationState.STATE_DEAUTHENTICATING);
         Logger.log(this, "Task starting");
     }
 
@@ -68,9 +68,9 @@ public class LogoutTask extends AsyncTask<String, Void, Boolean> {
         super.onPostExecute(aBoolean);
 
         if (aBoolean == true) {
-            ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_CONNECTED);
+            ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);
         } else {
-            ApplicationStateManager.changeApplicationStatus(ApplicationState.STATUS_AUTHENTICATED);
+            ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);
         }
         Logger.log(this, "Task finished, result: ", aBoolean);
     }

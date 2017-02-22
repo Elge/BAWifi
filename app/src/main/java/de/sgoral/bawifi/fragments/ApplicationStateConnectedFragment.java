@@ -15,12 +15,12 @@ import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.WifiUtil;
 
-public class StatusConnectedFragment extends Fragment {
+public class ApplicationStateConnectedFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_status_connected, container, false);
+        View view = inflater.inflate(R.layout.fragment_application_state_connected, container, false);
 
         Button b = (Button) view.findViewById(R.id.button_authenticate);
         b.setOnClickListener(new View.OnClickListener() {
