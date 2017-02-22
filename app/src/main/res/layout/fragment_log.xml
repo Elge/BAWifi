@@ -7,6 +7,8 @@
     <ListView
         android:id="@+id/log_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:stackFromBottom="true"
+        android:transcriptMode="normal" />
 
 </LinearLayout>
