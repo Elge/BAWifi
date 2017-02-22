@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.Logger;
+import de.sgoral.bawifi.util.UserlogUtil;
 
 /**
  * Created by sebastianprivat on 15.02.17.
@@ -27,7 +28,7 @@ public class ClearLogFragment extends Fragment {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.clearLogEntries(getActivity());
+                UserlogUtil.clearLogEntries(getActivity());
                 Toast.makeText(getActivity(), R.string.toast_log_cleared, Toast.LENGTH_SHORT).show();
             }
         });

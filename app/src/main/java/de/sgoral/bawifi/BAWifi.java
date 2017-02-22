@@ -8,6 +8,7 @@ import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.appstate.AppStateNotifications;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
+import de.sgoral.bawifi.util.UserlogUtil;
 import de.sgoral.bawifi.util.WifiUtil;
 
 /**
@@ -35,7 +36,7 @@ public class BAWifi extends Application {
             ApplicationStateManager.changeApplicationState(ApplicationState.STATE_DISCONNECTED);
         }
 
-        Logger.loadUserlog(this);
+        UserlogUtil.loadFromFile(this);
         notifier = new AppStateNotifications(this);
         userlogger = new AppStateUserlog(this);
     }

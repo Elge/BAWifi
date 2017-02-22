@@ -8,16 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.Set;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.UserlogArrayAdapter;
 import de.sgoral.bawifi.util.Logger;
-import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.UserlogChangeListener;
 import de.sgoral.bawifi.util.UserlogEntry;
+import de.sgoral.bawifi.util.UserlogUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +30,7 @@ public class LogFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_log, container, false);
 
         ListView list = (ListView) view.findViewById(R.id.log_list);
-        adapter = new UserlogArrayAdapter(getActivity(), Logger.getUserlog());
+        adapter = new UserlogArrayAdapter(getActivity(), UserlogUtil.getLogEntries());
         list.setAdapter(adapter);
 
         listener = new UserlogChangeListener() {
@@ -51,7 +48,7 @@ public class LogFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        Logger.addListener(listener);
+        UserlogUtil.addListener(listener);
         Logger.log(this, "Fragment resumed");
     }
 
@@ -59,7 +56,7 @@ public class LogFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        Logger.removeListener(listener);
+        UserlogUtil.removeListener(listener);
         Logger.log(this, "Fragment paused");
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
+import de.sgoral.bawifi.util.UserlogUtil;
 
 /**
  * Creates userlog messages when the application state changes.
@@ -32,49 +33,49 @@ public class AppStateUserlog {
         listener = new ApplicationStateListener() {
             @Override
             public void onAuthenticationStarted() {
-                Logger.userLog(context, context.getString(R.string.log_authenticating));
+                UserlogUtil.log(context, context.getString(R.string.log_authenticating));
             }
 
             @Override
             public void onAuthenticationSuccessful() {
-                Logger.userLog(context, context.getString(R.string.log_authenticated));
+                UserlogUtil.log(context, context.getString(R.string.log_authenticated));
             }
 
             @Override
             public void onAuthenticationFailed() {
-                Logger.userLog(context, context.getString(R.string.log_authentication_failed));
-                Logger.userLog(context, PreferencesUtil.getInstance(context).getStatusMessage());
+                UserlogUtil.log(context, context.getString(R.string.log_authentication_failed));
+                UserlogUtil.log(context, PreferencesUtil.getInstance(context).getStatusMessage());
             }
 
             @Override
             public void onDeauthenticationStarted() {
-                Logger.userLog(context, context.getString(R.string.log_deauthenticating));
+                UserlogUtil.log(context, context.getString(R.string.log_deauthenticating));
             }
 
             @Override
             public void onDeauthenticationSuccessful() {
-                Logger.userLog(context, context.getString(R.string.log_deauthenticated));
+                UserlogUtil.log(context, context.getString(R.string.log_deauthenticated));
             }
 
             @Override
             public void onDeauthenticationFailed() {
-                Logger.userLog(context, context.getString(R.string.log_deauthentication_failed));
-                Logger.userLog(context, PreferencesUtil.getInstance(context).getStatusMessage());
+                UserlogUtil.log(context, context.getString(R.string.log_deauthentication_failed));
+                UserlogUtil.log(context, PreferencesUtil.getInstance(context).getStatusMessage());
             }
 
             @Override
             public void onNetworkConnected() {
-                Logger.userLog(context, context.getString(R.string.log_connected));
+                UserlogUtil.log(context, context.getString(R.string.log_connected));
             }
 
             @Override
             public void onNetworkDisconnected() {
-                Logger.userLog(context, context.getString(R.string.log_disconnected));
+                UserlogUtil.log(context, context.getString(R.string.log_disconnected));
             }
 
             @Override
             public void onAlreadyAuthenticated() {
-                Logger.userLog(context, context.getString(R.string.log_already_authenticated));
+                UserlogUtil.log(context, context.getString(R.string.log_already_authenticated));
             }
         };
 
