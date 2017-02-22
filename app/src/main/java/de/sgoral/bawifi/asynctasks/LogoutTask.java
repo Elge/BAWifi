@@ -1,7 +1,6 @@
 package de.sgoral.bawifi.asynctasks;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -17,43 +16,39 @@ import de.sgoral.bawifi.util.RegexpUtil;
 /**
  * Opens the logout url to de-authenticate the user from the Wifi network.
  */
-public class LogoutTask extends AsyncTask<String, Void, Boolean> {
+public class LogoutTask extends RetryEnabledAsyncTask<String, Void, Boolean> {
 
     private final Context context;
 
+    /**
+     * Creates a new task for deauthenticating the user from the network.
+     *
+     * @param context
+     */
     public LogoutTask(Context context) {
+        super(false);
         this.context = context;
         Logger.log(this, "Task created");
     }
 
     @Override
-    protected Boolean doInBackground(String... urls) {
+    protected Boolean doTask(String... urls) throws IOException {
         Logger.log(this, "Task running with ", urls.length, " url(s)");
         if (urls.length != 1) {
             throw new IllegalArgumentException("Unexpected number of parameters: " + urls.length + ", expected 1");
         }
 
         Logger.log(this, "Url: ", urls[0]);
-        try {
-            URL url = new URL(urls[0]);
-            HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
-            String statusMessage = HttpUtil.parseResponse(connection, RegexpUtil.STATUS_MESSAGE);
+        URL url = new URL(urls[0]);
+        HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
+        String statusMessage = HttpUtil.parseResponse(connection, RegexpUtil.STATUS_MESSAGE);
 
-            Logger.log(this, "StatusMessage: ", statusMessage);
+        Logger.log(this, "StatusMessage: ", statusMessage);
 
-            PreferencesUtil.getInstance(context).setStatusMessage(statusMessage);
+        PreferencesUtil.getInstance(context).setStatusMessage(statusMessage);
 
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK
-                    || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP) {
-                return true;
-            }
-        } catch (IOException e) {
-            // Ignore
-            Logger.log(this, e);
-            Logger.log(this, "Ignoring IOException");
-        }
-
-        return false;
+        return (connection.getResponseCode() == HttpURLConnection.HTTP_OK
+                || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP);
     }
 
     @Override
