@@ -1,8 +1,9 @@
-limit retries after SocketException, stop endless loop
+remove check authenticated payload, useless
 split log and userlog
 add SocketException handling to logout task
 Add icons for app and notifications
 Add back buttons to UI
 UI pass
+remove documentation for context
 
 new feature: toggle volume when connecting/disconnecting
