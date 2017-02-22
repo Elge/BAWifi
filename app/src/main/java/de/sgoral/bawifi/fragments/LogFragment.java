@@ -39,7 +39,7 @@ public class LogFragment extends Fragment {
         listener = new UserlogChangeListener() {
             @Override
             public void onEntryAdded(UserlogEntry entry) {
-                adapter.notifyDataSetChanged();
+                adapter.add(entry);
             }
         };
 
