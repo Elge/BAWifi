@@ -1,4 +1,6 @@
-Implement logging
+limit retries after SocketException, stop endless loop
+split log and userlog
+add SocketException handling to logout task
 Add icons for app and notifications
 Add back buttons to UI
 UI pass
