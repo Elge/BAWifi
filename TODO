@@ -1,4 +1,3 @@
-remove check authenticated payload, useless
 split log and userlog
 add SocketException handling to logout task
 Add icons for app and notifications
