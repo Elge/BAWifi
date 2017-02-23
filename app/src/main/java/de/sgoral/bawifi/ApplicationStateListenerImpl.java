@@ -1,33 +1,35 @@
-package de.sgoral.bawifi.appstate;
+package de.sgoral.bawifi;
 
 import android.content.Context;
 
-import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.appstate.ApplicationStateListener;
+import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.Logger;
+import de.sgoral.bawifi.util.NotificationUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.UserlogUtil;
 
 /**
- * Creates userlog messages when the application state changes.
+ * Listens for application state changes and sends notifications and user log entries.
  */
-public class AppStateUserlog {
+public class ApplicationStateListenerImpl extends ApplicationStateListener {
 
     private final Context context;
     private ApplicationStateListener listener;
 
     /**
-     * Initialises the logger.
+     * Initialises the listener.
      *
      * @param context The application context.
      */
-    public AppStateUserlog(Context context) {
+    public ApplicationStateListenerImpl(Context context) {
         this.context = context;
         initialise();
         Logger.log(this, "Initialised");
     }
 
     /**
-     * Initialises the listener.
+     * Initialise the listener.
      */
     private void initialise() {
         listener = new ApplicationStateListener() {
@@ -38,11 +40,13 @@ public class AppStateUserlog {
 
             @Override
             public void onAuthenticationSuccessful() {
+                NotificationUtil.addAuthenticationSuccessfulNotification(context);
                 UserlogUtil.log(context, context.getString(R.string.log_authenticated));
             }
 
             @Override
             public void onAuthenticationFailed() {
+                NotificationUtil.addAuthenticationFailedNotification(context);
                 UserlogUtil.log(context, context.getString(R.string.log_authentication_failed));
                 UserlogUtil.log(context, PreferencesUtil.getInstance(context).getStatusMessage());
             }
@@ -54,27 +58,32 @@ public class AppStateUserlog {
 
             @Override
             public void onDeauthenticationSuccessful() {
+                NotificationUtil.addDeauthenticationSuccessfulNotification(context);
                 UserlogUtil.log(context, context.getString(R.string.log_deauthenticated));
             }
 
             @Override
             public void onDeauthenticationFailed() {
+                NotificationUtil.addDeauthenticationFailedNotification(context);
                 UserlogUtil.log(context, context.getString(R.string.log_deauthentication_failed));
                 UserlogUtil.log(context, PreferencesUtil.getInstance(context).getStatusMessage());
             }
 
             @Override
             public void onNetworkConnected() {
+                NotificationUtil.addConnectedNotification(context);
                 UserlogUtil.log(context, context.getString(R.string.log_connected));
             }
 
             @Override
             public void onNetworkDisconnected() {
+                NotificationUtil.addDisconnectedNotification(context);
                 UserlogUtil.log(context, context.getString(R.string.log_disconnected));
             }
 
             @Override
             public void onAlreadyAuthenticated() {
+                NotificationUtil.addAlreadyAuthenticatedNotification(context);
                 UserlogUtil.log(context, context.getString(R.string.log_already_authenticated));
             }
         };
@@ -106,5 +115,4 @@ public class AppStateUserlog {
         listener = null;
         Logger.log(this, "Listener destroyed");
     }
-
 }

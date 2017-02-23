@@ -2,10 +2,9 @@ package de.sgoral.bawifi;
 
 import android.app.Application;
 
-import de.sgoral.bawifi.appstate.AppStateUserlog;
 import de.sgoral.bawifi.appstate.ApplicationState;
+import de.sgoral.bawifi.appstate.ApplicationStateListener;
 import de.sgoral.bawifi.appstate.ApplicationStateManager;
-import de.sgoral.bawifi.appstate.AppStateNotifications;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.UserlogUtil;
@@ -16,8 +15,7 @@ import de.sgoral.bawifi.util.WifiUtil;
  */
 public class BAWifi extends Application {
 
-    private AppStateNotifications notifier;
-    private AppStateUserlog userlogger;
+    private ApplicationStateListenerImpl listener;
 
     @Override
     public void onCreate() {
@@ -37,14 +35,12 @@ public class BAWifi extends Application {
         }
 
         UserlogUtil.loadFromFile(this);
-        notifier = new AppStateNotifications(this);
-        userlogger = new AppStateUserlog(this);
+        listener = new ApplicationStateListenerImpl(getApplicationContext());
     }
 
     @Override
     public void onTerminate() {
-        notifier.destroy();
-        userlogger.destroy();
+        listener.destroy();
         Logger.log(this, "Application terminated");
     }
 }
