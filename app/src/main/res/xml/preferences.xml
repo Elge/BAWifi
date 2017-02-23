@@ -5,13 +5,13 @@
         android:key="@string/preference_key_username"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Username" />
+        android:title="@string/label_username" />
     <EditTextPreference
         android:key="@string/preference_key_password"
         android:password="true"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Password" />
+        android:title="@string/label_password" />
 
     <PreferenceScreen android:title="@string/label_notifications">
         <SwitchPreference
@@ -59,6 +59,21 @@
             android:key="@string/preference_key_notification_deauthentication_failed"
             android:title="@string/label_deauthentication_failed_notifications" />
 
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="@string/label_volume_control">
+        <ListPreference
+            android:defaultValue="@string/list_item_key_volume_control_off"
+            android:entries="@array/volume_control_labels"
+            android:entryValues="@array/volume_control_keys"
+            android:key="@string/preference_key_volume_control_connect"
+            android:title="@string/label_volume_control_connect" />
+        <ListPreference
+            android:defaultValue="@string/list_item_key_volume_control_off"
+            android:entries="@array/volume_control_labels"
+            android:entryValues="@array/volume_control_keys"
+            android:key="@string/preference_key_volume_control_disconnect"
+            android:title="@string/label_volume_control_disconnect" />
     </PreferenceScreen>
 
 </PreferenceScreen>

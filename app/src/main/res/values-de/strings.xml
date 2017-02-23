@@ -48,4 +48,11 @@
     <string name="toast_preferences_reset">Einstellungen zurückgesetzt</string>
     <string name="toast_log_cleared">Log gelöscht</string>
     <string name="toast_username_password_required">Bitte geben Sie einen Benutzernamen und ein Passwort ein</string>
+    <string name="list_item_label_volume_control_mute">Lautlos</string>
+    <string name="list_item_label_volume_control_off">Keine Änderung</string>
+    <string name="list_item_label_volume_control_on">Ton</string>
+    <string name="list_item_label_volume_control_vibrate">Vibrieren</string>
+    <string name="label_volume_control">Tonmodus ändern</string>
+    <string name="label_volume_control_connect">Tonmodus bei Verbindung</string>
+    <string name="label_volume_control_disconnect">Tonmodus bei Trennung</string>
 </resources>

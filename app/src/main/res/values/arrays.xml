@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="volume_control_keys">
+        <item>@string/list_item_key_volume_control_off</item>
+        <item>@string/list_item_key_volume_control_on</item>
+        <item>@string/list_item_key_volume_control_vibrate</item>
+        <item>@string/list_item_key_volume_control_mute</item>
+    </string-array>
+
+    <string-array name="volume_control_labels">
+        <item>@string/list_item_label_volume_control_off</item>
+        <item>@string/list_item_label_volume_control_on</item>
+        <item>@string/list_item_label_volume_control_vibrate</item>
+        <item>@string/list_item_label_volume_control_mute</item>
+    </string-array>
+</resources>

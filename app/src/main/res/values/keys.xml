@@ -16,6 +16,14 @@
     <string name="preference_key_notification_deauthenticated" translatable="false">notification_deauthenticated</string>
     <string name="preference_key_notification_deauthentication_failed" translatable="false">notification_deauthentication_failed</string>
     <string name="preference_key_notification_already_authenticated" translatable="false">notification_already_authenticated</string>
+    <string name="preference_key_volume_control_connect" translatable="false">volume_control_connect</string>
+    <string name="preference_key_volume_control_disconnect" translatable="false">volume_control_disconnect</string>
+
+    <!-- list keys -->
+    <string name="list_item_key_volume_control_off" translatable="false">volume_control_off</string>
+    <string name="list_item_key_volume_control_on" translatable="false">volume_control_on</string>
+    <string name="list_item_key_volume_control_vibrate" translatable="false">volume_control_vibrate</string>
+    <string name="list_item_key_volume_control_mute" translatable="false">volume_control_mute</string>
 
     <!-- Magic strings -->
     <string name="mystore_type" translatable="false">BKS</string>

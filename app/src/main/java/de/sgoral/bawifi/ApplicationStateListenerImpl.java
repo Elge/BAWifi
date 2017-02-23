@@ -7,6 +7,7 @@ import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.NotificationUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
+import de.sgoral.bawifi.util.RingerModeUtil;
 import de.sgoral.bawifi.util.UserlogUtil;
 
 /**
@@ -73,12 +74,16 @@ public class ApplicationStateListenerImpl extends ApplicationStateListener {
             public void onNetworkConnected() {
                 NotificationUtil.addConnectedNotification(context);
                 UserlogUtil.log(context, context.getString(R.string.log_connected));
+                RingerModeUtil.getInstance(context).changeRingerMode(
+                        PreferencesUtil.getInstance(context).getVolumeControlOnConnect());
             }
 
             @Override
             public void onNetworkDisconnected() {
                 NotificationUtil.addDisconnectedNotification(context);
                 UserlogUtil.log(context, context.getString(R.string.log_disconnected));
+                RingerModeUtil.getInstance(context).changeRingerMode(
+                        PreferencesUtil.getInstance(context).getVolumeControlOnDisconnect());
             }
 
             @Override

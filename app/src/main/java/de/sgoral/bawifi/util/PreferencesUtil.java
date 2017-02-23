@@ -3,7 +3,6 @@ package de.sgoral.bawifi.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import de.sgoral.bawifi.R;
 
@@ -282,6 +281,26 @@ public class PreferencesUtil {
      */
     public boolean isAlreadyAuthenticatedNotificationsEnabled() {
         return isNotificationsEnabled() && getBooleanPreference(R.string.preference_key_notification_already_authenticated);
+    }
+
+    /**
+     * Loads the volume control on connect setting from the default shared preferences file.
+     *
+     * @return a {@link VolumeControlSetting}
+     */
+    public VolumeControlSetting getVolumeControlOnConnect() {
+        String setting = getStringPreference(R.string.preference_key_volume_control_connect);
+        return VolumeControlSetting.valueOf(context, setting);
+    }
+
+    /**
+     * Loads the volume control on disconnect setting from the default shared preferences file.
+     *
+     * @return a {@link VolumeControlSetting}
+     */
+    public VolumeControlSetting getVolumeControlOnDisconnect() {
+        String setting = getStringPreference(R.string.preference_key_volume_control_disconnect);
+        return VolumeControlSetting.valueOf(context, setting);
     }
 
     /**
