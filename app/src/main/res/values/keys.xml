@@ -16,6 +16,7 @@
     <string name="preference_key_notification_deauthenticated" translatable="false">notification_deauthenticated</string>
     <string name="preference_key_notification_deauthentication_failed" translatable="false">notification_deauthentication_failed</string>
     <string name="preference_key_notification_already_authenticated" translatable="false">notification_already_authenticated</string>
+    <string name="preference_key_volume_control" translatable="false">volume_control</string>
     <string name="preference_key_volume_control_connect" translatable="false">volume_control_connect</string>
     <string name="preference_key_volume_control_disconnect" translatable="false">volume_control_disconnect</string>
 

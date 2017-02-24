@@ -38,7 +38,8 @@
     <string name="list_item_label_volume_control_vibrate">Vibrate</string>
     <string name="list_item_label_volume_control_mute">Mute</string>
 
-    <string name="message_confirm_reset_preferences">Are you sure?</string>
+    <string name="dialog_confirm_reset_preferences">Are you sure?</string>
+    <string name="dialog_confirm_grant_dnd_permission">This feature requires a permission. Do you want to grant that permission?</string>
 
     <!-- Notification strings -->
     <string name="notification_missingpreferences_title">Missing settings</string>
@@ -50,6 +51,8 @@
     <string name="notification_connected_title">Connection established</string>
     <string name="notification_disconnected_title">Connection separated</string>
     <string name="notification_already_authenticated_title">Already authenticated</string>
+    <string name="notification_missing_permission_title">Missing permission</string>
+    <string name="notification_missing_permission_text">The application needs access to the DND settings for the volume control feature to work</string>
 
     <!-- Log message strings -->
     <string name="log_authenticating">Authentication started</string>

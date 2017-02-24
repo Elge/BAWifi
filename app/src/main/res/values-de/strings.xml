@@ -44,7 +44,7 @@
     <string name="log_deauthentication_failed">Deauthentifizierung fehlgeschlagen</string>
     <string name="button_cancel">Abbrechen</string>
     <string name="button_yes">Ja</string>
-    <string name="message_confirm_reset_preferences">Sind Sie sicher?</string>
+    <string name="dialog_confirm_reset_preferences">Sind Sie sicher?</string>
     <string name="toast_preferences_reset">Einstellungen zurückgesetzt</string>
     <string name="toast_log_cleared">Log gelöscht</string>
     <string name="toast_username_password_required">Bitte geben Sie einen Benutzernamen und ein Passwort ein</string>

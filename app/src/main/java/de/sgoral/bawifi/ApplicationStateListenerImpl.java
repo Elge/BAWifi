@@ -9,6 +9,7 @@ import de.sgoral.bawifi.util.NotificationUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.RingerModeUtil;
 import de.sgoral.bawifi.util.UserlogUtil;
+import de.sgoral.bawifi.util.VolumeControlSetting;
 
 /**
  * Listens for application state changes and sends notifications and user log entries.
@@ -74,16 +75,28 @@ public class ApplicationStateListenerImpl extends ApplicationStateListener {
             public void onNetworkConnected() {
                 NotificationUtil.addConnectedNotification(context);
                 UserlogUtil.log(context, context.getString(R.string.log_connected));
-                RingerModeUtil.getInstance(context).changeRingerMode(
-                        PreferencesUtil.getInstance(context).getVolumeControlOnConnect());
+
+                VolumeControlSetting setting = PreferencesUtil.getInstance(context).getVolumeControlOnConnect();
+                RingerModeUtil util = RingerModeUtil.getInstance(context);
+                if (setting != VolumeControlSetting.OFF && !util.canChangeRingerMode()) {
+                    NotificationUtil.addDndPermissionRequiredNotification(context);
+                } else {
+                    util.changeRingerMode(setting);
+                }
             }
 
             @Override
             public void onNetworkDisconnected() {
                 NotificationUtil.addDisconnectedNotification(context);
                 UserlogUtil.log(context, context.getString(R.string.log_disconnected));
-                RingerModeUtil.getInstance(context).changeRingerMode(
-                        PreferencesUtil.getInstance(context).getVolumeControlOnDisconnect());
+
+                VolumeControlSetting setting = PreferencesUtil.getInstance(context).getVolumeControlOnDisconnect();
+                RingerModeUtil util = RingerModeUtil.getInstance(context);
+                if (setting != VolumeControlSetting.OFF && !util.canChangeRingerMode()) {
+                    NotificationUtil.addDndPermissionRequiredNotification(context);
+                } else {
+                    util.changeRingerMode(setting);
+                }
             }
 
             @Override

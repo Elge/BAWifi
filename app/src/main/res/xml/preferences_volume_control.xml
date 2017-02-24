@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="@string/list_item_key_volume_control_off"
+        android:entries="@array/volume_control_labels"
+        android:entryValues="@array/volume_control_keys"
+        android:key="@string/preference_key_volume_control_connect"
+        android:title="@string/label_volume_control_connect" />
+
+    <ListPreference
+        android:defaultValue="@string/list_item_key_volume_control_off"
+        android:entries="@array/volume_control_labels"
+        android:entryValues="@array/volume_control_keys"
+        android:key="@string/preference_key_volume_control_disconnect"
+        android:title="@string/label_volume_control_disconnect" />
+
+</PreferenceScreen>

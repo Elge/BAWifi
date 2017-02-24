@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
@@ -20,6 +21,7 @@ public class NotificationUtil {
 
     private static final int NOTIFICATION_ID_MISSINGPREFERENCES = 0;
     private static final int NOTIFICATION_ID_APPLICATION_STATE = 1;
+    private static final int NOTIFICATION_ID_MISSING_PERMISSION = 2;
 
     /**
      * Static class, no constructor please.
@@ -257,5 +259,25 @@ public class NotificationUtil {
                     NOTIFICATION_ID_APPLICATION_STATE,
                     R.string.notification_already_authenticated_title);
         }
+    }
+
+    /**
+     * The user needs to grant the DND permission.
+     *
+     * @param context
+     */
+    public static void addDndPermissionRequiredNotification(Context context) {
+        NotificationCompat.Builder builder = prepareNotificationBuilder(context);
+
+        TaskStackBuilder stack = TaskStackBuilder.create(context);
+        stack.addParentStack(MainMenuActivity.class);
+        Intent resultIntent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+        stack.addNextIntent(resultIntent);
+        builder.setContentIntent(stack.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT));
+
+        sendNotification(context, NOTIFICATION_ID_MISSING_PERMISSION, builder,
+                R.drawable.ic_notifications_black_24dp,
+                context.getString(R.string.notification_missing_permission_title),
+                context.getString(R.string.notification_missing_permission_text));
     }
 }
