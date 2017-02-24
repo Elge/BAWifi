@@ -22,7 +22,7 @@ public class ApplicationStateListenerImpl extends ApplicationStateListener {
     /**
      * Initialises the listener.
      *
-     * @param context The application context.
+     * @param context
      */
     public ApplicationStateListenerImpl(Context context) {
         this.context = context;

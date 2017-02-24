@@ -22,9 +22,9 @@ public class WifiUtil {
     private final Context context;
 
     /**
-     * Constructor with context parameter.
+     * Constructor with context
      *
-     * @param context The application environment.
+     * @param context
      */
     public WifiUtil(Context context) {
         this.context = context;

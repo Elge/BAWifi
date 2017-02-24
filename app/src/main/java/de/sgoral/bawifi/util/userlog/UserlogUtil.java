@@ -36,7 +36,7 @@ public class UserlogUtil {
     /**
      * Reads the userlog from the log file.
      *
-     * @param context The application context.
+     * @param context
      */
     public static void loadFromFile(Context context) {
         try {
@@ -60,7 +60,7 @@ public class UserlogUtil {
     /**
      * Writes the userlog to the log file.
      *
-     * @param context       The application context.
+     * @param context
      * @param fireListeners true to fire the UserlogChangeListeners
      */
     public static void saveToFile(Context context, boolean fireListeners) {
@@ -88,7 +88,7 @@ public class UserlogUtil {
     /**
      * Adds an entry to the userlog list and saves it to the log file.
      *
-     * @param context The application context.
+     * @param context
      * @param message The message to log.
      */
     public static void log(Context context, String message) {
@@ -141,7 +141,7 @@ public class UserlogUtil {
     /**
      * Deletes the log file and clears the list.
      *
-     * @param context The application context.
+     * @param context
      */
     public static void clearLogEntries(Context context) {
         userlog.clear();

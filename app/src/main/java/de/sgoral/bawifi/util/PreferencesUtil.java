@@ -30,7 +30,7 @@ public class PreferencesUtil {
     /**
      * Creates and returns a new instance of the utility.
      *
-     * @param context The application environment.
+     * @param context
      * @return A new instance of the {@link PreferencesUtil}.
      */
     public static PreferencesUtil getInstance(Context context) {

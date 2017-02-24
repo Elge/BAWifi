@@ -32,7 +32,7 @@ public class NotificationUtil {
     /**
      * Prepare the notification builder.
      *
-     * @param context The application context to build with.
+     * @param context
      * @return The prepared builder.
      */
     private static NotificationCompat.Builder prepareNotificationBuilder(Context context) {
@@ -42,7 +42,7 @@ public class NotificationUtil {
     /**
      * Prepare the intent to use for the notification.
      *
-     * @param context       The application context.
+     * @param context
      * @param activityClass The activity to call when clicking the notification.
      * @return The prepared intent.
      */
@@ -57,7 +57,7 @@ public class NotificationUtil {
     /**
      * Send the notification.
      *
-     * @param context        The context to send with.
+     * @param context
      * @param notificationId The ID to identify the notification by.
      * @param builder        The prepared builder.
      * @param icon           The icon to display the notification with.
@@ -128,7 +128,7 @@ public class NotificationUtil {
     /**
      * Creates a notification using a few default settings.
      *
-     * @param context        The context to send from.
+     * @param context
      * @param activityClass  The activity class to open when clicking the notification.
      * @param notificationId The ID to identify the notification with.
      * @param title          The title to display with the notification.
@@ -147,7 +147,7 @@ public class NotificationUtil {
     /**
      * A username and password must be entered.
      *
-     * @param context The current application context.
+     * @param context
      */
     public static void addMissingPreferencesNotification(Context context) {
         sendGenericNotification(context, PreferencesActivity.class,
@@ -158,7 +158,7 @@ public class NotificationUtil {
     /**
      * The required data has been entered.
      *
-     * @param context The current application context.
+     * @param context
      */
     public static void removeMissingPreferencesNotification(Context context) {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -169,7 +169,7 @@ public class NotificationUtil {
     /**
      * The app has authenticated the device.
      *
-     * @param context The current application context.
+     * @param context
      */
     public static void addAuthenticationSuccessfulNotification(Context context) {
         if (PreferencesUtil.getInstance(context).isAuthenticatedNotificationsEnabled()) {
@@ -182,7 +182,7 @@ public class NotificationUtil {
     /**
      * The app has failed to authenticated the device.
      *
-     * @param context The current application context.
+     * @param context
      */
     public static void addAuthenticationFailedNotification(Context context) {
         if (PreferencesUtil.getInstance(context).isAuthenticationFailedNotificationsEnabled()) {
@@ -196,7 +196,7 @@ public class NotificationUtil {
     /**
      * The app has deauthenticated the device.
      *
-     * @param context The current application context.
+     * @param context
      */
     public static void addDeauthenticationSuccessfulNotification(Context context) {
         if (PreferencesUtil.getInstance(context).isDeauthenticationNotificationsEnabled()) {
@@ -209,7 +209,7 @@ public class NotificationUtil {
     /**
      * The app has failed to deauthenticate the device.
      *
-     * @param context The current application context.
+     * @param context
      */
     public static void addDeauthenticationFailedNotification(Context context) {
         if (PreferencesUtil.getInstance(context).isDeauthenticationFailedNotificationsEnabled()) {
@@ -223,7 +223,7 @@ public class NotificationUtil {
     /**
      * The device has connected to the WiFi network.
      *
-     * @param context The current application context.
+     * @param context
      */
     public static void addConnectedNotification(Context context) {
         if (PreferencesUtil.getInstance(context).isConnectedNotificationsEnabled()) {
@@ -236,7 +236,7 @@ public class NotificationUtil {
     /**
      * The device has disconnected from the WiFi network.
      *
-     * @param context The current application context.
+     * @param context
      */
     public static void addDisconnectedNotification(Context context) {
         if (PreferencesUtil.getInstance(context).isDisconnectedNotificationsEnabled()) {
@@ -249,7 +249,7 @@ public class NotificationUtil {
     /**
      * The user is already authenticated.
      *
-     * @param context The current application context.
+     * @param context
      */
     public static void addAlreadyAuthenticatedNotification(Context context) {
         if (PreferencesUtil.getInstance(context).isAlreadyAuthenticatedNotificationsEnabled()) {

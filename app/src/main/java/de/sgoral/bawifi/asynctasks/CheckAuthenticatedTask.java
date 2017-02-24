@@ -21,7 +21,7 @@ public class CheckAuthenticatedTask extends RetryEnabledAsyncTask<String, Void, 
     /**
      * Creates a new async task for checking if the user is authenticated.
      *
-     * @param context The application environment.
+     * @param context
      */
     public CheckAuthenticatedTask(Context context) {
         super(false);

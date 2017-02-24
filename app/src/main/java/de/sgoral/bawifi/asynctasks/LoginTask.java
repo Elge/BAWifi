@@ -29,7 +29,7 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
     /**
      * Creates a new async task for authenticating the user to the BA Leipzig network.
      *
-     * @param context The application environment.
+     * @param context
      */
     public LoginTask(Context context) {
         super(false);

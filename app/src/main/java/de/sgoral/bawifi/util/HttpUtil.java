@@ -107,7 +107,7 @@ public class HttpUtil {
     /**
      * Opens a connection to the specified url.
      *
-     * @param context The application environment.
+     * @param context
      * @param url     The url to connect to.
      * @param data    The data to POST to the url. If null, a GET request will be sent.
      * @return The created {@link HttpURLConnection}.
@@ -159,7 +159,7 @@ public class HttpUtil {
     /**
      * Initialises the SSL handler required to accept the bad SSL certificate for BA Leipzig.
      *
-     * @param context The application environment.
+     * @param context
      * @return The {@link SSLSocketFactory} capable of accepting the SSL certificate.
      */
     public static SSLSocketFactory getSSLSocketFactory(Context context) {
