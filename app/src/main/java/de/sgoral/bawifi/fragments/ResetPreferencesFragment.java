@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.dialogs.ConfirmResetPreferencesDialog;
 import de.sgoral.bawifi.util.Logger;
-import de.sgoral.bawifi.util.PreferencesUtil;
 
 /**
  * Created by sebastianprivat on 17.02.17.
@@ -27,8 +27,8 @@ public class ResetPreferencesFragment extends Fragment {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ConfirmResetPreferencesFragment().show(
-                        getFragmentManager(), "ConfirmResetPreferencesDialog");
+                new ConfirmResetPreferencesDialog().show(
+                        getFragmentManager(), ConfirmResetPreferencesDialog.class.getSimpleName());
             }
         });
 
