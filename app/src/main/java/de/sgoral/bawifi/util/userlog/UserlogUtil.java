@@ -1,4 +1,4 @@
-package de.sgoral.bawifi.util;
+package de.sgoral.bawifi.util.userlog;
 
 import android.content.Context;
 
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.util.Logger;
 
 /**
  * Log utility for in-app log messages.

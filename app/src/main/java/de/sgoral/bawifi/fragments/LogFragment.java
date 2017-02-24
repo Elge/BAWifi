@@ -12,9 +12,9 @@ import android.widget.ListView;
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.UserlogArrayAdapter;
 import de.sgoral.bawifi.util.Logger;
-import de.sgoral.bawifi.util.UserlogChangeListener;
-import de.sgoral.bawifi.util.UserlogEntry;
-import de.sgoral.bawifi.util.UserlogUtil;
+import de.sgoral.bawifi.util.userlog.UserlogChangeListener;
+import de.sgoral.bawifi.util.userlog.UserlogEntry;
+import de.sgoral.bawifi.util.userlog.UserlogUtil;
 
 /**
  * A simple {@link Fragment} subclass.

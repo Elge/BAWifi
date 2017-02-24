@@ -3,11 +3,10 @@ package de.sgoral.bawifi;
 import android.app.Application;
 
 import de.sgoral.bawifi.appstate.ApplicationState;
-import de.sgoral.bawifi.appstate.ApplicationStateListener;
 import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
-import de.sgoral.bawifi.util.UserlogUtil;
+import de.sgoral.bawifi.util.userlog.UserlogUtil;
 import de.sgoral.bawifi.util.WifiUtil;
 
 /**

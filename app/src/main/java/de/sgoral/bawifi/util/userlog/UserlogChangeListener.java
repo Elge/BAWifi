@@ -1,4 +1,4 @@
-package de.sgoral.bawifi.util;
+package de.sgoral.bawifi.util.userlog;
 
 /**
  * Notifies of changes to the userlog.

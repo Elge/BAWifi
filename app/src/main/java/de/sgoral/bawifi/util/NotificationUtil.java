@@ -150,11 +150,9 @@ public class NotificationUtil {
      * @param context The current application context.
      */
     public static void addMissingPreferencesNotification(Context context) {
-        if (PreferencesUtil.getInstance(context).isMissingSettingsNotificationsEnabled()) {
-            sendGenericNotification(context, PreferencesActivity.class,
-                    NOTIFICATION_ID_MISSINGPREFERENCES,
-                    R.string.notification_missingpreferences_title, R.string.notification_missingpreferences_text, false);
-        }
+        sendGenericNotification(context, PreferencesActivity.class,
+                NOTIFICATION_ID_MISSINGPREFERENCES,
+                R.string.notification_missing_preferences_title, R.string.notification_missing_preferences_text, false);
     }
 
     /**
@@ -177,7 +175,7 @@ public class NotificationUtil {
         if (PreferencesUtil.getInstance(context).isAuthenticatedNotificationsEnabled()) {
             sendGenericNotification(context, MainMenuActivity.class,
                     NOTIFICATION_ID_APPLICATION_STATE,
-                    R.string.notification_authenticationsuccessful_title);
+                    R.string.notification_authentication_successful_title);
         }
     }
 
@@ -190,7 +188,7 @@ public class NotificationUtil {
         if (PreferencesUtil.getInstance(context).isAuthenticationFailedNotificationsEnabled()) {
             sendGenericNotification(context, MainMenuActivity.class,
                     NOTIFICATION_ID_APPLICATION_STATE,
-                    R.string.notification_authenticationfailed_title,
+                    R.string.notification_authentication_failed_title,
                     PreferencesUtil.getInstance(context).getStatusMessage());
         }
     }
@@ -204,7 +202,7 @@ public class NotificationUtil {
         if (PreferencesUtil.getInstance(context).isDeauthenticationNotificationsEnabled()) {
             sendGenericNotification(context, MainMenuActivity.class,
                     NOTIFICATION_ID_APPLICATION_STATE,
-                    R.string.notification_deauthenticationsuccessful_title);
+                    R.string.notification_deauthentication_successful_title);
         }
     }
 
@@ -217,7 +215,7 @@ public class NotificationUtil {
         if (PreferencesUtil.getInstance(context).isDeauthenticationFailedNotificationsEnabled()) {
             sendGenericNotification(context, MainMenuActivity.class,
                     NOTIFICATION_ID_APPLICATION_STATE,
-                    R.string.notification_deauthenticationfailed_title,
+                    R.string.notification_deauthentication_failed_title,
                     PreferencesUtil.getInstance(context).getStatusMessage());
         }
     }

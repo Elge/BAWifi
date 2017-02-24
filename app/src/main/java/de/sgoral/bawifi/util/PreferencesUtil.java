@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.util.RingerModeUtil.RingerModeSetting;
 
 /**
  * Allows easy access to the local application preferences.
@@ -266,15 +267,6 @@ public class PreferencesUtil {
     }
 
     /**
-     * Checks if missing settings notifications are enabled.
-     *
-     * @return true if missing settings notifications are enabled.
-     */
-    public boolean isMissingSettingsNotificationsEnabled() {
-        return isNotificationsEnabled() && getBooleanPreference(R.string.preference_key_notification_missing_settings);
-    }
-
-    /**
      * Checks if already authenticated notifications are enabled.
      *
      * @return true if already authenticated notifications are enabled.
@@ -286,21 +278,21 @@ public class PreferencesUtil {
     /**
      * Loads the volume control on connect setting from the default shared preferences file.
      *
-     * @return a {@link VolumeControlSetting}
+     * @return a {@link RingerModeSetting}
      */
-    public VolumeControlSetting getVolumeControlOnConnect() {
+    public RingerModeSetting getVolumeControlOnConnect() {
         String setting = getStringPreference(R.string.preference_key_volume_control_connect);
-        return VolumeControlSetting.valueOf(context, setting);
+        return RingerModeSetting.valueOf(context, setting);
     }
 
     /**
      * Loads the volume control on disconnect setting from the default shared preferences file.
      *
-     * @return a {@link VolumeControlSetting}
+     * @return a {@link RingerModeSetting}
      */
-    public VolumeControlSetting getVolumeControlOnDisconnect() {
+    public RingerModeSetting getVolumeControlOnDisconnect() {
         String setting = getStringPreference(R.string.preference_key_volume_control_disconnect);
-        return VolumeControlSetting.valueOf(context, setting);
+        return RingerModeSetting.valueOf(context, setting);
     }
 
     /**

@@ -3,7 +3,6 @@ package de.sgoral.bawifi;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.sgoral.bawifi.util.Logger;
-import de.sgoral.bawifi.util.UserlogEntry;
+import de.sgoral.bawifi.util.userlog.UserlogEntry;
 
 /**
  * Custom adapter for {@link de.sgoral.bawifi.fragments.LogFragment} to display the userlog in a

@@ -42,12 +42,12 @@
     <string name="dialog_confirm_grant_dnd_permission">This feature requires a permission. Do you want to grant that permission?</string>
 
     <!-- Notification strings -->
-    <string name="notification_missingpreferences_title">Missing settings</string>
-    <string name="notification_missingpreferences_text">Please set a username and password</string>
-    <string name="notification_authenticationsuccessful_title">Authentication successful</string>
-    <string name="notification_authenticationfailed_title">Authentication failed</string>
-    <string name="notification_deauthenticationsuccessful_title">Deauthentication successful</string>
-    <string name="notification_deauthenticationfailed_title">Deauthentication failed</string>
+    <string name="notification_missing_preferences_title">Missing settings</string>
+    <string name="notification_missing_preferences_text">Please set a username and password</string>
+    <string name="notification_authentication_successful_title">Authentication successful</string>
+    <string name="notification_authentication_failed_title">Authentication failed</string>
+    <string name="notification_deauthentication_successful_title">Deauthentication successful</string>
+    <string name="notification_deauthentication_failed_title">Deauthentication failed</string>
     <string name="notification_connected_title">Connection established</string>
     <string name="notification_disconnected_title">Connection separated</string>
     <string name="notification_already_authenticated_title">Already authenticated</string>

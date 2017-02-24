@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.Logger;
-import de.sgoral.bawifi.util.UserlogUtil;
+import de.sgoral.bawifi.util.userlog.UserlogUtil;
 
 /**
  * Created by sebastianprivat on 15.02.17.

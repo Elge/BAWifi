@@ -20,11 +20,6 @@
             android:key="@string/preference_key_notifications_all"
             android:title="@string/label_all_notifications" />
         <SwitchPreference
-            android:defaultValue="true"
-            android:dependency="@string/preference_key_notifications_all"
-            android:key="@string/preference_key_notification_missing_settings"
-            android:title="@string/label_missing_settings_notification" />
-        <SwitchPreference
             android:defaultValue="false"
             android:dependency="@string/preference_key_notifications_all"
             android:key="@string/preference_key_notification_connected"

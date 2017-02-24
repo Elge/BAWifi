@@ -5,6 +5,8 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.os.Build;
 
+import de.sgoral.bawifi.R;
+
 /**
  * Allows easy manipulation of the device's ringer mode.
  */
@@ -22,19 +24,20 @@ public class RingerModeUtil {
 
     /**
      * Changes the ringer mode to the specified mode.
+     *
+     * @return true if the there were no problems, false if we lack the required permission
      */
-    public void changeRingerMode(VolumeControlSetting mode) {
+    public boolean changeRingerMode(RingerModeSetting mode) {
         switch (mode) {
             case LOUD:
-                setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                break;
+                return setRingerMode(AudioManager.RINGER_MODE_NORMAL);
             case VIBRATE:
-                setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-                break;
+                return setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
             case MUTE:
-                setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                break;
+                return setRingerMode(AudioManager.RINGER_MODE_SILENT);
         }
+
+        return true;
     }
 
     /**
@@ -69,4 +72,29 @@ public class RingerModeUtil {
         }
     }
 
+    /**
+     * Enum representation of the volume control setting.
+     */
+    public enum RingerModeSetting {
+        OFF,
+        LOUD,
+        VIBRATE,
+        MUTE;
+
+        public static RingerModeSetting valueOf(Context context, String setting) {
+            if (context.getString(R.string.list_item_key_volume_control_off).equals(setting)) {
+                return OFF;
+            }
+            if (context.getString(R.string.list_item_key_volume_control_on).equals(setting)) {
+                return LOUD;
+            }
+            if (context.getString(R.string.list_item_key_volume_control_vibrate).equals(setting)) {
+                return VIBRATE;
+            }
+            if (context.getString(R.string.list_item_key_volume_control_mute).equals(setting)) {
+                return MUTE;
+            }
+            throw new RuntimeException("Unexpected volume control setting: " + setting);
+        }
+    }
 }
