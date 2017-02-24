@@ -51,7 +51,7 @@
     <string name="notification_connected_title">Connection established</string>
     <string name="notification_disconnected_title">Connection separated</string>
     <string name="notification_already_authenticated_title">Already authenticated</string>
-    <string name="notification_missing_permission_title">Missing permission</string>
+    <string name="notification_missing_permission_title">Required permission is missing</string>
     <string name="notification_missing_permission_text">The application needs access to the DND settings for the volume control feature to work</string>
 
     <!-- Log message strings -->

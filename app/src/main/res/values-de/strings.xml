@@ -55,4 +55,7 @@
     <string name="label_volume_control">Tonmodus ändern</string>
     <string name="label_volume_control_connect">Tonmodus bei Verbindung</string>
     <string name="label_volume_control_disconnect">Tonmodus bei Trennung</string>
+    <string name="dialog_confirm_grant_dnd_permission">Diese Funktion erfordert eine Berechtigung. Möchten Sie diese Berechtigung gewähren?</string>
+    <string name="notification_missing_permission_text">Die Anwendung benötigt eine Berechtigung, den DND Status zu ändern.</string>
+    <string name="notification_missing_permission_title">Erforderliche Berechtigung fehlt</string>
 </resources>
