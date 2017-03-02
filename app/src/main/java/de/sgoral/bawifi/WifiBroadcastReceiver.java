@@ -13,6 +13,7 @@ import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.NotificationUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.WifiUtil;
+import de.sgoral.bawifi.util.userlog.UserlogUtil;
 
 /**
  * Broadcast receiver for WiFi state changed action.
@@ -22,29 +23,34 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Logger.log(this, "OnReceive, intent: ", intent);
-        if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+        UserlogUtil.log(context, "onReceive action: " + intent.getAction());
+        if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())
+                || WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
             NetworkInfo networkInfo = (NetworkInfo) intent.getExtras().get(WifiManager.EXTRA_NETWORK_INFO);
-            Logger.log(this, "NetworkState: ", networkInfo.getState());
-            if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
-                WifiUtil handler = new WifiUtil(context);
-                WifiInfo wifiInfo = handler.getWifiInfo();
-                String ssid = PreferencesUtil.getInstance(context).getSSID();
-                if (handler.isConnected()) {
-                    ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);
-                    if (handler.isAuthenticated()) {
-                        ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);
-                    } else {
-                        if (PreferencesUtil.getInstance(context).isValidConfiguration()) {
-                            handler.performLogin();
+            if (networkInfo != null) {
+                Logger.log(this, "NetworkState: ", networkInfo.getState());
+                UserlogUtil.log(context, "NetworkState: " + networkInfo.getState());
+                if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
+                    WifiUtil handler = new WifiUtil(context);
+                    WifiInfo wifiInfo = handler.getWifiInfo();
+                    String ssid = PreferencesUtil.getInstance(context).getSSID();
+                    if (handler.isConnected()) {
+                        ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);
+                        if (handler.isAuthenticated()) {
+                            ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);
                         } else {
-                            NotificationUtil.addMissingPreferencesNotification(context);
+                            if (PreferencesUtil.getInstance(context).isValidConfiguration()) {
+                                handler.performLogin();
+                            } else {
+                                NotificationUtil.addMissingPreferencesNotification(context);
+                            }
                         }
+                    } else {
+                        ApplicationStateManager.changeApplicationState(ApplicationState.STATE_DISCONNECTED);
                     }
                 } else {
                     ApplicationStateManager.changeApplicationState(ApplicationState.STATE_DISCONNECTED);
                 }
-            } else {
-                ApplicationStateManager.changeApplicationState(ApplicationState.STATE_DISCONNECTED);
             }
         }
     }
