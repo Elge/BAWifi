@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.os.Build;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.util.userlog.UserlogUtil;
 
 /**
  * Allows easy manipulation of the device's ringer mode.
@@ -28,6 +29,7 @@ public class RingerModeUtil {
      * @return true if the there were no problems, false if we lack the required permission
      */
     public boolean changeRingerMode(RingerModeSetting mode) {
+        UserlogUtil.log(context, "Changing ringer mode to " + mode);
         switch (mode) {
             case LOUD:
                 return setRingerMode(AudioManager.RINGER_MODE_NORMAL);

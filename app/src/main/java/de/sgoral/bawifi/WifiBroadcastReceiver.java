@@ -27,6 +27,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
         if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())
                 || WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
             NetworkInfo networkInfo = (NetworkInfo) intent.getExtras().get(WifiManager.EXTRA_NETWORK_INFO);
+            UserlogUtil.log(context, "networkInfo: " + networkInfo);
             if (networkInfo != null) {
                 Logger.log(this, "NetworkState: ", networkInfo.getState());
                 UserlogUtil.log(context, "NetworkState: " + networkInfo.getState());
