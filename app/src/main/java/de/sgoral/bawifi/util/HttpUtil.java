@@ -1,6 +1,9 @@
 package de.sgoral.bawifi.util;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.os.Build;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -184,6 +187,21 @@ public class HttpUtil {
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Uses {@link ConnectivityManager#bindProcessToNetwork(Network)} to disable automatic captive
+     * portal handling for the current network.
+     *
+     * @param context
+     */
+    public static void bypassCaptivePortal(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm.getAllNetworks() != null) {
+                cm.bindProcessToNetwork(cm.getActiveNetwork());
+            }
         }
     }
 }

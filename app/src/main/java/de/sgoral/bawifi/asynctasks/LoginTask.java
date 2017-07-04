@@ -49,6 +49,7 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
 
         // Step 1
         URL url = new URL(payload.getUrl());
+        HttpUtil.bypassCaptivePortal(context);
         HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
 
         String redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false);

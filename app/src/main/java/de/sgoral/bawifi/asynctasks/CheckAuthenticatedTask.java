@@ -38,6 +38,7 @@ public class CheckAuthenticatedTask extends RetryEnabledAsyncTask<String, Void, 
         String url = urls[0];
         Logger.log(this, "Url: ", url);
 
+        HttpUtil.bypassCaptivePortal(context);
         HttpURLConnection connection = HttpUtil.openUrl(context, new URL(url), null);
         String status = HttpUtil.parseResponse(connection, RegexpUtil.STATUS_MESSAGE);
         Logger.log(this, "Response message: ", status);

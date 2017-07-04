@@ -40,6 +40,7 @@ public class LogoutTask extends RetryEnabledAsyncTask<String, Void, Boolean> {
 
         Logger.log(this, "Url: ", urls[0]);
         URL url = new URL(urls[0]);
+        HttpUtil.bypassCaptivePortal(context);
         HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
         String statusMessage = HttpUtil.parseResponse(connection, RegexpUtil.STATUS_MESSAGE);
 
