@@ -7,7 +7,7 @@ import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.userlog.UserlogUtil;
-import de.sgoral.bawifi.util.WifiUtil;
+import de.sgoral.bawifi.util.NetworkUtil;
 
 /**
  * Initialises the application.
@@ -22,9 +22,8 @@ public class BAWifi extends Application {
 
         PreferencesUtil.getInstance(this).initialisePreferences();
 
-        WifiUtil wifiUtil = new WifiUtil(this);
-        if (wifiUtil.isConnected()) {
-            if (wifiUtil.isAuthenticated()) {
+        if (NetworkUtil.isConnected(this)) {
+            if (NetworkUtil.isAuthenticated(this)) {
                 ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);
             } else {
                 ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);

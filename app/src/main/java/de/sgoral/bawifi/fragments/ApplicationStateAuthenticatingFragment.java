@@ -10,10 +10,6 @@ import android.view.ViewGroup;
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.Logger;
 
-/**
- * Created by sebastianprivat on 08.02.17.
- */
-
 public class ApplicationStateAuthenticatingFragment extends Fragment {
 
     @Nullable

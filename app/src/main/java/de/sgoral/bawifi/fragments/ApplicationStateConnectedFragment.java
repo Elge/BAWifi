@@ -13,7 +13,7 @@ import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.activities.PreferencesActivity;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
-import de.sgoral.bawifi.util.WifiUtil;
+import de.sgoral.bawifi.util.NetworkUtil;
 
 public class ApplicationStateConnectedFragment extends Fragment {
 
@@ -27,7 +27,7 @@ public class ApplicationStateConnectedFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (PreferencesUtil.getInstance(getActivity()).isValidConfiguration()) {
-                    new WifiUtil(getActivity()).performLogin();
+                    NetworkUtil.performLogin(getActivity());
                 } else {
                     startActivity(new Intent(getActivity(), PreferencesActivity.class));
                     Toast.makeText(getActivity(), R.string.toast_username_password_required, Toast.LENGTH_LONG).show();

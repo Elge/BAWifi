@@ -112,6 +112,26 @@ public class UserlogUtil {
     }
 
     /**
+     * Adds an entry to the userlog list and saves it to the log file.
+     *
+     * @param context
+     * @param parts The message parts to concat to a message. Writes null if the object is null,
+     *              otherwise its toString method is called.
+     */
+    public static void log(Context context, Object... parts) {
+        StringBuilder builder = new StringBuilder();
+        for (Object part : parts) {
+            if (part == null) {
+                builder.append("null");
+            } else {
+                builder.append(part.toString());
+            }
+        }
+
+        log(context, builder.toString());
+    }
+
+    /**
      * Adds a listener for userlog changes.
      *
      * @param listener The listener to add.

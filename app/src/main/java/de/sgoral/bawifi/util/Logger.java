@@ -1,23 +1,8 @@
 package de.sgoral.bawifi.util;
 
-import android.content.Context;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import de.sgoral.bawifi.BuildConfig;
-import de.sgoral.bawifi.R;
 
 /**
  * Logging utility.
@@ -26,9 +11,7 @@ public class Logger {
 
     private static final boolean LOG = BuildConfig.DEBUG;
 
-    /**
-     * Hidden because static utility class.
-     */
+    // Static class, hide constructor
     private Logger() {
     }
 

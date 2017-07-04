@@ -7,10 +7,6 @@ import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.dialogs.RequestDndPermissionDialog;
 import de.sgoral.bawifi.util.RingerModeUtil;
 
-/**
- * Created by sebastianprivat on 24.02.17.
- */
-
 public class PreferencesVolumeControlFragment extends PreferenceFragment {
 
     @Override

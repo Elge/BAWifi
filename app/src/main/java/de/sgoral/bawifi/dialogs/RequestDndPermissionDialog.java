@@ -12,10 +12,6 @@ import android.support.annotation.RequiresApi;
 
 import de.sgoral.bawifi.R;
 
-/**
- * Created by sebastianprivat on 24.02.17.
- */
-
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class RequestDndPermissionDialog extends DialogFragment {
 

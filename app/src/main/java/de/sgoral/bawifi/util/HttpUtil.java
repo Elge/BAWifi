@@ -30,6 +30,10 @@ import de.sgoral.bawifi.util.ssl.IpHostnameVerifier;
  */
 public class HttpUtil {
 
+    // Static class, hide constructor
+    private HttpUtil() {
+    }
+
     /**
      * Shortcut for using {@link #parseResponse(HttpURLConnection, HashMap)} with only one
      * pattern.

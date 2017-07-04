@@ -52,9 +52,7 @@ public class RegexpUtil {
      */
     public static final Pattern SUBMIT_VALUE = generateInputElementPattern("submit", "button");
 
-    /**
-     * Hidden because static utility class.
-     */
+    // Static class, hide constructor
     private RegexpUtil() {
 
     }

@@ -12,10 +12,6 @@ import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.dialogs.ConfirmResetPreferencesDialog;
 import de.sgoral.bawifi.util.Logger;
 
-/**
- * Created by sebastianprivat on 17.02.17.
- */
-
 public class ResetPreferencesFragment extends Fragment {
 
     @Nullable

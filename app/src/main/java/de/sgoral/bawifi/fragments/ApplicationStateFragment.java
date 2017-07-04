@@ -14,10 +14,6 @@ import de.sgoral.bawifi.appstate.ApplicationStateListener;
 import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.Logger;
 
-/**
- * Created by sebastianprivat on 06.02.17.
- */
-
 public class ApplicationStateFragment extends Fragment {
 
     private ApplicationStateListener listener;

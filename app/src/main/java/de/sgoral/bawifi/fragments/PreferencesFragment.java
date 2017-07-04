@@ -15,10 +15,6 @@ import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.NotificationUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
 
-/**
- * Created by sebastianprivat on 08.02.17.
- */
-
 public class PreferencesFragment extends PreferenceFragment {
 
     private Context context;

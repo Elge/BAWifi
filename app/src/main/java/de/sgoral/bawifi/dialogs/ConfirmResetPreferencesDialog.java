@@ -12,10 +12,6 @@ import de.sgoral.bawifi.fragments.PreferencesFragment;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 
-/**
- * Created by sebastianprivat on 21.02.17.
- */
-
 public class ConfirmResetPreferencesDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

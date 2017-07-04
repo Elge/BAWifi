@@ -10,11 +10,7 @@ import android.widget.Button;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.Logger;
-import de.sgoral.bawifi.util.WifiUtil;
-
-/**
- * Created by sebastianprivat on 08.02.17.
- */
+import de.sgoral.bawifi.util.NetworkUtil;
 
 public class ApplicationStateAuthenticatedFragment extends Fragment {
 
@@ -27,7 +23,7 @@ public class ApplicationStateAuthenticatedFragment extends Fragment {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new WifiUtil(getActivity()).performLogout();
+                NetworkUtil.performLogout(getActivity());
             }
         });
 

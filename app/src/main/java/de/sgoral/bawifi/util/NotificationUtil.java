@@ -23,9 +23,7 @@ public class NotificationUtil {
     private static final int NOTIFICATION_ID_APPLICATION_STATE = 1;
     private static final int NOTIFICATION_ID_MISSING_PERMISSION = 2;
 
-    /**
-     * Static class, no constructor please.
-     */
+    // Static class, hide constructor
     private NotificationUtil() {
     }
 
