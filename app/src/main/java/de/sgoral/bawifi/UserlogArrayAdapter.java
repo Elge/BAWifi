@@ -39,7 +39,7 @@ public class UserlogArrayAdapter extends ArrayAdapter<UserlogEntry> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         UserlogEntry item = getItem(position);
 
         if (convertView == null) {

@@ -24,8 +24,8 @@ public class UserlogUtil {
 
     public static final char USERLOG_PARTS_SEPARATOR = ':';
     public static final String USERLOG_DATA_FORMAT = "%s" + USERLOG_PARTS_SEPARATOR + "%s";
-    private static List<UserlogEntry> userlog = new ArrayList<>();
-    private static List<UserlogChangeListener> listeners = new ArrayList<>();
+    private static final List<UserlogEntry> userlog = new ArrayList<>();
+    private static final List<UserlogChangeListener> listeners = new ArrayList<>();
 
     /**
      * Private because static.

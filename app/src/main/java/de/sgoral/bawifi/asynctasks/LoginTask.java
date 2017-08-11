@@ -127,11 +127,8 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
         prefUtil.setStatusUrl(statusUrl);
         prefUtil.setStatusMessage(statusMessage);
 
-        if (statusUrl != null && logoutUrl != null) {
-            return true;
-        }
+        return statusUrl != null && logoutUrl != null;
 
-        return false;
     }
 
     @Override
@@ -145,7 +142,7 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
     protected void onPostExecute(Boolean aBoolean) {
         super.onPostExecute(aBoolean);
 
-        if (aBoolean == true) {
+        if (aBoolean) {
             ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);
         } else {
             ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);

@@ -64,7 +64,7 @@ public class LogoutTask extends RetryEnabledAsyncTask<String, Void, Boolean> {
     protected void onPostExecute(Boolean aBoolean) {
         super.onPostExecute(aBoolean);
 
-        if (aBoolean == true) {
+        if (aBoolean) {
             ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);
         } else {
             ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);

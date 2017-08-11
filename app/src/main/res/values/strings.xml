@@ -21,8 +21,8 @@
     <string name="text_disconnected">Not connected</string>
     <string name="text_connected">Connected\nReady to authenticate</string>
     <string name="text_authenticated">Authenticated</string>
-    <string name="text_authenticating">Authenticating...</string>
-    <string name="text_deauthenticating">Deauthenticating...</string>
+    <string name="text_authenticating">Authenticating…</string>
+    <string name="text_deauthenticating">Deauthenticating…</string>
 
     <string name="button_logout">Logout</string>
     <string name="button_preferences">Preferences</string>

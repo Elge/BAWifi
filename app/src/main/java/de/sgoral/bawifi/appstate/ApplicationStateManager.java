@@ -10,7 +10,7 @@ import de.sgoral.bawifi.util.Logger;
  */
 public class ApplicationStateManager {
 
-    private static List<ApplicationStateListener> listeners = new ArrayList<>();
+    private static final List<ApplicationStateListener> listeners = new ArrayList<>();
     private static ApplicationState state = ApplicationState.STATE_DISCONNECTED;
 
     /**

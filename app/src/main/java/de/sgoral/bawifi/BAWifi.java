@@ -18,6 +18,7 @@ public class BAWifi extends Application {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         Logger.log(this, "Application created");
 
         PreferencesUtil.getInstance(this).initialisePreferences();
@@ -40,5 +41,6 @@ public class BAWifi extends Application {
     public void onTerminate() {
         listener.destroy();
         Logger.log(this, "Application terminated");
+        super.onTerminate();
     }
 }

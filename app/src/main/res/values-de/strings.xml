@@ -5,11 +5,11 @@
     <string name="button_authenticate">Authentifizieren</string>
     <string name="button_preferences">Einstellungen</string>
     <string name="text_authenticated">Authentifiziert</string>
-    <string name="text_authenticating">Authentifiziere...</string>
+    <string name="text_authenticating">Authentifiziere…</string>
     <string name="text_connected">Verbunden\nWarte auf Authentizierung</string>
     <string name="text_disconnected">Nicht verbunden</string>
     <string name="button_log">Log</string>
-    <string name="text_deauthenticating">Deauthentifiziere...</string>
+    <string name="text_deauthenticating">Deauthentifiziere…</string>
     <string name="button_clear_log">Log leeren</string>
     <string name="notification_missing_preferences_text">Bitte setzen Sie einen Benutzernamen und ein Passwort</string>
     <string name="notification_missing_preferences_title">Fehlende Einstellungen</string>
