@@ -3,9 +3,11 @@ package de.sgoral.bawifi.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 
 import java.util.concurrent.ExecutionException;
 
@@ -163,4 +165,18 @@ public class NetworkUtil {
         return macAddress.replace(':', '-');
     }
 
+    /**
+     * Uses {@link ConnectivityManager#bindProcessToNetwork(Network)} to disable automatic captive
+     * portal handling for all current networks.
+     *
+     * @param context
+     */
+    public static void bypassCaptivePortal(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            for (Network network : cm.getAllNetworks()) {
+                cm.bindProcessToNetwork(network);
+            }
+        }
+    }
 }

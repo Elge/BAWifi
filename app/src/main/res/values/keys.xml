@@ -3,6 +3,7 @@
     <!-- Preferences keys -->
     <string name="preference_key_username" translatable="false">username</string>
     <string name="preference_key_password" translatable="false">password</string>
+    <string name="preference_key_captiveportal" translatable="false">captiveportal</string>
     <string name="preference_key_loginurl" translatable="false">loginurl</string>
     <string name="preference_key_logouturl" translatable="false">logouturl</string>
     <string name="preference_key_statusurl" translatable="false">statusurl</string>
@@ -26,8 +27,8 @@
     <string name="list_item_key_volume_control_mute" translatable="false">volume_control_mute</string>
 
     <!-- Magic strings -->
-    <string name="mystore_type" translatable="false">BKS</string>
-    <string name="mystore_password" translatable="false">CUSTOM_CERT</string>
+    <string name="keystore_type" translatable="false">BKS</string>
+    <string name="keystore_password" translatable="false">(FGW4z9dSf3[hE</string>
     <string name="mac_address_token" translatable="false">{mac}</string>
     <string name="ip_address_token" translatable="false">{ip}</string>
     <string name="log_file" translatable="false">log.txt</string>

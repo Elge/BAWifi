@@ -14,6 +14,7 @@ import de.sgoral.bawifi.appstate.ApplicationState;
 import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.HttpUtil;
 import de.sgoral.bawifi.util.Logger;
+import de.sgoral.bawifi.util.NetworkUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.RegexpUtil;
 
@@ -49,7 +50,7 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
 
         // Step 1
         URL url = new URL(payload.getUrl());
-        HttpUtil.bypassCaptivePortal(context);
+        NetworkUtil.bypassCaptivePortal(context);
         HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
 
         String redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false);

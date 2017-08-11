@@ -3,6 +3,7 @@ package de.sgoral.bawifi.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.Build;
 
 import java.io.BufferedReader;
@@ -12,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Set;
@@ -123,7 +125,24 @@ public class HttpUtil {
     public static HttpURLConnection openUrl(final Context context, URL url, HashMap<String,
             String> data) throws IOException {
         Logger.log(HttpUtil.class, "Connecting to ", url);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        Network[] allNetworks = cm.getAllNetworks();
+        Network activeNetwork = null;
+        for (Network network : allNetworks) {
+            NetworkInfo networkInfo = cm.getNetworkInfo(network);
+            Logger.log(HttpUtil.class, "Network info: ", networkInfo);
+            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI && networkInfo.getState() == NetworkInfo.State.CONNECTED) {
+                activeNetwork = network;
+            }
+        }
+
+        Logger.log(HttpUtil.class, "Active network info: ", cm.getActiveNetworkInfo());
+
+        HttpURLConnection connection = (HttpURLConnection) activeNetwork.openConnection(url);
+
+        connection.setConnectTimeout(500);
+        connection.setReadTimeout(500);
 
         if (connection instanceof HttpsURLConnection) {
             Logger.log(HttpUtil.class, "HTTPS connection, using custom ssl socket factory and hostname verifier");
@@ -171,14 +190,14 @@ public class HttpUtil {
      */
     public static SSLSocketFactory getSSLSocketFactory(Context context) {
         try {
-            final KeyStore ks = KeyStore.getInstance(context.getString(R.string.mystore_type));
+            final KeyStore ks = KeyStore.getInstance(context.getString(R.string.keystore_type));
 
             // the bks file we generated above
-            final InputStream in = context.getResources().openRawResource(R.raw.mystore);
+            final InputStream in = context.getResources().openRawResource(R.raw.keystore);
             try {
                 // don't forget to put the password used above in strings.xml/mystore_password
                 Logger.log(HttpUtil.class, "Loading custom certificate");
-                ks.load(in, context.getString(R.string.mystore_password).toCharArray());
+                ks.load(in, context.getString(R.string.keystore_password).toCharArray());
             } finally {
                 try {
                     in.close();
@@ -194,19 +213,5 @@ public class HttpUtil {
         }
     }
 
-    /**
-     * Uses {@link ConnectivityManager#bindProcessToNetwork(Network)} to disable automatic captive
-     * portal handling for the current network.
-     *
-     * @param context
-     */
-    public static void bypassCaptivePortal(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (cm.getAllNetworks() != null) {
-                cm.bindProcessToNetwork(cm.getActiveNetwork());
-            }
-        }
-    }
 }
 

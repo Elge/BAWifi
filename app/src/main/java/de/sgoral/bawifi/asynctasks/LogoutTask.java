@@ -10,6 +10,7 @@ import de.sgoral.bawifi.appstate.ApplicationState;
 import de.sgoral.bawifi.appstate.ApplicationStateManager;
 import de.sgoral.bawifi.util.HttpUtil;
 import de.sgoral.bawifi.util.Logger;
+import de.sgoral.bawifi.util.NetworkUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.RegexpUtil;
 
@@ -40,7 +41,7 @@ public class LogoutTask extends RetryEnabledAsyncTask<String, Void, Boolean> {
 
         Logger.log(this, "Url: ", urls[0]);
         URL url = new URL(urls[0]);
-        HttpUtil.bypassCaptivePortal(context);
+        NetworkUtil.bypassCaptivePortal(context);
         HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
         String statusMessage = HttpUtil.parseResponse(connection, RegexpUtil.STATUS_MESSAGE);
 
