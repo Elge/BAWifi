@@ -15,6 +15,6 @@ public class LogActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
-        Logger.log(this, "Activity created");
+        Logger.log(this, this, "Activity created");
     }
 }

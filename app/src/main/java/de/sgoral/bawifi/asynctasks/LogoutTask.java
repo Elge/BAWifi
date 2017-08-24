@@ -19,33 +19,30 @@ import de.sgoral.bawifi.util.RegexpUtil;
  */
 public class LogoutTask extends RetryEnabledAsyncTask<String, Void, Boolean> {
 
-    private final Context context;
-
     /**
      * Creates a new task for deauthenticating the user from the network.
      *
      * @param context
      */
     public LogoutTask(Context context) {
-        super(false);
-        this.context = context;
-        Logger.log(this, "Task created");
+        super(context);
+        Logger.log(context, this, "Task created");
     }
 
     @Override
     protected Boolean doTask(String... urls) throws IOException {
-        Logger.log(this, "Task running with ", urls.length, " url(s)");
+        Logger.log(context, this, "Task running with ", urls.length, " url(s)");
         if (urls.length != 1) {
             throw new IllegalArgumentException("Unexpected number of parameters: " + urls.length + ", expected 1");
         }
 
-        Logger.log(this, "Url: ", urls[0]);
+        Logger.log(context, this, "Url: ", urls[0]);
         URL url = new URL(urls[0]);
         NetworkUtil.bypassCaptivePortal(context);
         HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
-        String statusMessage = HttpUtil.parseResponse(connection, RegexpUtil.STATUS_MESSAGE);
+        String statusMessage = HttpUtil.parseResponse(context, connection, RegexpUtil.STATUS_MESSAGE);
 
-        Logger.log(this, "StatusMessage: ", statusMessage);
+        Logger.log(context, this, "StatusMessage: ", statusMessage);
 
         PreferencesUtil.getInstance(context).setStatusMessage(statusMessage);
 
@@ -56,8 +53,8 @@ public class LogoutTask extends RetryEnabledAsyncTask<String, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        ApplicationStateManager.changeApplicationState(ApplicationState.STATE_DEAUTHENTICATING);
-        Logger.log(this, "Task starting");
+        ApplicationStateManager.changeApplicationState(context, ApplicationState.STATE_DEAUTHENTICATING);
+        Logger.log(context, this, "Task starting");
     }
 
     @Override
@@ -65,10 +62,10 @@ public class LogoutTask extends RetryEnabledAsyncTask<String, Void, Boolean> {
         super.onPostExecute(aBoolean);
 
         if (aBoolean) {
-            ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);
+            ApplicationStateManager.changeApplicationState(context, ApplicationState.STATE_CONNECTED);
         } else {
-            ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);
+            ApplicationStateManager.changeApplicationState(context, ApplicationState.STATE_AUTHENTICATED);
         }
-        Logger.log(this, "Task finished, result: ", aBoolean);
+        Logger.log(context, this, "Task finished, result: ", aBoolean);
     }
 }

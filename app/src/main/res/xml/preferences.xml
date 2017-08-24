@@ -14,6 +14,13 @@
         android:singleLine="true"
         android:title="@string/label_password" />
 
+    <ListPreference
+        android:defaultValue="@string/list_item_key_slow_disconnect_detection_off"
+        android:entries="@array/slow_disconnect_detection_labels"
+        android:entryValues="@array/slow_disconnect_detection_keys"
+        android:key="@string/preference_key_slow_disconnect_detection"
+        android:title="@string/label_slow_disconnect_detection" />
+
     <PreferenceScreen android:title="@string/label_notifications">
         <SwitchPreference
             android:defaultValue="true"

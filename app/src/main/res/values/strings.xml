@@ -37,6 +37,11 @@
     <string name="list_item_label_volume_control_on">Loud</string>
     <string name="list_item_label_volume_control_vibrate">Vibrate</string>
     <string name="list_item_label_volume_control_mute">Mute</string>
+    <string name="list_item_label_slow_disconnect_detection_off">Don\'t delay</string>
+    <string name="list_item_label_slow_disconnect_detection_10s">10 seconds</string>
+    <string name="list_item_label_slow_disconnect_detection_30s">30 seconds</string>
+    <string name="list_item_label_slow_disconnect_detection_1m">1 minute</string>
+    <string name="list_item_label_slow_disconnect_detection_5m">5 minute</string>
 
     <string name="dialog_confirm_reset_preferences">Are you sure?</string>
     <string name="dialog_confirm_grant_dnd_permission">This feature requires a permission. Do you want to grant that permission?</string>
@@ -68,5 +73,6 @@
     <string name="toast_preferences_reset">Preferences reset</string>
     <string name="toast_log_cleared">Log cleared</string>
     <string name="toast_username_password_required">Please enter a username and password</string>
+    <string name="label_slow_disconnect_detection">Slow down disconnect detection</string>
 
 </resources>

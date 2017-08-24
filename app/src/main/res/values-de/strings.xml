@@ -58,4 +58,10 @@
     <string name="dialog_confirm_grant_dnd_permission">Diese Funktion erfordert eine Berechtigung. Möchten Sie diese Berechtigung gewähren?</string>
     <string name="notification_missing_permission_text">Die Anwendung benötigt eine Berechtigung, den DND Status zu ändern.</string>
     <string name="notification_missing_permission_title">Erforderliche Berechtigung fehlt</string>
+    <string name="list_item_label_slow_disconnect_detection_off">Nicht verzögern</string>
+    <string name="list_item_label_slow_disconnect_detection_10s">10 Sekunden</string>
+    <string name="list_item_label_slow_disconnect_detection_30s">30 Sekunden</string>
+    <string name="list_item_label_slow_disconnect_detection_1m">1 Minute</string>
+    <string name="list_item_label_slow_disconnect_detection_5m">5 Minuten</string>
+    <string name="label_slow_disconnect_detection">Verbindungstrennung verzögern</string>
 </resources>

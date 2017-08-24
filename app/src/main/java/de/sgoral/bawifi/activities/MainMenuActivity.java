@@ -15,7 +15,7 @@ public class MainMenuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        Logger.log(this, "Activity created");
+        Logger.log(this, this, "Activity created");
     }
 
 }

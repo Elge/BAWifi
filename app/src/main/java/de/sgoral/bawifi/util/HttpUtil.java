@@ -35,51 +35,55 @@ public class HttpUtil {
     }
 
     /**
-     * Shortcut for using {@link #parseResponse(HttpURLConnection, HashMap)} with only one
+     * Shortcut for using {@link #parseResponse(Context, HttpURLConnection, HashMap)} with only one
      * pattern.
      *
      * @return The result of the pattern, or null if no result is found.
      * @throws IOException
-     * @see #parseResponse(HttpURLConnection, HashMap)
+     * @see #parseResponse(Context, HttpURLConnection, HashMap)
      */
-    public static String parseResponse(HttpURLConnection connection, Pattern pattern, boolean log) throws IOException {
+    public static String parseResponse(Context context, HttpURLConnection connection, Pattern pattern, boolean log) throws IOException {
         HashMap<String, Pattern> input = new HashMap<>();
         input.put("result", pattern);
-        HashMap<String, String> result = parseResponse(connection, input, log);
+        HashMap<String, String> result = parseResponse(context, connection, input, log);
         return result == null ? null : result.get("result");
     }
 
     /**
-     * Shortcut for using {@link #parseResponse(HttpURLConnection, HashMap, boolean)} with only one
+     * Shortcut for using {@link #parseResponse(Context, HttpURLConnection, HashMap, boolean)} with only one
      * pattern.
      *
      * @return The result of the pattern, or null if no result is found.
      * @throws IOException
-     * @see #parseResponse(HttpURLConnection, HashMap, boolean)
+     * @see #parseResponse(Context, HttpURLConnection, HashMap, boolean)
      */
-    public static String parseResponse(HttpURLConnection connection, Pattern pattern) throws IOException {
-        return parseResponse(connection, pattern, false);
+    public static String parseResponse(Context context, HttpURLConnection connection, Pattern pattern) throws IOException {
+        return parseResponse(context, connection, pattern, false);
     }
 
     /**
      * Reads the server response, applying the patterns on every line. If a match is found, the
      * result is added to the returned {@link HashMap} using the same key as the patterns map.
      *
+     *
+     * @param context
      * @param connection The {@link HttpURLConnection} to read the response from.
      * @param patterns   A {@link HashMap} containing the regular expressions to match the response
      *                   lines against. The keys are used to build the response map.
      * @return A {@link HashMap} containing the matched groups using the same keys as the input patterns.
      * @throws IOException
      */
-    public static HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String,
+    public static HashMap<String, String> parseResponse(Context context, HttpURLConnection connection, HashMap<String,
             Pattern> patterns) throws IOException {
-        return parseResponse(connection, patterns, false);
+        return parseResponse(context, connection, patterns, false);
     }
 
     /**
      * Reads the server response, applying the patterns on every line. If a match is found, the
      * result is added to the returned {@link HashMap} using the same key as the patterns map.
      *
+     *
+     * @param context
      * @param connection The {@link HttpURLConnection} to read the response from.
      * @param patterns   A {@link HashMap} containing the regular expressions to match the response
      *                   lines against. The keys are used to build the response map.
@@ -87,7 +91,7 @@ public class HttpUtil {
      * @return A {@link HashMap} containing the matched groups using the same keys as the input patterns.
      * @throws IOException
      */
-    public static HashMap<String, String> parseResponse(HttpURLConnection connection, HashMap<String,
+    public static HashMap<String, String> parseResponse(Context context, HttpURLConnection connection, HashMap<String,
             Pattern> patterns, boolean dumpOutput) throws IOException {
         Set<String> keys = patterns.keySet();
         HashMap<String, String> results = new HashMap<>();
@@ -96,7 +100,7 @@ public class HttpUtil {
         String line;
         while ((line = reader.readLine()) != null) {
             if (dumpOutput) {
-                Logger.log(HttpUtil.class, line);
+                Logger.log(context, HttpUtil.class, line);
             }
             for (String key : keys) {
                 Pattern pattern = patterns.get(key);
@@ -122,20 +126,20 @@ public class HttpUtil {
      */
     public static HttpURLConnection openUrl(final Context context, URL url, HashMap<String,
             String> data) throws IOException {
-        Logger.log(HttpUtil.class, "Connecting to ", url);
+        Logger.log(context, HttpUtil.class, "Connecting to ", url);
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         Network[] allNetworks = cm.getAllNetworks();
         Network activeNetwork = null;
         for (Network network : allNetworks) {
             NetworkInfo networkInfo = cm.getNetworkInfo(network);
-            Logger.log(HttpUtil.class, "Network info: ", networkInfo);
+            Logger.log(context, HttpUtil.class, "Network info: ", networkInfo);
             if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI && networkInfo.getState() == NetworkInfo.State.CONNECTED) {
                 activeNetwork = network;
             }
         }
 
-        Logger.log(HttpUtil.class, "Active network info: ", cm.getActiveNetworkInfo());
+        Logger.log(context, HttpUtil.class, "Active network info: ", cm.getActiveNetworkInfo());
 
         HttpURLConnection connection = (HttpURLConnection) activeNetwork.openConnection(url);
 
@@ -143,17 +147,17 @@ public class HttpUtil {
         connection.setReadTimeout(500);
 
         if (connection instanceof HttpsURLConnection) {
-            Logger.log(HttpUtil.class, "HTTPS connection, using custom ssl socket factory and hostname verifier");
+            Logger.log(context, HttpUtil.class, "HTTPS connection, using custom ssl socket factory and hostname verifier");
             // Special handling for https connections is needed because of the self-signed certificate
             ((HttpsURLConnection) connection).setSSLSocketFactory(getSSLSocketFactory(context));
             ((HttpsURLConnection) connection).setHostnameVerifier(new IpHostnameVerifier());
         }
 
         if (data == null) {
-            Logger.log(HttpUtil.class, "Using GET request");
+            Logger.log(context, HttpUtil.class, "Using GET request");
             connection.setRequestMethod("GET");
         } else {
-            Logger.log(HttpUtil.class, "Using POST request");
+            Logger.log(context, HttpUtil.class, "Using POST request");
             // data is delivered as a POST request
             StringBuilder content = new StringBuilder();
             for (String key : data.keySet()) {
@@ -163,7 +167,7 @@ public class HttpUtil {
                 content.append('&');
             }
             String postData = content.toString();
-            Logger.log(HttpUtil.class, "POST data: ", postData);
+            Logger.log(context, HttpUtil.class, "POST data: ", postData);
 
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
@@ -176,7 +180,7 @@ public class HttpUtil {
             writer.close();
         }
 
-        Logger.log(HttpUtil.class, "Response: ", connection.getResponseCode(), connection.getResponseMessage());
+        Logger.log(context, HttpUtil.class, "Response: ", connection.getResponseCode(), connection.getResponseMessage());
         return connection;
     }
 
@@ -194,7 +198,7 @@ public class HttpUtil {
             final InputStream in = context.getResources().openRawResource(R.raw.keystore);
             try {
                 // don't forget to put the password used above in strings.xml/mystore_password
-                Logger.log(HttpUtil.class, "Loading custom certificate");
+                Logger.log(context, HttpUtil.class, "Loading custom certificate");
                 ks.load(in, context.getString(R.string.keystore_password).toCharArray());
             } finally {
                 try {

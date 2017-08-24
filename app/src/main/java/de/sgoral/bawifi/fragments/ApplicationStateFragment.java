@@ -30,14 +30,14 @@ public class ApplicationStateFragment extends Fragment {
             }
         };
 
-        Logger.log(this, "Fragment created");
+        Logger.log(this.getActivity(), this, "Fragment created");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        Logger.log(this, "View created");
+        Logger.log(this.getActivity(), this, "View created");
         return inflater.inflate(R.layout.fragment_application_state, container, false);
     }
 
@@ -47,7 +47,7 @@ public class ApplicationStateFragment extends Fragment {
 
         swapFragmentUsingApplicationState();
         ApplicationStateManager.addListener(listener);
-        Logger.log(this, "Fragment resumed");
+        Logger.log(this.getActivity(), this, "Fragment resumed");
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ApplicationStateFragment extends Fragment {
         super.onPause();
 
         ApplicationStateManager.removeListener(listener);
-        Logger.log(this, "Fragment paused");
+        Logger.log(this.getActivity(), this, "Fragment paused");
     }
 
     private void swapFragmentUsingApplicationState() {

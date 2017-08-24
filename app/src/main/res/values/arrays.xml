@@ -13,4 +13,20 @@
         <item>@string/list_item_label_volume_control_vibrate</item>
         <item>@string/list_item_label_volume_control_mute</item>
     </string-array>
+
+    <string-array name="slow_disconnect_detection_keys">
+        <item>@string/list_item_key_slow_disconnect_detection_off</item>
+        <item>@string/list_item_key_slow_disconnect_detection_10s</item>
+        <item>@string/list_item_key_slow_disconnect_detection_30s</item>
+        <item>@string/list_item_key_slow_disconnect_detection_1m</item>
+        <item>@string/list_item_key_slow_disconnect_detection_5m</item>
+    </string-array>
+
+    <string-array name="slow_disconnect_detection_labels">
+        <item>@string/list_item_label_slow_disconnect_detection_off</item>
+        <item>@string/list_item_label_slow_disconnect_detection_10s</item>
+        <item>@string/list_item_label_slow_disconnect_detection_30s</item>
+        <item>@string/list_item_label_slow_disconnect_detection_1m</item>
+        <item>@string/list_item_label_slow_disconnect_detection_5m</item>
+    </string-array>
 </resources>

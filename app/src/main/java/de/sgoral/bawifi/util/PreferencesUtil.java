@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import de.sgoral.bawifi.R;
+import de.sgoral.bawifi.SlowDisconnectDetection;
 import de.sgoral.bawifi.util.RingerModeUtil.RingerModeSetting;
 
 /**
@@ -282,7 +283,11 @@ public class PreferencesUtil {
      */
     public RingerModeSetting getVolumeControlOnConnect() {
         String setting = getStringPreference(R.string.preference_key_volume_control_connect);
-        return RingerModeSetting.valueOf(context, setting);
+
+        if (setting == null) {
+            return RingerModeSetting.OFF;
+        }
+        return RingerModeSetting.valueOf(setting);
     }
 
     /**
@@ -292,14 +297,32 @@ public class PreferencesUtil {
      */
     public RingerModeSetting getVolumeControlOnDisconnect() {
         String setting = getStringPreference(R.string.preference_key_volume_control_disconnect);
-        return RingerModeSetting.valueOf(context, setting);
+
+        if (setting == null) {
+            return RingerModeSetting.OFF;
+        }
+        return RingerModeSetting.valueOf(setting);
+    }
+
+    /**
+     * Loads the slow disconnect detection setting from the default shared preferences file.
+     *
+     * @return a {@link SlowDisconnectDetection}
+     */
+    public SlowDisconnectDetection getSlowDisconnectDetectionSetting() {
+        String setting = getStringPreference(R.string.preference_key_slow_disconnect_detection);
+
+        if (setting == null) {
+            return SlowDisconnectDetection.OFF;
+        }
+        return SlowDisconnectDetection.valueOf(setting);
     }
 
     /**
      * Loads default values for all preferences.
      */
     public void initialisePreferences() {
-        Logger.log(this, "Loading preferences");
+        Logger.log(context, this, "Loading preferences");
         PreferenceManager.setDefaultValues(context, R.xml.preferences, true);
     }
 
@@ -316,7 +339,7 @@ public class PreferencesUtil {
      * Resets all preferences to default values.
      */
     public void resetPreferences() {
-        Logger.log(this, "Clearing preferences");
+        Logger.log(context, this, "Clearing preferences");
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.clear();
         editor.apply();

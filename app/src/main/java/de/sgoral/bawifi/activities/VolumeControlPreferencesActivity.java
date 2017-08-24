@@ -12,7 +12,7 @@ public class VolumeControlPreferencesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences_volume_control);
-        Logger.log(this, "Activity created");
+        Logger.log(this, this, "Activity created");
     }
 
 }

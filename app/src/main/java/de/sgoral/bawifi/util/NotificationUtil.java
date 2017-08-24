@@ -78,7 +78,7 @@ public class NotificationUtil {
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = builder.build();
-        Logger.log(NotificationUtil.class, "Showing notification#", notificationId, ':', notification);
+        Logger.log(context, NotificationUtil.class, "Showing notification#", notificationId, ':', notification);
         manager.notify(notificationId, notification);
     }
 
@@ -160,7 +160,7 @@ public class NotificationUtil {
      */
     public static void removeMissingPreferencesNotification(Context context) {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Logger.log(NotificationUtil.class, "Removing missing preferences notification");
+        Logger.log(context, NotificationUtil.class, "Removing missing preferences notification");
         manager.cancel(NOTIFICATION_ID_MISSINGPREFERENCES);
     }
 

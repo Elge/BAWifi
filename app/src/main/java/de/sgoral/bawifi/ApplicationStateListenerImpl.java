@@ -8,7 +8,6 @@ import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.NotificationUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
 import de.sgoral.bawifi.util.RingerModeUtil;
-import de.sgoral.bawifi.util.userlog.UserlogUtil;
 import de.sgoral.bawifi.util.RingerModeUtil.RingerModeSetting;
 
 /**
@@ -27,7 +26,7 @@ public class ApplicationStateListenerImpl extends ApplicationStateListener {
     public ApplicationStateListenerImpl(Context context) {
         this.context = context;
         initialise();
-        Logger.log(this, "Initialised");
+        Logger.log(context, this, "Initialised");
     }
 
     /**
@@ -37,44 +36,44 @@ public class ApplicationStateListenerImpl extends ApplicationStateListener {
         listener = new ApplicationStateListener() {
             @Override
             public void onAuthenticationStarted() {
-                UserlogUtil.log(context, context.getString(R.string.log_authenticating));
+                Logger.log(context, ApplicationStateListenerImpl.class, context.getString(R.string.log_authenticating));
             }
 
             @Override
             public void onAuthenticationSuccessful() {
                 NotificationUtil.addAuthenticationSuccessfulNotification(context);
-                UserlogUtil.log(context, context.getString(R.string.log_authenticated));
+                Logger.log(context, ApplicationStateListenerImpl.class, context.getString(R.string.log_authenticated));
             }
 
             @Override
             public void onAuthenticationFailed() {
                 NotificationUtil.addAuthenticationFailedNotification(context);
-                UserlogUtil.log(context, context.getString(R.string.log_authentication_failed));
-                UserlogUtil.log(context, PreferencesUtil.getInstance(context).getStatusMessage());
+                Logger.log(context, ApplicationStateListenerImpl.class, context.getString(R.string.log_authentication_failed));
+                Logger.log(context, ApplicationStateListenerImpl.class, PreferencesUtil.getInstance(context).getStatusMessage());
             }
 
             @Override
             public void onDeauthenticationStarted() {
-                UserlogUtil.log(context, context.getString(R.string.log_deauthenticating));
+                Logger.log(context, ApplicationStateListenerImpl.class, context.getString(R.string.log_deauthenticating));
             }
 
             @Override
             public void onDeauthenticationSuccessful() {
                 NotificationUtil.addDeauthenticationSuccessfulNotification(context);
-                UserlogUtil.log(context, context.getString(R.string.log_deauthenticated));
+                Logger.log(context, ApplicationStateListenerImpl.class, context.getString(R.string.log_deauthenticated));
             }
 
             @Override
             public void onDeauthenticationFailed() {
                 NotificationUtil.addDeauthenticationFailedNotification(context);
-                UserlogUtil.log(context, context.getString(R.string.log_deauthentication_failed));
-                UserlogUtil.log(context, PreferencesUtil.getInstance(context).getStatusMessage());
+                Logger.log(context, ApplicationStateListenerImpl.class, context.getString(R.string.log_deauthentication_failed));
+                Logger.log(context, ApplicationStateListenerImpl.class, PreferencesUtil.getInstance(context).getStatusMessage());
             }
 
             @Override
             public void onNetworkConnected() {
                 NotificationUtil.addConnectedNotification(context);
-                UserlogUtil.log(context, context.getString(R.string.log_connected));
+                Logger.log(context, ApplicationStateListenerImpl.class, context.getString(R.string.log_connected));
 
                 RingerModeSetting setting = PreferencesUtil.getInstance(context).getVolumeControlOnConnect();
                 RingerModeUtil util = RingerModeUtil.getInstance(context);
@@ -88,7 +87,7 @@ public class ApplicationStateListenerImpl extends ApplicationStateListener {
             @Override
             public void onNetworkDisconnected() {
                 NotificationUtil.addDisconnectedNotification(context);
-                UserlogUtil.log(context, context.getString(R.string.log_disconnected));
+                Logger.log(context, ApplicationStateListenerImpl.class, context.getString(R.string.log_disconnected));
 
                 RingerModeSetting setting = PreferencesUtil.getInstance(context).getVolumeControlOnDisconnect();
                 RingerModeUtil util = RingerModeUtil.getInstance(context);
@@ -102,7 +101,7 @@ public class ApplicationStateListenerImpl extends ApplicationStateListener {
             @Override
             public void onAlreadyAuthenticated() {
                 NotificationUtil.addAlreadyAuthenticatedNotification(context);
-                UserlogUtil.log(context, context.getString(R.string.log_already_authenticated));
+                Logger.log(context, ApplicationStateListenerImpl.class, context.getString(R.string.log_already_authenticated));
             }
         };
 
@@ -114,7 +113,7 @@ public class ApplicationStateListenerImpl extends ApplicationStateListener {
      */
     public void pause() {
         ApplicationStateManager.removeListener(listener);
-        Logger.log(this, "Listener paused");
+        Logger.log(context, this, "Listener paused");
     }
 
     /**
@@ -122,7 +121,7 @@ public class ApplicationStateListenerImpl extends ApplicationStateListener {
      */
     public void resume() {
         ApplicationStateManager.addListener(listener);
-        Logger.log(this, "Listener resumed");
+        Logger.log(context, this, "Listener resumed");
     }
 
     /**
@@ -131,6 +130,6 @@ public class ApplicationStateListenerImpl extends ApplicationStateListener {
     public void destroy() {
         ApplicationStateManager.removeListener(listener);
         listener = null;
-        Logger.log(this, "Listener destroyed");
+        Logger.log(context, this, "Listener destroyed");
     }
 }

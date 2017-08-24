@@ -15,7 +15,7 @@ public class ApplicationStateDeAuthenticatingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Logger.log(this, "View created");
+        Logger.log(this.getActivity(), this, "View created");
         return inflater.inflate(R.layout.fragment_application_state_deauthenticating, container, false);
     }
 }

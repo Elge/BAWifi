@@ -19,18 +19,18 @@ public class BAWifi extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Logger.log(this, "Application created");
+        Logger.log(this, this, "Application created");
 
         PreferencesUtil.getInstance(this).initialisePreferences();
 
         if (NetworkUtil.isConnected(this)) {
             if (NetworkUtil.isAuthenticated(this)) {
-                ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);
+                ApplicationStateManager.changeApplicationState(this, ApplicationState.STATE_AUTHENTICATED);
             } else {
-                ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);
+                ApplicationStateManager.changeApplicationState(this, ApplicationState.STATE_CONNECTED);
             }
         } else {
-            ApplicationStateManager.changeApplicationState(ApplicationState.STATE_DISCONNECTED);
+            ApplicationStateManager.changeApplicationState(this, ApplicationState.STATE_DISCONNECTED);
         }
 
         UserlogUtil.loadFromFile(this);
@@ -40,7 +40,7 @@ public class BAWifi extends Application {
     @Override
     public void onTerminate() {
         listener.destroy();
-        Logger.log(this, "Application terminated");
+        Logger.log(this, this, "Application terminated");
         super.onTerminate();
     }
 }

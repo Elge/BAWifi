@@ -29,7 +29,6 @@ public class AdditionalKeyStoresSSLSocketFactory extends SSLSocketFactory {
     public AdditionalKeyStoresSSLSocketFactory(KeyStore keyStore) throws NoSuchAlgorithmException, KeyManagementException {
         super();
         sslContext.init(null, new TrustManager[]{new AdditionalKeyStoresTrustManager(keyStore)}, null);
-        Logger.log(this, "Created");
     }
 
     @Override

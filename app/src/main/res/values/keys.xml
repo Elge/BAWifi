@@ -18,12 +18,18 @@
     <string name="preference_key_volume_control" translatable="false">volume_control</string>
     <string name="preference_key_volume_control_connect" translatable="false">volume_control_connect</string>
     <string name="preference_key_volume_control_disconnect" translatable="false">volume_control_disconnect</string>
+    <string name="preference_key_slow_disconnect_detection" translatable="false">slow_disconnect_detection</string>
 
     <!-- list keys -->
-    <string name="list_item_key_volume_control_off" translatable="false">volume_control_off</string>
-    <string name="list_item_key_volume_control_on" translatable="false">volume_control_on</string>
-    <string name="list_item_key_volume_control_vibrate" translatable="false">volume_control_vibrate</string>
-    <string name="list_item_key_volume_control_mute" translatable="false">volume_control_mute</string>
+    <string name="list_item_key_volume_control_off" translatable="false">OFF</string>
+    <string name="list_item_key_volume_control_on" translatable="false">LOUD</string>
+    <string name="list_item_key_volume_control_vibrate" translatable="false">VIBRATE</string>
+    <string name="list_item_key_volume_control_mute" translatable="false">MUTE</string>
+    <string name="list_item_key_slow_disconnect_detection_off" translatable="false">OFF</string>
+    <string name="list_item_key_slow_disconnect_detection_10s" translatable="false">TEN_SECONDS</string>
+    <string name="list_item_key_slow_disconnect_detection_30s" translatable="false">THIRTY_SECONDS</string>
+    <string name="list_item_key_slow_disconnect_detection_1m" translatable="false">ONE_MINUTE</string>
+    <string name="list_item_key_slow_disconnect_detection_5m" translatable="false">FIVE_MINUTES</string>
 
     <!-- Magic strings -->
     <string name="keystore_type" translatable="false">BKS</string>

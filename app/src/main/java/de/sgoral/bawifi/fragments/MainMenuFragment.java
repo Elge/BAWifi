@@ -42,7 +42,7 @@ public class MainMenuFragment extends Fragment {
             }
         });
 
-        Logger.log(this, "View created");
+        Logger.log(this.getActivity(), this, "View created");
         return view;
     }
 }

@@ -24,7 +24,6 @@ import de.sgoral.bawifi.util.RegexpUtil;
  */
 public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean> {
 
-    private final Context context;
     private SSLSocketFactory sslSocketFactory = null;
 
     /**
@@ -33,29 +32,28 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
      * @param context
      */
     public LoginTask(Context context) {
-        super(false);
-        this.context = context;
-        Logger.log(this, "Task created");
+        super(context);
+        Logger.log(context, this, "Task created");
     }
 
     @Override
     protected Boolean doTask(LoginPayload... payloads) throws IOException {
-        Logger.log(this, "Task running with ", payloads.length, " payload(s)");
+        Logger.log(context, this, "Task running with ", payloads.length, " payload(s)");
         if (payloads.length != 1) {
             throw new IllegalArgumentException("Unexpected number of parameters: " + payloads.length + ", expected 1");
         }
 
         LoginPayload payload = payloads[0];
-        Logger.log(this, "Payload data: ", payload);
+        Logger.log(context, this, "Payload data: ", payload);
 
         // Step 1
         URL url = new URL(payload.getUrl());
         NetworkUtil.bypassCaptivePortal(context);
         HttpURLConnection connection = HttpUtil.openUrl(this.context, url, null);
 
-        String redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT, false);
+        String redirectUrl = HttpUtil.parseResponse(context, connection, RegexpUtil.META_REDIRECT, false);
         if (redirectUrl == null) {
-            Logger.log(this, "No redirect url found, aborting");
+            Logger.log(context, this, "No redirect url found, aborting");
             return false;
         }
 
@@ -63,7 +61,7 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
         connection = HttpUtil.openUrl(this.context, new URL(url, redirectUrl), null);
         String location = connection.getHeaderField("Location");
         if (location == null) {
-            Logger.log(this, "No location header found, aborting");
+            Logger.log(context, this, "No location header found, aborting");
             return false;
         }
 
@@ -77,15 +75,15 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
         map.put("uamip", RegexpUtil.UAMIP_VALUE);
         map.put("uamport", RegexpUtil.UAMPORT_VALUE);
         map.put("submit", RegexpUtil.SUBMIT_VALUE);
-        HashMap<String, String> result = HttpUtil.parseResponse(connection, map);
+        HashMap<String, String> result = HttpUtil.parseResponse(context, connection, map);
 
         if (result == null) {
-            Logger.log(this, "Result is null, aborting");
+            Logger.log(context, this, "Result is null, aborting");
             return false;
         } else if (result.size() != 5) {
-            Logger.log(this, "Unexpected result size: ", result.size());
+            Logger.log(context, this, "Unexpected result size: ", result.size());
             for (String key : result.keySet()) {
-                Logger.log(this, '\t', key, '=', result.get(key));
+                Logger.log(context, this, '\t', key, '=', result.get(key));
             }
             return false;
         }
@@ -99,10 +97,10 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
         data.put("uamport", result.get("uamport"));
         data.put("button", result.get("submit"));
         connection = HttpUtil.openUrl(this.context, new URL(url, result.get("action")), data);
-        redirectUrl = HttpUtil.parseResponse(connection, RegexpUtil.META_REDIRECT);
+        redirectUrl = HttpUtil.parseResponse(context, connection, RegexpUtil.META_REDIRECT);
 
         if (redirectUrl == null) {
-            Logger.log(this, "No redirect url found, aborting");
+            Logger.log(context, this, "No redirect url found, aborting");
             return false;
         }
 
@@ -112,15 +110,15 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
         map.put("logouturl", RegexpUtil.LOGOUT_URL);
         map.put("statusurl", RegexpUtil.STATUS_URL);
         map.put("statusmessage", RegexpUtil.STATUS_MESSAGE);
-        result = HttpUtil.parseResponse(connection, map);
+        result = HttpUtil.parseResponse(context, connection, map);
 
         String logoutUrl = result.get("logouturl");
         String statusUrl = result.get("statusurl");
         String statusMessage = result.get("statusmessage");
 
-        Logger.log(this, "LogoutUrl: ", logoutUrl);
-        Logger.log(this, "StatusUrl: ", statusUrl);
-        Logger.log(this, "StatusMessage: ", statusMessage);
+        Logger.log(context, this, "LogoutUrl: ", logoutUrl);
+        Logger.log(context, this, "StatusUrl: ", statusUrl);
+        Logger.log(context, this, "StatusMessage: ", statusMessage);
 
         PreferencesUtil prefUtil = PreferencesUtil.getInstance(context);
         prefUtil.setLogoutUrl(logoutUrl);
@@ -134,8 +132,8 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATING);
-        Logger.log(this, "Task starting");
+        ApplicationStateManager.changeApplicationState(context, ApplicationState.STATE_AUTHENTICATING);
+        Logger.log(context, this, "Task starting");
     }
 
     @Override
@@ -143,10 +141,10 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
         super.onPostExecute(aBoolean);
 
         if (aBoolean) {
-            ApplicationStateManager.changeApplicationState(ApplicationState.STATE_AUTHENTICATED);
+            ApplicationStateManager.changeApplicationState(context, ApplicationState.STATE_AUTHENTICATED);
         } else {
-            ApplicationStateManager.changeApplicationState(ApplicationState.STATE_CONNECTED);
+            ApplicationStateManager.changeApplicationState(context, ApplicationState.STATE_CONNECTED);
         }
-        Logger.log(this, "Task finished, result: ", aBoolean);
+        Logger.log(context, this, "Task finished, result: ", aBoolean);
     }
 }

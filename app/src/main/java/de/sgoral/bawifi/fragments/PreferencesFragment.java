@@ -47,12 +47,12 @@ public class PreferencesFragment extends PreferenceFragment {
             }
         });
 
-        Logger.log(this, "PreferenceFragment created");
+        Logger.log(this.getActivity(), this, "PreferenceFragment created");
 
     }
 
     public void redrawScreen() {
-        Logger.log(this, "Redraw requested");
+        Logger.log(this.getActivity(), this, "Redraw requested");
         setPreferenceScreen(null);
         addPreferencesFromResource(R.xml.preferences);
     }

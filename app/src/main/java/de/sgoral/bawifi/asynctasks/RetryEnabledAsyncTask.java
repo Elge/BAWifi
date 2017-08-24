@@ -1,5 +1,6 @@
 package de.sgoral.bawifi.asynctasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import java.net.SocketException;
@@ -18,14 +19,15 @@ abstract class RetryEnabledAsyncTask<Params, Progress, Result> extends AsyncTask
     protected final int maxRetries;
     protected final Class<? extends Throwable> retryOn;
     protected final Result returnOnFail;
+    protected final Context context;
 
     protected int retries;
 
     /**
      * Creates a new task that retries on SocketException up to {@value DEFAULT_MAX_RETRIES} times.
      */
-    protected RetryEnabledAsyncTask() {
-        this(SocketException.class, DEFAULT_MAX_RETRIES, null);
+    protected RetryEnabledAsyncTask(Context context) {
+        this(SocketException.class, DEFAULT_MAX_RETRIES, null, context);
     }
 
 
@@ -35,8 +37,8 @@ abstract class RetryEnabledAsyncTask<Params, Progress, Result> extends AsyncTask
      * @param maxRetries The maximum number of retries before the task fails. 0 means no retries.
      *                   Negative value means infinite retries.
      */
-    protected RetryEnabledAsyncTask(int maxRetries) {
-        this(SocketException.class, maxRetries, null);
+    protected RetryEnabledAsyncTask(int maxRetries, Context context) {
+        this(SocketException.class, maxRetries, null, context);
     }
 
     /**
@@ -44,8 +46,8 @@ abstract class RetryEnabledAsyncTask<Params, Progress, Result> extends AsyncTask
      *
      * @param retryOn The exception class that must occur to trigger a retry. Is checked using instanceof.
      */
-    protected RetryEnabledAsyncTask(Class<? extends Throwable> retryOn) {
-        this(retryOn, DEFAULT_MAX_RETRIES, null);
+    protected RetryEnabledAsyncTask(Class<? extends Throwable> retryOn, Context context) {
+        this(retryOn, DEFAULT_MAX_RETRIES, null, context);
     }
 
     /**
@@ -54,8 +56,8 @@ abstract class RetryEnabledAsyncTask<Params, Progress, Result> extends AsyncTask
      * @param returnOnFail The value to return when the method fails due to triggering an uncaught
      *                     exception or exceeding the maximum number of retries.
      */
-    protected RetryEnabledAsyncTask(Result returnOnFail) {
-        this(SocketException.class, DEFAULT_MAX_RETRIES, returnOnFail);
+    protected RetryEnabledAsyncTask(Result returnOnFail, Context context) {
+        this(SocketException.class, DEFAULT_MAX_RETRIES, returnOnFail, context);
     }
 
     /**
@@ -68,15 +70,16 @@ abstract class RetryEnabledAsyncTask<Params, Progress, Result> extends AsyncTask
      *                     exception or exceeding the maximum number of retries.
      */
     protected RetryEnabledAsyncTask(Class<? extends Throwable> retryOn,
-                                    int maxRetries, Result returnOnFail) {
+                                    int maxRetries, Result returnOnFail, Context context) {
         super();
 
         this.maxRetries = maxRetries;
         this.retryOn = retryOn;
         this.returnOnFail = returnOnFail;
+        this.context = context;
 
         retries = 0;
-        Logger.log(this, "Task created");
+        Logger.log(context, this, "Task created");
     }
 
     @Override
@@ -87,14 +90,14 @@ abstract class RetryEnabledAsyncTask<Params, Progress, Result> extends AsyncTask
             if (t instanceof RuntimeException) {
                 throw (RuntimeException) t;
             }
-            Logger.log(this, t);
+            Logger.log(context, this, t);
 
             if (retryOn.isInstance(t)) {
                 if (maxRetries >= 0 && retries >= maxRetries) {
-                    Logger.log(this, "Maximum number of retries exceeded, aborting");
+                    Logger.log(context, this, "Maximum number of retries exceeded, aborting");
                 } else {
                     // Probably timed out, retry
-                    Logger.log(this, "Ignoring SocketException and retrying");
+                    Logger.log(context, this, "Ignoring SocketException and retrying");
                     retries++;
                     return doInBackground(params);
                 }

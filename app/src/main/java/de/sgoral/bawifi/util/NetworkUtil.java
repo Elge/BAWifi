@@ -132,7 +132,7 @@ public class NetworkUtil {
         try {
             return task.get();
         } catch (InterruptedException | ExecutionException e) {
-            Logger.log(NetworkUtil.class, e);
+            Logger.log(context, NetworkUtil.class, e);
         }
         return false;
     }

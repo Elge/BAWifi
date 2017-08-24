@@ -1,5 +1,7 @@
 package de.sgoral.bawifi.appstate;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,6 @@ public class ApplicationStateManager {
      */
     public static void addListener(ApplicationStateListener listener) {
         ApplicationStateManager.listeners.add(listener);
-        Logger.log(ApplicationStateManager.class, "Listener added");
     }
 
     /**
@@ -36,24 +37,25 @@ public class ApplicationStateManager {
      * @return true if the listener was present previously.
      */
     public static boolean removeListener(ApplicationStateListener listener) {
-        Logger.log(ApplicationStateManager.class, "Listener removed");
         return ApplicationStateManager.listeners.remove(listener);
     }
 
     /**
      * Changes the application state to a new value.
      *
+     *
+     * @param context
      * @param newState The state to change to.
      * @return The previous application state.
      */
-    public static ApplicationState changeApplicationState(ApplicationState newState) {
+    public static ApplicationState changeApplicationState(Context context, ApplicationState newState) {
         ApplicationState prevState = state;
         state = newState;
 
         if (state == prevState) {
-            Logger.log(ApplicationStateManager.class, "Application state unchanged: ", newState);
+            Logger.log(context, ApplicationStateManager.class, "Application state unchanged: ", newState);
         } else {
-            Logger.log(ApplicationStateManager.class, "Application state changed from ", prevState, " to ", newState);
+            Logger.log(context, ApplicationStateManager.class, "Application state changed from ", prevState, " to ", newState);
             // Trigger listeners
             for (ApplicationStateListener listener : listeners) {
                 listener.onApplicationStateChanged(state, prevState);

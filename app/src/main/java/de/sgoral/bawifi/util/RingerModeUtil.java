@@ -29,7 +29,7 @@ public class RingerModeUtil {
      * @return true if the there were no problems, false if we lack the required permission
      */
     public boolean changeRingerMode(RingerModeSetting mode) {
-        UserlogUtil.log(context, "Changing ringer mode to " + mode);
+        Logger.log(context, this, "Changing ringer mode to " + mode);
         switch (mode) {
             case LOUD:
                 return setRingerMode(AudioManager.RINGER_MODE_NORMAL);
@@ -82,21 +82,5 @@ public class RingerModeUtil {
         LOUD,
         VIBRATE,
         MUTE;
-
-        public static RingerModeSetting valueOf(Context context, String setting) {
-            if (context.getString(R.string.list_item_key_volume_control_off).equals(setting)) {
-                return OFF;
-            }
-            if (context.getString(R.string.list_item_key_volume_control_on).equals(setting)) {
-                return LOUD;
-            }
-            if (context.getString(R.string.list_item_key_volume_control_vibrate).equals(setting)) {
-                return VIBRATE;
-            }
-            if (context.getString(R.string.list_item_key_volume_control_mute).equals(setting)) {
-                return MUTE;
-            }
-            throw new RuntimeException("Unexpected volume control setting: " + setting);
-        }
     }
 }

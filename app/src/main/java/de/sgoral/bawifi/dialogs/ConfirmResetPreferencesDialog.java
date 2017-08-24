@@ -31,12 +31,12 @@ public class ConfirmResetPreferencesDialog extends DialogFragment {
 
         builder.setNegativeButton(R.string.button_cancel, null);
 
-        Logger.log(this, "Dialog created");
+        Logger.log(this.getActivity(), this, "Dialog created");
         return builder.create();
     }
 
     private void confirmReset() {
         Toast.makeText(getActivity(), R.string.toast_preferences_reset, Toast.LENGTH_SHORT).show();
-        Logger.log(this, "Reset confirmed");
+        Logger.log(this.getActivity(), this, "Reset confirmed");
     }
 }
