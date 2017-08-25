@@ -22,10 +22,12 @@ import de.sgoral.bawifi.util.Logger;
  */
 public class UserlogUtil {
 
-    public static final char USERLOG_PARTS_SEPARATOR = ':';
-    public static final String USERLOG_DATA_FORMAT = "%s" + USERLOG_PARTS_SEPARATOR + "%s" + USERLOG_PARTS_SEPARATOR + "%s";
+    private static final char USERLOG_PARTS_SEPARATOR = ':';
+    private static final String USERLOG_DATA_FORMAT = "%s" + USERLOG_PARTS_SEPARATOR + "%s" + USERLOG_PARTS_SEPARATOR + "%s";
     private static final List<UserlogEntry> userlog = new ArrayList<>();
     private static final List<UserlogChangeListener> listeners = new ArrayList<>();
+    private static final String SYSTEM_LINE_SEPARATOR = System.getProperty("line.separator");
+    private static final String CUSTOM_LINE_SEPARATOR = "%LINESEP%";
 
     /**
      * Private because static.
@@ -44,8 +46,13 @@ public class UserlogUtil {
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(":", 3);
-                userlog.add(new UserlogEntry(Long.valueOf(parts[0]), UserlogEntry.Type.valueOf(parts[1]), parts[2]));
+                try {
+                    String[] parts = line.split(":", 3);
+                    userlog.add(new UserlogEntry(Long.valueOf(parts[0]), UserlogEntry.Type.valueOf(parts[1]),
+                            parts[2].replace(CUSTOM_LINE_SEPARATOR, SYSTEM_LINE_SEPARATOR)));
+                } catch (Exception e) {
+                    // Ignore
+                }
             }
             reader.close();
         } catch (IOException e) {
@@ -69,9 +76,10 @@ public class UserlogUtil {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stream));
             for (UserlogEntry entry : userlog) {
                 String line = String.format(Locale.US, USERLOG_DATA_FORMAT,
-                        Long.toString(entry.getTime()), entry.getType().toString(), entry.getMessage());
+                        Long.toString(entry.getTime()), entry.getType().toString(),
+                        entry.getMessage().replace(SYSTEM_LINE_SEPARATOR, CUSTOM_LINE_SEPARATOR));
                 writer.write(line);
-                writer.write(Character.LINE_SEPARATOR);
+                writer.write(SYSTEM_LINE_SEPARATOR);
             }
             writer.flush();
             writer.close();
@@ -100,8 +108,9 @@ public class UserlogUtil {
         try {
             FileOutputStream stream = context.openFileOutput(context.getString(R.string.log_file), Context.MODE_APPEND);
             stream.write(String.format(Locale.US, USERLOG_DATA_FORMAT,
-                    Long.toString(time), type.toString(), message).getBytes());
-            stream.write(Character.LINE_SEPARATOR);
+                    Long.toString(time), type.toString(),
+                    message.replace(SYSTEM_LINE_SEPARATOR, CUSTOM_LINE_SEPARATOR)).getBytes());
+            stream.write(SYSTEM_LINE_SEPARATOR.getBytes());
             stream.flush();
             stream.close();
         } catch (IOException e) {
@@ -117,8 +126,8 @@ public class UserlogUtil {
      * Adds an entry to the userlog list and saves it to the log file.
      *
      * @param context
-     * @param parts The message parts to concat to a message. Writes null if the object is null,
-     *              otherwise its toString method is called.
+     * @param parts   The message parts to concat to a message. Writes null if the object is null,
+     *                otherwise its toString method is called.
      */
     public static void log(Context context, UserlogEntry.Type type, Object... parts) {
         StringBuilder builder = new StringBuilder();
@@ -196,7 +205,6 @@ public class UserlogUtil {
             case "bawifi":
                 return UserlogEntry.Type.SYSTEM;
             default:
-                System.out.println("Hello");
                 return null;
         }
     }

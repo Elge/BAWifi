@@ -22,9 +22,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.PreferencesActivity" />
-        <activity android:name=".activities.LogActivity" />
-        <activity android:name=".activities.VolumeControlPreferencesActivity" />
+        <activity
+            android:name=".activities.PreferencesActivity"
+            android:label="@string/button_preferences"
+            android:parentActivityName=".activities.MainMenuActivity" />
+        <activity
+            android:name=".activities.LogActivity"
+            android:label="@string/button_log"
+            android:parentActivityName=".activities.MainMenuActivity" />
 
         <receiver android:name=".WifiBroadcastReceiver">
             <intent-filter>

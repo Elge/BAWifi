@@ -1,14 +1,13 @@
 package de.sgoral.bawifi.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import de.sgoral.bawifi.R;
-import de.sgoral.bawifi.activities.VolumeControlPreferencesActivity;
+import de.sgoral.bawifi.activities.PreferencesActivity;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.NotificationUtil;
 import de.sgoral.bawifi.util.PreferencesUtil;
@@ -28,32 +27,43 @@ public class PreferencesFragment extends PreferenceFragment {
                 new SharedPreferences.OnSharedPreferenceChangeListener() {
                     @Override
                     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                        PreferencesUtil prefUtil = PreferencesUtil.getInstance(context);
-                        if (prefUtil.getUsername() == null || prefUtil.getUsername().equals("")
-                                || prefUtil.getPassword() == null || prefUtil.getPassword().equals("")) {
-                            NotificationUtil.addMissingPreferencesNotification(context);
-                        } else {
-                            NotificationUtil.removeMissingPreferencesNotification(context);
+                        if (key.equals(context.getString(R.string.preference_key_username))
+                                || key.equals(context.getString(R.string.preference_key_password))) {
+
+                            PreferencesUtil prefUtil = PreferencesUtil.getInstance(context);
+                            if (prefUtil.getUsername() == null || prefUtil.getUsername().equals("")
+                                    || prefUtil.getPassword() == null || prefUtil.getPassword().equals("")) {
+                                NotificationUtil.addMissingPreferencesNotification(context);
+                            } else {
+                                NotificationUtil.removeMissingPreferencesNotification(context);
+                            }
                         }
                     }
                 });
 
-        Preference volumeControl = findPreference(getString(R.string.preference_key_volume_control));
-        volumeControl.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Preference.OnPreferenceClickListener clickListener = new Preference.OnPreferenceClickListener() {
+
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(getActivity(), VolumeControlPreferencesActivity.class));
-                return true;
+                if (preference.getKey().equals(context.getString(R.string.preference_key_notifications))) {
+                    ((PreferencesActivity) getActivity()).switchFragment(new PreferencesNotificationsFragment());
+                    return true;
+                }
+                if (preference.getKey().equals(context.getString(R.string.preference_key_volume_control))) {
+                    ((PreferencesActivity) getActivity()).switchFragment(new PreferencesVolumeControlFragment());
+                    return true;
+                }
+                return false;
             }
-        });
+
+        };
+
+        findPreference(context.getString(R.string.preference_key_notifications))
+                .setOnPreferenceClickListener(clickListener);
+        findPreference(context.getString(R.string.preference_key_volume_control))
+                .setOnPreferenceClickListener(clickListener);
 
         Logger.log(this.getActivity(), this, "PreferenceFragment created");
 
-    }
-
-    public void redrawScreen() {
-        Logger.log(this.getActivity(), this, "Redraw requested");
-        setPreferenceScreen(null);
-        addPreferencesFromResource(R.xml.preferences);
     }
 }

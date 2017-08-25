@@ -180,7 +180,7 @@ public class HttpUtil {
             writer.close();
         }
 
-        Logger.log(context, HttpUtil.class, "Response: ", connection.getResponseCode(), connection.getResponseMessage());
+        Logger.log(context, HttpUtil.class, "Response: ", connection.getResponseCode(), ' ', connection.getResponseMessage());
         return connection;
     }
 

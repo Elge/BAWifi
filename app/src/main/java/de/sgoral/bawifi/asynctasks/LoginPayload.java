@@ -35,11 +35,7 @@ public class LoginPayload {
 
     @Override
     public String toString() {
-        return "LoginPayload{" +
-                "ssid='" + ssid + '\'' +
-                ", url='" + url + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return String.format("LoginPayload[ssid='%s', url='%s', username='%s', password='********']",
+                ssid, url, username);
     }
 }

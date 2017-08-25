@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <fragment
-        android:id="@+id/fragment_preferences"
-        android:name="de.sgoral.bawifi.fragments.PreferencesFragment"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_preferences"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <fragment
-        android:id="@+id/fragment_clear_log"
-        android:name="de.sgoral.bawifi.fragments.ClearLogFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <fragment
-        android:id="@+id/fragment_reset_preferences"
-        android:name="de.sgoral.bawifi.fragments.ResetPreferencesFragment"
+    <FrameLayout
+        android:id="@+id/container_preferences"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

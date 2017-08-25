@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import de.sgoral.bawifi.R;
-import de.sgoral.bawifi.fragments.PreferencesFragment;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.PreferencesUtil;
 
@@ -22,10 +21,6 @@ public class ConfirmResetPreferencesDialog extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 PreferencesUtil.getInstance(getActivity()).resetPreferences();
                 confirmReset();
-                PreferencesFragment fragment = (PreferencesFragment) getFragmentManager().findFragmentById(R.id.fragment_preferences);
-                if (fragment != null) {
-                    fragment.redrawScreen();
-                }
             }
         });
 

@@ -21,47 +21,9 @@
         android:key="@string/preference_key_slow_disconnect_detection"
         android:title="@string/label_slow_disconnect_detection" />
 
-    <PreferenceScreen android:title="@string/label_notifications">
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/preference_key_notifications_all"
-            android:title="@string/label_all_notifications" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="@string/preference_key_notifications_all"
-            android:key="@string/preference_key_notification_connected"
-            android:title="@string/label_connected_notifications" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="@string/preference_key_notifications_all"
-            android:key="@string/preference_key_notification_disconnected"
-            android:title="@string/label_disconnected_notifications" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:dependency="@string/preference_key_notifications_all"
-            android:key="@string/preference_key_notification_authenticated"
-            android:title="@string/label_authenticated_notifications" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="@string/preference_key_notifications_all"
-            android:key="@string/preference_key_notification_already_authenticated"
-            android:title="@string/label_already_authenticated_notifications" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:dependency="@string/preference_key_notifications_all"
-            android:key="@string/preference_key_notification_authentication_failed"
-            android:title="@string/label_authentication_failed_notifications" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="@string/preference_key_notifications_all"
-            android:key="@string/preference_key_notification_deauthenticated"
-            android:title="@string/label_deauthenticated_notifications" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:dependency="@string/preference_key_notifications_all"
-            android:key="@string/preference_key_notification_deauthentication_failed"
-            android:title="@string/label_deauthentication_failed_notifications" />
-    </PreferenceScreen>
+    <Preference
+        android:key="@string/preference_key_notifications"
+        android:title="@string/label_notifications" />
 
     <Preference
         android:key="@string/preference_key_volume_control"

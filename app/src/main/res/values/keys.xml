@@ -7,6 +7,7 @@
     <string name="preference_key_logouturl" translatable="false">logouturl</string>
     <string name="preference_key_statusurl" translatable="false">statusurl</string>
     <string name="preference_key_statusmessage" translatable="false">statusmessage</string>
+    <string name="preference_key_notifications" translatable="false">notifications</string>
     <string name="preference_key_notifications_all" translatable="false">notifications_all</string>
     <string name="preference_key_notification_connected" translatable="false">notification_connected</string>
     <string name="preference_key_notification_disconnected" translatable="false">notification_disconnected</string>
