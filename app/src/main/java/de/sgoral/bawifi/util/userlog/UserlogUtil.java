@@ -172,6 +172,8 @@ public class UserlogUtil {
         for (UserlogChangeListener listener : listeners) {
             listener.onUserlogCleared();
         }
+
+        Logger.log(context, UserlogUtil.class, "Log cleared");
     }
 
     public static UserlogEntry.Type findType(Class c) {

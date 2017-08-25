@@ -17,15 +17,6 @@
             android:stackFromBottom="true"
             android:transcriptMode="normal" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/log_filter_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|right"
-            android:src="@drawable/ic_filter_outline"
-            app:layout_anchor="@id/log_list"
-            app:layout_anchorGravity="top|right|end" />
-
     </android.support.design.widget.CoordinatorLayout>
 
     <ListView

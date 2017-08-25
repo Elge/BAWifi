@@ -95,9 +95,10 @@ abstract class RetryEnabledAsyncTask<Params, Progress, Result> extends AsyncTask
             if (retryOn.isInstance(t)) {
                 if (maxRetries >= 0 && retries >= maxRetries) {
                     Logger.log(context, this, "Maximum number of retries exceeded, aborting");
+                    Logger.log(context, this, t);
                 } else {
                     // Probably timed out, retry
-                    Logger.log(context, this, "Ignoring SocketException and retrying");
+                    Logger.log(context, this, "Ignoring " + t.getClass().getSimpleName() + " and retrying");
                     retries++;
                     return doInBackground(params);
                 }

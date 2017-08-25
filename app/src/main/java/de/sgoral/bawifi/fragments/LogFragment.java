@@ -2,28 +2,28 @@ package de.sgoral.bawifi.fragments;
 
 
 import android.app.Fragment;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.sgoral.bawifi.R;
-import de.sgoral.bawifi.util.UserlogArrayAdapter;
 import de.sgoral.bawifi.util.Logger;
 import de.sgoral.bawifi.util.userlog.UserlogChangeListener;
 import de.sgoral.bawifi.util.userlog.UserlogEntry;
@@ -36,8 +36,16 @@ public class LogFragment extends Fragment {
 
     private ArrayAdapter<UserlogEntry> adapter;
     private UserlogChangeListener listener;
+    private DrawerLayout drawer;
 
     private Map<UserlogEntry.Type, Boolean> filters = null;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +57,8 @@ public class LogFragment extends Fragment {
 
 
         final View view = inflater.inflate(R.layout.fragment_log, container, false);
+        drawer = (DrawerLayout) view;
+
 
         ListView list = (ListView) view.findViewById(R.id.log_list);
         adapter = new UserlogArrayAdapter(getActivity(), UserlogUtil.getLogEntries(), filters);
@@ -58,6 +68,12 @@ public class LogFragment extends Fragment {
             @Override
             public void onEntryAdded(UserlogEntry entry) {
                 adapter.add(entry);
+            }
+
+            @Override
+            public void onUserlogCleared() {
+                adapter.clear();
+                adapter.addAll(UserlogUtil.getLogEntries());
             }
         };
 
@@ -102,17 +118,41 @@ public class LogFragment extends Fragment {
             }
         });
 
-        FloatingActionButton filterButton = (FloatingActionButton) view.findViewById(R.id.log_filter_button);
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DrawerLayout layout = (DrawerLayout) view;
-                layout.openDrawer(GravityCompat.END);
-            }
-        });
-
         Logger.log(this.getActivity(), this, "View created");
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.actionbar_log, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.log_filter_button:
+                toggleDrawer();
+                return true;
+            case R.id.log_reset_button:
+                clearLog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void toggleDrawer() {
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        } else {
+            drawer.openDrawer(GravityCompat.END);
+        }
+    }
+
+    private void clearLog() {
+        UserlogUtil.clearLogEntries(getActivity());
+
+        Toast.makeText(getActivity(), R.string.toast_log_cleared, Toast.LENGTH_SHORT).show();
     }
 
     private void updateFilter(UserlogEntry.Type type, boolean showEntries) {

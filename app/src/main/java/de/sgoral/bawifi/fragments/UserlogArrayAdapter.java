@@ -1,4 +1,4 @@
-package de.sgoral.bawifi.util;
+package de.sgoral.bawifi.fragments;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -1,7 +1,7 @@
 package de.sgoral.bawifi.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import de.sgoral.bawifi.R;
 import de.sgoral.bawifi.util.Logger;
@@ -9,7 +9,7 @@ import de.sgoral.bawifi.util.Logger;
 /**
  * Activity for the log view.
  */
-public class LogActivity extends Activity {
+public class LogActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

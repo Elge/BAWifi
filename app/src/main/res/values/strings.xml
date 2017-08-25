@@ -74,5 +74,6 @@
     <string name="toast_log_cleared">Log cleared</string>
     <string name="toast_username_password_required">Please enter a username and password</string>
     <string name="label_slow_disconnect_detection">Slow down disconnect detection</string>
+    <string name="button_filter_log">Filter log</string>
 
 </resources>

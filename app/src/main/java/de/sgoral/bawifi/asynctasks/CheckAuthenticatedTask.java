@@ -24,7 +24,6 @@ public class CheckAuthenticatedTask extends RetryEnabledAsyncTask<String, Void, 
      */
     public CheckAuthenticatedTask(Context context) {
         super(context);
-        Logger.log(context, this, "Task created");
     }
 
     protected Boolean doTask(String... urls) throws IOException {

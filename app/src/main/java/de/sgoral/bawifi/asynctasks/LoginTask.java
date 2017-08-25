@@ -33,7 +33,6 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
      */
     public LoginTask(Context context) {
         super(context);
-        Logger.log(context, this, "Task created");
     }
 
     @Override
@@ -56,6 +55,7 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
             Logger.log(context, this, "No redirect url found, aborting");
             return false;
         }
+        Logger.log(context, this, "Redirect URL: " + redirectUrl);
 
         // Step 2
         connection = HttpUtil.openUrl(this.context, new URL(url, redirectUrl), null);
@@ -64,6 +64,7 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
             Logger.log(context, this, "No location header found, aborting");
             return false;
         }
+        Logger.log(context, this, "Location header: " + location);
 
         // Step 3
         url = new URL(location);
@@ -87,6 +88,7 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
             }
             return false;
         }
+        Logger.log(context, this, "Action URL: " + result.get("action"));
 
         // Step 4
         HashMap<String, String> data = new HashMap<>();
@@ -103,6 +105,7 @@ public class LoginTask extends RetryEnabledAsyncTask<LoginPayload, Void, Boolean
             Logger.log(context, this, "No redirect url found, aborting");
             return false;
         }
+        Logger.log(context, this, "Meta redirect url: " + redirectUrl);
 
         // Step 5
         connection = HttpUtil.openUrl(this.context, new URL(redirectUrl), null);

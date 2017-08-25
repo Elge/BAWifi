@@ -62,7 +62,7 @@ public class Logger {
             Log.d(c.getSimpleName(), t.getMessage(), t);
         }
 
-        UserlogUtil.log(context, UserlogUtil.findType(c), c.getSimpleName(), ':', ' ', t.getMessage(), t);
+        UserlogUtil.log(context, UserlogUtil.findType(c), Log.getStackTraceString(t));
     }
 
     /**

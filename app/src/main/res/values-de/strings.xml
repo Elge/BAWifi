@@ -64,4 +64,5 @@
     <string name="list_item_label_slow_disconnect_detection_1m">1 Minute</string>
     <string name="list_item_label_slow_disconnect_detection_5m">5 Minuten</string>
     <string name="label_slow_disconnect_detection">Verbindungstrennung verzögern</string>
+    <string name="button_filter_log">Log filtern</string>
 </resources>

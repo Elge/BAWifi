@@ -26,7 +26,6 @@ public class LogoutTask extends RetryEnabledAsyncTask<String, Void, Boolean> {
      */
     public LogoutTask(Context context) {
         super(context);
-        Logger.log(context, this, "Task created");
     }
 
     @Override
