@@ -324,6 +324,8 @@ public class PreferencesUtil {
     public void initialisePreferences() {
         Logger.log(context, this, "Loading preferences");
         PreferenceManager.setDefaultValues(context, R.xml.preferences, true);
+        PreferenceManager.setDefaultValues(context, R.xml.preferences_notifications, true);
+        PreferenceManager.setDefaultValues(context, R.xml.preferences_volume_control, true);
     }
 
     /**
